@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_25 (A) É
+Microchip Technology Inc, vv3_25 (A) ID__K8F
 
 Tool Name:
   c:\program files (x86)\microchip\mplabc30\v3.25\bin\bin\..\bin/pic30-coff-ld.exe
@@ -122,7 +122,7 @@ Data EEPROM Memory  [Origin = 0x7ffc00, Length = 0x400]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-_032fc15067457047         0x7ffc00               0x100           0x100  (256)
+_032bd15067466fe1         0x7ffc00               0x100           0x100  (256)
 
                         Total data EEPROM used (bytes):          0x100  (256) 25%
 
@@ -2766,8 +2766,8 @@ __c30_signature
  .isr             0x005344          0x2 default_isr
                   0x005344                  _DefaultInterrupt
 
-_032fc15067457047
+_032bd15067466fe1
                     0xfc00        0x100 load address 0x7ffc00  
- _032fc15067457047
+ _032bd15067466fe1
                     0xfc00        0x100 MainCont.o
                     0xfc00                  EPConfigS

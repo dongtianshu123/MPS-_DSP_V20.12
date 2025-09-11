@@ -678,7 +678,7 @@ void Protect()
      if(step11>=2&& step11<=3 && Protectswitch.S_PowerOFF==1 && lowVoltageTest!=0xaaaa)
      {poweroffprotect();}
     
-    if(step11==2 &&step11==3)
+    if(step11==2 ||step11==3)
      {
       if(Protectswitch.SLV)                               //欠压保护-起动
       {UProtect2();}

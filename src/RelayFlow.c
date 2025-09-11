@@ -116,8 +116,15 @@ void StopFlow(void)
 	if(!Relay.RunCloseF)
 	{
 		Relay.RunOPenF = 0;
-		OUTPUT_RUN_OFF = 0;
-		OUTPUT_RUN_ON = 1;
+        if(INPUT_STOP)
+        {
+            OUTPUT_RUN_OFF = 0;
+            OUTPUT_RUN_ON = 1;
+        }
+        else
+        {
+            OUTPUT_RUN_ON = 0;
+        }
 		runCloseCnt++;
 		if(runCloseCnt > 500)
 		{    

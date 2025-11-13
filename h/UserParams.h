@@ -70,7 +70,7 @@
 #define		FEEDBACK_C			PORTDbits.RD4
 
 //************** ∞Ê±æ–≈œ¢ **************
-#define Version  2009
+#define Version  2012
 
 #endif
 

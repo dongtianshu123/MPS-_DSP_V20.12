@@ -20,6 +20,7 @@ extern unsigned int feedBackACnt;
 extern unsigned int feedBackBCnt;
 extern unsigned int feedBackCCnt;
 extern unsigned int PULSEWidth;
+extern unsigned int PULSEWidth1;
 extern unsigned int pwturnflag;
 
 unsigned int step11=0; //Æð¶¯²½Öè
@@ -40,7 +41,7 @@ tRelay Relay;
 
 void StartDataIni(void)
 {	
-    PULSEWidth=600;
+    PULSEWidth1=600;
     pwturnflag=0;
 	StartState.PulseF = 0;
     StartState.stopflag=0;
@@ -401,7 +402,7 @@ else if (step11==13)
                     
 
                   }
-            if ((OUTPUT_RUN_ON==1)&&(Functionswitch.Runcheckswitch==0) && step11 <=3)
+            if ((Input.RunCheck==1)&&(Functionswitch.Runcheckswitch==1) && step11 <=3)
             {
 				SysStatus = RUN;
                 step11=4;

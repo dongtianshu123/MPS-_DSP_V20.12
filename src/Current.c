@@ -4,7 +4,7 @@
 #include "math.h"
 
 #define COF_U 780
-#define COF_I 77 //KZXV3.3 10A 
+#define COF_I 77// KZX 3.3 
 #define COF_IN 165
 #define COF_TEMPRATURE 2000
 #define	I_DECREASE		100
@@ -19,7 +19,7 @@ long limittemp;
 unsigned long ulCofTemp1;
 unsigned int TemporaryAdcDescend;
 unsigned int pwturnflag;
-
+unsigned int PULSEWidth1;//脉宽更新缓存
 extern unsigned int PULSEWidth;
 extern unsigned int pwturnflag;
 
@@ -188,16 +188,14 @@ void CurrentCheck(void)
 			if(StartState.UpCarIaF && MainParams.Ua>50)
 			{
 				TemporaryAdcDescend = AdcParams.MaxIa >> 1;
-                if(MainParams.Ia < TemporaryAdcDescend)
-                 {PULSEWidth=2500;}
 
 				if((MainParams.Ia < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
 				{
-                StartParams.Data = StartParams.Data - (StartParams.LoopData<<StartParams.V5);//导通角增大抑制振荡
-
-					Delay2sCnt1++;
-				if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
-				{StartState.TurnRunF= 1;}
+                  PULSEWidth1=2777;
+                  StartParams.Data = StartParams.Ugmin;//导通角增大抑制振荡
+                  Delay2sCnt1++;
+				   if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
+				     {StartState.TurnRunF= 1;}
 
 				}
 				else if(MainParams.Ia < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
@@ -313,11 +311,12 @@ void CurrentCheck(void)
 			if(StartState.UpCarIcF && MainParams.Ua>50)
 			{
 				TemporaryAdcDescend = AdcParams.MaxIc >> 1;
-                if(MainParams.Ia < TemporaryAdcDescend)
-                 {PULSEWidth=2500;}
+
 				if((MainParams.Ic < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
 				{
-					 Delay2sCnt2++;
+                 PULSEWidth1=2777;
+                 StartParams.Data = StartParams.Ugmin;
+			     Delay2sCnt2++;
 				if(Delay2sCnt2 > StartParams.t5 && Protectswitch.sampletest==0)
 				{StartState.TurnRunF= 1;}
                 

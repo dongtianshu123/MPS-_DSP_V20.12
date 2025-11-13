@@ -17,6 +17,7 @@ unsigned int feedBackCCnt;
 tFeedback Feedback;
 
 extern unsigned int PULSEWidth;
+extern unsigned int PULSEWidth1;
 unsigned int ocCnt1;
 unsigned int ocCnt2;
 unsigned int ocCnt3;
@@ -215,6 +216,7 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
    {
          TMR5 = 0;                               //如果不是抖动
 		PR5 = StartParams.OutData;       	     //装载触发角延时
+        PULSEWidth=PULSEWidth1;
         IFS1bits.T5IF = 0;               
         IEC1bits.T5IE = 1;
         T5CONbits.TON = 1; 

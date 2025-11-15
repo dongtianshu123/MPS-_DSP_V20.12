@@ -14,6 +14,7 @@ tStartState StartState;
 tFault Fault;
 tFunctionswitch Functionswitch;
 tProtectswitch Protectswitch;
+tzcd_mgr zcd_mgr;
 
 unsigned int powerOnDly1;
 unsigned int lowVoltageTest;

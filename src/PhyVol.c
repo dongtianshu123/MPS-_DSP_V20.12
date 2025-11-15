@@ -18,21 +18,12 @@ tFeedback Feedback;
 
 extern unsigned int PULSEWidth;
 extern unsigned int PULSEWidth1;
-unsigned int ocCnt1;
-unsigned int ocCnt2;
-unsigned int ocCnt3;
 
-unsigned int tmr2Cnt1;
-unsigned int tmr4Cnt1;
 
 unsigned int zeroCrossCnt1;
 unsigned int zeroCrossCntA;
-
 unsigned char ICflag=0;
 unsigned char ICcnt=0;
-
-unsigned int  ICdelay;
-unsigned int  outdatadelay;
 unsigned int  pulsedelay;
 unsigned int  step4=0;
 unsigned int  step5=0;
@@ -47,7 +38,52 @@ unsigned int newcompareACnt1;
 unsigned int oldcompareACnt1;
 
 extern unsigned int phaseACnt;
+/**********************************计算平均间隔***********************************************/
+unsigned int calculate_average_interval(void)
+{
+  unsigned long sum=0;
+  unsigned char i;
+  
+  for (i=0; i<4; i++)
+   {
+    sum+=zcd_mgr.interval_history[i];
+   }
+    
+  return(unsigned int)(sum>>2);
+}
+/**********************************信号质量检测***********************************************/
+unsigned char check_signal_quality(unsigned int current_interval)
+{ static unsigned char error_count=0;
+  //频率范围检查(46.5Hz-51.5Hz,对应19420us-21500us)
+    if(current_interval<19420 || current_interval>21500)
+     {error_count++;
+      if (error_count >3)
+       {return 0;}//信号质量差
 
+      else
+       {  
+         error_count=0;
+         //时间间隔变化率检查 超过25%为信号质量差
+         unsigned int avg_interval=calculate_average_interval();
+          if(abs((int)current_interval-(int)avg_interval)>(avg_interval>>2))
+            {return 0;}//信号质量差
+
+       }
+
+     }
+     return 1;//信号质量好
+
+}
+/**********************************信号质量检测***********************************************/
+ void reset_timer4(void)
+{
+   T4CONbits.TON = 0;             //关闭定时器
+   TMR4=0;                        //重置计数器
+   PR4=zcd_mgr.simulated_interval;//更新周期
+   T4CONbits.TON = 1; 
+
+
+}
 
 void InitIC( void )
 {
@@ -136,42 +172,66 @@ void InitTmr2(void)
   
 void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
 {
+
+   /*********************************************************/
+    static unsigned int last_capture=0;
+    unsigned int current_capture=IC4BUF;//当前捕捉数值
+    unsigned int interval;
+    //计算时间间隔
+    if(current_capture>=last_capture)
+      {interval=current_capture -last_capture;}
+    else
+      {interval=(0xFFFF-last_capture)+current_capture;}
+
+    //保存间隔到历史记录
+    zcd_mgr.interval_history[zcd_mgr.history_index]=interval;
+    zcd_mgr.history_index=(zcd_mgr.history_index+1)%4;
+
+    //计算评价间隔
+     zcd_mgr.actual_interval=calculate_average_interval();
+
+    //过零信号质量检测
+     zcd_mgr.signal_quality=check_signal_quality(interval);
+
+    if(zcd_mgr.signal_quality)
+      { //
+       zcd_mgr.simulated_interval=zcd_mgr.actual_interval;
+        reset_timer4(); //重置T4
+      }
+    last_capture=current_capture; //更新上一次时间记录值
+     
+    if(!zcd_mgr.use_simulated)
+     {//zero_cross_processing();
+     }
+
+   /*********************************************************/
+
     StartState.AZeroflag=1;
- //	IC4CONbits.ICM = 0;
 	IFS1bits.IC4IF = 0;              //清零中断标志
 	IC4CONbits.ICM = 2;
 	zeroCrossCnt1 = 0;
     
-//	if((StartState.PulseF)&&(step4==0))
-    	if(StartState.PulseF)
-	{
-		tmr4Cnt1 = 1;
+    if(StartState.PulseF)
+	 {
 		TMR5 = 0; 
       if(Functionswitch.Fre==0)
-      {PR5 = 1667;}
-     else
-      {PR5 = 1389;}
-		            //装载1667us
+       {PR5 = 1667;}
+      else
+       {PR5 = 1389;}//装载1667us
 	  	IFS1bits.T5IF = 0;       
 	    IEC1bits.T5IE = 1;     //T5使能
 		T5CONbits.TON = 1; 	   //T5使能
-	    ICdelay=1;  //过零检测延时标志置位1.667ms
+
         step4=1;
         ICflag=1;
-     	//TMR4 = 0; 
-	    //PR4 = phaseACnt;    //虚拟过零   
-        //PR4 = 20000;    //虚拟过零     
-	  	//IFS1bits.T4IF = 0;       
-	    //IEC1bits.T4IE = 1;
-		//T4CONbits.TON = 1; 
-				IFS1bits.IC4IF = 0;              //清零中断标志
-				IC4CONbits.ICM = 0;
-				IEC1bits.IC4IE = 0; 
+		IFS1bits.IC4IF = 0;              //清零中断标志
+		IC4CONbits.ICM = 0;
+		IEC1bits.IC4IE = 0; 
+
 
 
 	}
       
-
 	return;
 }
 
@@ -184,27 +244,25 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
 	{
 	
 			                               //如果是抖动
-                 step4=0;
-				T5CONbits.TON = 0; 	
+        step4=0;
+		T5CONbits.TON = 0; 	
 
-             	IFS1bits.T5IF = 0;               
-                IEC1bits.T5IE = 0;
+        IFS1bits.T5IF = 0;               
+        IEC1bits.T5IE = 0;
 
-                IFS1bits.IC4IF = 0;              //重新打开IC检测
-		        IEC1bits.IC4IE = 1; 
-		        IC4CONbits.ICM = 2;
- 
-               	T4CONbits.TON = 0; 	             //关掉虚拟过零延时
-
-             	IFS1bits.T4IF = 0;                
-                IEC1bits.T4IE = 0;
+        IFS1bits.IC4IF = 0;              //重新打开IC检测
+		IEC1bits.IC4IE = 1; 
+		IC4CONbits.ICM = 2;
+        T4CONbits.TON = 0; 	             //关掉虚拟过零延时
+        IFS1bits.T4IF = 0;                
+        IEC1bits.T4IE = 0;
   
 	}
 	else if ((step4==1)&&(!INPUT_ZA)) 
-	{           step4=2;
-                IFS1bits.IC4IF = 0;              //如果不是抖动，禁用IC中断
-		        IEC1bits.IC4IE = 0; 
-		        IC4CONbits.ICM = 0;
+	{   step4=2;
+        IFS1bits.IC4IF = 0;              //如果不是抖动，禁用IC中断
+		IEC1bits.IC4IE = 0; 
+		IC4CONbits.ICM = 0;
 
 
 
@@ -214,7 +272,7 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
   
   if (step4==2)
    {
-         TMR5 = 0;                               //如果不是抖动
+        TMR5 = 0;                               //如果不是抖动
 		PR5 = StartParams.OutData;       	     //装载触发角延时
         PULSEWidth=PULSEWidth1;
         IFS1bits.T5IF = 0;               
@@ -310,7 +368,6 @@ else {
 void __attribute__((__interrupt__)) _T2Interrupt(void)
 {
 	IFS0bits.T2IF=0;				//clear interrupt flag//
-	tmr2Cnt1++;	
   
 
  if(step5 == 3)               //正常输出-正转

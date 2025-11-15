@@ -13,7 +13,6 @@
 extern unsigned char ICflag;
 extern unsigned char ICcnt;
 
-
 //****************** 独立全局变量**********************
 extern unsigned int EEPROMADDR;		//地址给定 
 extern unsigned int _EEDATA(128) EPConfigS[128];	//EEPROM数据存储
@@ -35,6 +34,18 @@ extern unsigned int     OUTPUT_NO_USE;
 extern unsigned int   Ia_im;
 extern unsigned int   Ic_im;
 //****************** 结构变量**********************
+
+// 过零信号管理结构体
+typedef struct {
+    unsigned int actual_interval;      // 实际过零间隔
+    unsigned int simulated_interval;   // 模拟过零间隔  
+    unsigned int interval_history[4];  // 间隔历史记录
+    unsigned char history_index;         // 历史索引
+    unsigned char signal_quality;        // 信号质量标志
+    unsigned char use_simulated;         // 使用模拟信号标志
+    unsigned long last_actual_time;     // 上次实际过零时间
+} tzcd_mgr;
+//volatile ZCD_Manager_t zcd_mgr;
 
 typedef struct {
     unsigned Start: 1;
@@ -585,4 +596,5 @@ extern tInput  Input;
 extern unsigned int stopFlag;
 extern tUart1	Uart1;
 extern 	tU1TxRx U1TxRx;
+extern tzcd_mgr zcd_mgr;
 #endif  

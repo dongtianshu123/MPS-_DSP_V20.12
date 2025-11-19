@@ -1,4 +1,4 @@
-Microchip Technology Inc, vv3_25 (A) ì
+Microchip Technology Inc, vv3_25 (A) mD@QÎC	
 
 Tool Name:
   c:\program files (x86)\microchip\mplabc30\v3.25\bin\bin\..\bin/pic30-coff-ld.exe
@@ -110,19 +110,19 @@ Program Memory  [Origin = 0x100, Length = 0xaf00]
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100               0x454           0x67e  (1662)
-.text                        0x554              0x4dfa          0x74f7  (29943)
-.dinit                      0x534e                0x9a            0xe7  (231)
-.text                       0x53e8                0x64            0x96  (150)
-.isr                        0x544c                 0x2             0x3  (3)
+.text                        0x554              0x4e52          0x757b  (30075)
+.dinit                      0x53a6                0x9a            0xe7  (231)
+.text                       0x5440                0x64            0x96  (150)
+.isr                        0x54a4                 0x2             0x3  (3)
 
-                     Total program memory used (bytes):         0x7cf5  (31989) 47%
+                     Total program memory used (bytes):         0x7d79  (32121) 47%
 
 
 Data EEPROM Memory  [Origin = 0x7ffc00, Length = 0x400]
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-_033dc15069183274         0x7ffc00               0x100           0x100  (256)
+_0353c150691d9217         0x7ffc00               0x100           0x100  (256)
 
                         Total data EEPROM used (bytes):          0x100  (256) 25%
 
@@ -131,17 +131,17 @@ Data Memory  [Origin = 0x800, Length = 0x1000]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.nbss                        0x800                   0           0xe92  (3730)
-.ndata                      0x1692                   0             0xe  (14)
-.nbss                       0x16a0                   0             0xc  (12)
-.ndata                      0x16ac                   0             0xa  (10)
-.nbss                       0x16b6                   0             0x6  (6)
-.ndata                      0x16bc                   0             0xc  (12)
-.nbss                       0x16c8                   0             0x2  (2)
-.ndata                      0x16ca                   0             0x4  (4)
-.nbss                       0x16ce                   0             0x2  (2)
+.nbss                        0x800                   0           0xe94  (3732)
+.ndata                      0x1694                   0             0xe  (14)
+.nbss                       0x16a2                   0             0xc  (12)
+.ndata                      0x16ae                   0             0xa  (10)
+.nbss                       0x16b8                   0             0x6  (6)
+.ndata                      0x16be                   0             0xc  (12)
+.nbss                       0x16ca                   0             0x2  (2)
+.ndata                      0x16cc                   0             0x4  (4)
+.nbss                       0x16d0                   0             0x2  (2)
 
-                        Total data memory used (bytes):          0xed0  (3792) 92%
+                        Total data memory used (bytes):          0xed2  (3794) 92%
 
 
 Dynamic Memory Usage
@@ -149,9 +149,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                       0x16d0                               0x130  (304)
+stack                       0x16d2                               0x12e  (302)
 
-                        Maximum dynamic memory (bytes):          0x130  (304)
+                        Maximum dynamic memory (bytes):          0x12e  (302)
 
 
 External Symbols in Data Memory (by address):
@@ -173,251 +173,251 @@ External Symbols in Data Memory (by address):
                     0x11ce                  _inputBits
                     0x11d0                  _outputBits
                     0x11d2                  _Uart232
-                    0x11d4                  _EEPROMADDR
-                    0x11d6                  _lowVoltageTest
-                    0x11d8                  _Fault
-                    0x11da                  _Functionswitch
-                    0x11dc                  _Protectswitch
-                    0x11e0                  _MainParams
-                    0x1288                  _StartState
-                    0x128a                  _StartParams
-                    0x134a                  _ProtectParams
-                    0x1382                  _AdcParams
-                    0x1438                  _zcd_mgr
-                    0x144c                  _powerOnDly1
-                    0x144e                  _lowVoltageCnt
-                    0x1450                  _Ia_imcont
-                    0x1452                  _Ic_imcont
-                    0x1454                  _Uart1
-                    0x145c                  _U1TxRx
-                    0x1576                  _phasecompareError
-                    0x1578                  _compareACnt
-                    0x157a                  _buf
-                    0x157c                  _poweroffcnt
-                    0x157e                  _phaseErrCnt1
-                    0x1580                  _phaseErrCnt2
-                    0x1582                  _phaseErrCnt3
-                    0x1584                  _uaCnt1
-                    0x1586                  _uaCnt2
-                    0x1588                  _ubCnt1
-                    0x158a                  _ubCnt2
-                    0x158c                  _ucCnt1
-                    0x158e                  _ucCnt2
-                    0x1590                  _uaCnt3
-                    0x1592                  _uaCnt4
-                    0x1594                  _ubCnt3
-                    0x1596                  _ubCnt4
-                    0x1598                  _ucCnt3
-                    0x159a                  _ucCnt4
-                    0x159c                  _overIaCnt1
-                    0x159e                  _overIaCnt2
-                    0x15a0                  _overIbCnt1
-                    0x15a2                  _overIbCnt2
-                    0x15a4                  _overIcCnt1
-                    0x15a6                  _overIcCnt2
-                    0x15a8                  _RoverIaCnt1
-                    0x15aa                  _RoverIaCnt2
-                    0x15ac                  _RoverIbCnt1
-                    0x15ae                  _RoverIbCnt2
-                    0x15b0                  _RoverIcCnt1
-                    0x15b2                  _RoverIcCnt2
-                    0x15b4                  _overInCnt1
-                    0x15b6                  _overInCnt2
-                    0x15b8                  _unbalanceICnt1
-                    0x15ba                  _unbalanceICnt2
-                    0x15bc                  _noPowerCnt1
-                    0x15be                  _noPowerCnt2
-                    0x15c0                  _ATSTcnt1
-                    0x15c2                  _StartOFTOK
-                    0x15c4                  _phaseACnt
-                    0x15c6                  _newPhaseACnt
-                    0x15c8                  _oldPhaseACnt
-                    0x15ca                  _Acnt
-                    0x15cc                  _newState
-                    0x15ce                  _oldState
-                    0x15d0                  _newcompareACnt
-                    0x15d2                  _oldcompareACnt
-                    0x15d4                  _phasecompareOKcnt
-                    0x15d6                  _phasecompareErrorcnt
-                    0x15d8                  _wt1
-                    0x15dc                  _Dlta_t
-                    0x15e0                  _Dltat
-                    0x15e4                  _OUTPUT_EXTERN_READY
-                    0x15e6                  _OUTPUT_EXTERN_ALARM
-                    0x15e8                  _OUTPUT_EXTERN_TRIP
-                    0x15ea                  _OUTPUT_NO_USE
-                    0x15ec                  _Input
-                    0x15ee                  _inputStartCnt1
-                    0x15f0                  _inputStartCnt2
-                    0x15f2                  _inputStartCnt3
-                    0x15f4                  _inputStartCnt4
-                    0x15f6                  _inputStopCnt1
-                    0x15f8                  _inputStopCnt2
-                    0x15fa                  _inputStopCnt3
-                    0x15fc                  _inputStopCnt4
-                    0x15fe                  _inputReadyCnt1
-                    0x1600                  _inputReadyCnt2
-                    0x1602                  _inputRunCheckCnt1
-                    0x1604                  _inputRunCheckCnt2
-                    0x1606                  _inputNoUseCnt1
-                    0x1608                  _inputNoUseCnt2
-                    0x160a                  _input_in6Cnt1
-                    0x160c                  _input_in6Cnt2
-                    0x160e                  _input_in7Cnt1
-                    0x1610                  _input_in7Cnt2
-                    0x1612                  _input_in8Cnt1
-                    0x1614                  _input_in8Cnt2
-                    0x1616                  _output_sccCnt1
-                    0x1618                  _output_scoCnt1
-                    0x161a                  _inputStartCnt11
-                    0x161c                  _inputStopCnt11
-                    0x161e                  _inputReadyCnt11
-                    0x1620                  _inputRunCheckCnt11
-                    0x1622                  _inputNoUseCnt11
-                    0x1624                  _outputcnt
-                    0x1626                  _inputX1
-                    0x1628                  _inputX2
-                    0x162a                  _inputX3
-                    0x162c                  _inputX4
-                    0x162e                  _inputX5
-                    0x1630                  _inputX6
-                    0x1632                  _inputX7
-                    0x1634                  _inputX8
-                    0x1636                  _inputX9
-                    0x1638                  _outputY1
-                    0x163a                  _outputY2
-                    0x163c                  _outputY3
-                    0x163e                  _outputY4
-                    0x1640                  _outputY5
-                    0x1642                  _outputY6
-                    0x1644                  _outputY7
-                    0x1646                  _outputY8
-                    0x1648                  _outputY9
-                    0x164e                  _zeroCrossCnt1
-                    0x1650                  _Feedback
-                    0x1652                  _feedBackACnt
-                    0x1654                  _feedBackBCnt
-                    0x1656                  _feedBackCCnt
-                    0x1658                  _zeroCrossCntA
-                    0x165a                  _pulsedelay
-                    0x165c                  _phaseFcnt
-                    0x165e                  _phaseRcnt
-                    0x1660                  _phaseEcnt
-                    0x1662                  _compareACnt1
-                    0x1664                  _newcompareACnt1
-                    0x1666                  _oldcompareACnt1
-                    0x1668                  _Relay
-                    0x166a                  _SysStatus
-                    0x166c                  _stopFlag
-                    0x166e                  _startDelayCnt
-                    0x1670                  _startcompare
-                    0x1672                  _stopDelayCnt
-                    0x1674                  _orderClose
-                    0x1676                  _orderCloseCnt
-                    0x1678                  _orderOpen
-                    0x167a                  _turnRunCnt
-                    0x167c                  _normalstopCnt
-                    0x167e                  _Delay2sCnt1
-                    0x1680                  _Delay2sCnt2
-                    0x1682                  _samcnt1
-                    0x1684                  _limittemp
-                    0x1688                  _ulCofTemp1
-                    0x168c                  _TemporaryAdcDescend
-                    0x168e                  _pwturnflag
-                    0x1690                  _PULSEWidth1
-                    0x1692                  _stopFlowCnt
-                    0x1694                  _stopAppCnt
-                    0x1696                  _runOpenCnt
-                    0x1698                  _runCloseCnt
-                    0x169a                  _runfeedbackcnt
-                    0x169c                  _step11
-                    0x169e                  _step12
-                    0x16a0                  _SysTime
-                    0x16a2                  _sysTimeCnt1
-                    0x16a4                  _sysTimeCnt2
-                    0x16a6                  _sysTimeCnt3
-                    0x16a8                  _sysTimeCnt4
-                    0x16aa                  _msCnt1
-                    0x16ac                  _ICflag
-                    0x16ad                  _ICcnt
-                    0x16ae                  _step4
-                    0x16b0                  _step5
-                    0x16b2                  _step6
-                    0x16b4                  _step7
-                    0x16b6                  _dlyCnt1
-                    0x16b8                  _dlyCnt2
-                    0x16ba                  _dlyCnt3
-                    0x16bc                  _step1
-                    0x16be                  _step13
-                    0x16c0                  _step14
-                    0x16c2                  _LT
-                    0x16c4                  _step2
-                    0x16c6                  _adii
-                    0x16c8                  _PULSEWidth
-                    0x16ca                  _Dsp_State_Start
-                    0x16cc                  _step3
+                    0x11d6                  _EEPROMADDR
+                    0x11d8                  _lowVoltageTest
+                    0x11da                  _Fault
+                    0x11dc                  _Functionswitch
+                    0x11de                  _Protectswitch
+                    0x11e2                  _MainParams
+                    0x128a                  _StartState
+                    0x128c                  _StartParams
+                    0x134c                  _ProtectParams
+                    0x1384                  _AdcParams
+                    0x143a                  _zcd_mgr
+                    0x144e                  _powerOnDly1
+                    0x1450                  _lowVoltageCnt
+                    0x1452                  _Ia_imcont
+                    0x1454                  _Ic_imcont
+                    0x1456                  _Uart1
+                    0x145e                  _U1TxRx
+                    0x1578                  _phasecompareError
+                    0x157a                  _compareACnt
+                    0x157c                  _buf
+                    0x157e                  _poweroffcnt
+                    0x1580                  _phaseErrCnt1
+                    0x1582                  _phaseErrCnt2
+                    0x1584                  _phaseErrCnt3
+                    0x1586                  _uaCnt1
+                    0x1588                  _uaCnt2
+                    0x158a                  _ubCnt1
+                    0x158c                  _ubCnt2
+                    0x158e                  _ucCnt1
+                    0x1590                  _ucCnt2
+                    0x1592                  _uaCnt3
+                    0x1594                  _uaCnt4
+                    0x1596                  _ubCnt3
+                    0x1598                  _ubCnt4
+                    0x159a                  _ucCnt3
+                    0x159c                  _ucCnt4
+                    0x159e                  _overIaCnt1
+                    0x15a0                  _overIaCnt2
+                    0x15a2                  _overIbCnt1
+                    0x15a4                  _overIbCnt2
+                    0x15a6                  _overIcCnt1
+                    0x15a8                  _overIcCnt2
+                    0x15aa                  _RoverIaCnt1
+                    0x15ac                  _RoverIaCnt2
+                    0x15ae                  _RoverIbCnt1
+                    0x15b0                  _RoverIbCnt2
+                    0x15b2                  _RoverIcCnt1
+                    0x15b4                  _RoverIcCnt2
+                    0x15b6                  _overInCnt1
+                    0x15b8                  _overInCnt2
+                    0x15ba                  _unbalanceICnt1
+                    0x15bc                  _unbalanceICnt2
+                    0x15be                  _noPowerCnt1
+                    0x15c0                  _noPowerCnt2
+                    0x15c2                  _ATSTcnt1
+                    0x15c4                  _StartOFTOK
+                    0x15c6                  _phaseACnt
+                    0x15c8                  _newPhaseACnt
+                    0x15ca                  _oldPhaseACnt
+                    0x15cc                  _Acnt
+                    0x15ce                  _newState
+                    0x15d0                  _oldState
+                    0x15d2                  _newcompareACnt
+                    0x15d4                  _oldcompareACnt
+                    0x15d6                  _phasecompareOKcnt
+                    0x15d8                  _phasecompareErrorcnt
+                    0x15da                  _wt1
+                    0x15de                  _Dlta_t
+                    0x15e2                  _Dltat
+                    0x15e6                  _OUTPUT_EXTERN_READY
+                    0x15e8                  _OUTPUT_EXTERN_ALARM
+                    0x15ea                  _OUTPUT_EXTERN_TRIP
+                    0x15ec                  _OUTPUT_NO_USE
+                    0x15ee                  _Input
+                    0x15f0                  _inputStartCnt1
+                    0x15f2                  _inputStartCnt2
+                    0x15f4                  _inputStartCnt3
+                    0x15f6                  _inputStartCnt4
+                    0x15f8                  _inputStopCnt1
+                    0x15fa                  _inputStopCnt2
+                    0x15fc                  _inputStopCnt3
+                    0x15fe                  _inputStopCnt4
+                    0x1600                  _inputReadyCnt1
+                    0x1602                  _inputReadyCnt2
+                    0x1604                  _inputRunCheckCnt1
+                    0x1606                  _inputRunCheckCnt2
+                    0x1608                  _inputNoUseCnt1
+                    0x160a                  _inputNoUseCnt2
+                    0x160c                  _input_in6Cnt1
+                    0x160e                  _input_in6Cnt2
+                    0x1610                  _input_in7Cnt1
+                    0x1612                  _input_in7Cnt2
+                    0x1614                  _input_in8Cnt1
+                    0x1616                  _input_in8Cnt2
+                    0x1618                  _output_sccCnt1
+                    0x161a                  _output_scoCnt1
+                    0x161c                  _inputStartCnt11
+                    0x161e                  _inputStopCnt11
+                    0x1620                  _inputReadyCnt11
+                    0x1622                  _inputRunCheckCnt11
+                    0x1624                  _inputNoUseCnt11
+                    0x1626                  _outputcnt
+                    0x1628                  _inputX1
+                    0x162a                  _inputX2
+                    0x162c                  _inputX3
+                    0x162e                  _inputX4
+                    0x1630                  _inputX5
+                    0x1632                  _inputX6
+                    0x1634                  _inputX7
+                    0x1636                  _inputX8
+                    0x1638                  _inputX9
+                    0x163a                  _outputY1
+                    0x163c                  _outputY2
+                    0x163e                  _outputY3
+                    0x1640                  _outputY4
+                    0x1642                  _outputY5
+                    0x1644                  _outputY6
+                    0x1646                  _outputY7
+                    0x1648                  _outputY8
+                    0x164a                  _outputY9
+                    0x1650                  _zeroCrossCnt1
+                    0x1652                  _Feedback
+                    0x1654                  _feedBackACnt
+                    0x1656                  _feedBackBCnt
+                    0x1658                  _feedBackCCnt
+                    0x165a                  _zeroCrossCntA
+                    0x165c                  _pulsedelay
+                    0x165e                  _phaseFcnt
+                    0x1660                  _phaseRcnt
+                    0x1662                  _phaseEcnt
+                    0x1664                  _compareACnt1
+                    0x1666                  _newcompareACnt1
+                    0x1668                  _oldcompareACnt1
+                    0x166a                  _Relay
+                    0x166c                  _SysStatus
+                    0x166e                  _stopFlag
+                    0x1670                  _startDelayCnt
+                    0x1672                  _startcompare
+                    0x1674                  _stopDelayCnt
+                    0x1676                  _orderClose
+                    0x1678                  _orderCloseCnt
+                    0x167a                  _orderOpen
+                    0x167c                  _turnRunCnt
+                    0x167e                  _normalstopCnt
+                    0x1680                  _Delay2sCnt1
+                    0x1682                  _Delay2sCnt2
+                    0x1684                  _samcnt1
+                    0x1686                  _limittemp
+                    0x168a                  _ulCofTemp1
+                    0x168e                  _TemporaryAdcDescend
+                    0x1690                  _pwturnflag
+                    0x1692                  _PULSEWidth1
+                    0x1694                  _stopFlowCnt
+                    0x1696                  _stopAppCnt
+                    0x1698                  _runOpenCnt
+                    0x169a                  _runCloseCnt
+                    0x169c                  _runfeedbackcnt
+                    0x169e                  _step11
+                    0x16a0                  _step12
+                    0x16a2                  _SysTime
+                    0x16a4                  _sysTimeCnt1
+                    0x16a6                  _sysTimeCnt2
+                    0x16a8                  _sysTimeCnt3
+                    0x16aa                  _sysTimeCnt4
+                    0x16ac                  _msCnt1
+                    0x16ae                  _ICflag
+                    0x16af                  _ICcnt
+                    0x16b0                  _step4
+                    0x16b2                  _step5
+                    0x16b4                  _step6
+                    0x16b6                  _step7
+                    0x16b8                  _dlyCnt1
+                    0x16ba                  _dlyCnt2
+                    0x16bc                  _dlyCnt3
+                    0x16be                  _step1
+                    0x16c0                  _step13
+                    0x16c2                  _step14
+                    0x16c4                  _LT
+                    0x16c6                  _step2
+                    0x16c8                  _adii
+                    0x16ca                  _PULSEWidth
+                    0x16cc                  _Dsp_State_Start
+                    0x16ce                  _step3
 
 External Symbols in Data Memory (by name):
 
                     0x0804                  _ADI
-                    0x15c0                  _ATSTcnt1
-                    0x15ca                  _Acnt
-                    0x1382                  _AdcParams
-                    0x167e                  _Delay2sCnt1
-                    0x1680                  _Delay2sCnt2
-                    0x15dc                  _Dlta_t
-                    0x15e0                  _Dltat
-                    0x16ca                  _Dsp_State_Start
-                    0x11d4                  _EEPROMADDR
-                    0x11d8                  _Fault
-                    0x1650                  _Feedback
-                    0x11da                  _Functionswitch
-                    0x16ad                  _ICcnt
-                    0x16ac                  _ICflag
+                    0x15c2                  _ATSTcnt1
+                    0x15cc                  _Acnt
+                    0x1384                  _AdcParams
+                    0x1680                  _Delay2sCnt1
+                    0x1682                  _Delay2sCnt2
+                    0x15de                  _Dlta_t
+                    0x15e2                  _Dltat
+                    0x16cc                  _Dsp_State_Start
+                    0x11d6                  _EEPROMADDR
+                    0x11da                  _Fault
+                    0x1652                  _Feedback
+                    0x11dc                  _Functionswitch
+                    0x16af                  _ICcnt
+                    0x16ae                  _ICflag
                     0x0800                  _Ia_im
-                    0x1450                  _Ia_imcont
+                    0x1452                  _Ia_imcont
                     0x0802                  _Ic_im
-                    0x1452                  _Ic_imcont
-                    0x15ec                  _Input
-                    0x16c2                  _LT
-                    0x11e0                  _MainParams
-                    0x15e6                  _OUTPUT_EXTERN_ALARM
-                    0x15e4                  _OUTPUT_EXTERN_READY
-                    0x15e8                  _OUTPUT_EXTERN_TRIP
-                    0x15ea                  _OUTPUT_NO_USE
-                    0x16c8                  _PULSEWidth
-                    0x1690                  _PULSEWidth1
-                    0x134a                  _ProtectParams
-                    0x11dc                  _Protectswitch
-                    0x1668                  _Relay
-                    0x15a8                  _RoverIaCnt1
-                    0x15aa                  _RoverIaCnt2
-                    0x15ac                  _RoverIbCnt1
-                    0x15ae                  _RoverIbCnt2
-                    0x15b0                  _RoverIcCnt1
-                    0x15b2                  _RoverIcCnt2
-                    0x15c2                  _StartOFTOK
-                    0x128a                  _StartParams
-                    0x1288                  _StartState
-                    0x166a                  _SysStatus
-                    0x16a0                  _SysTime
+                    0x1454                  _Ic_imcont
+                    0x15ee                  _Input
+                    0x16c4                  _LT
+                    0x11e2                  _MainParams
+                    0x15e8                  _OUTPUT_EXTERN_ALARM
+                    0x15e6                  _OUTPUT_EXTERN_READY
+                    0x15ea                  _OUTPUT_EXTERN_TRIP
+                    0x15ec                  _OUTPUT_NO_USE
+                    0x16ca                  _PULSEWidth
+                    0x1692                  _PULSEWidth1
+                    0x134c                  _ProtectParams
+                    0x11de                  _Protectswitch
+                    0x166a                  _Relay
+                    0x15aa                  _RoverIaCnt1
+                    0x15ac                  _RoverIaCnt2
+                    0x15ae                  _RoverIbCnt1
+                    0x15b0                  _RoverIbCnt2
+                    0x15b2                  _RoverIcCnt1
+                    0x15b4                  _RoverIcCnt2
+                    0x15c4                  _StartOFTOK
+                    0x128c                  _StartParams
+                    0x128a                  _StartState
+                    0x166c                  _SysStatus
+                    0x16a2                  _SysTime
                     0x11cc                  _SystemStatusBits
-                    0x168c                  _TemporaryAdcDescend
-                    0x145c                  _U1TxRx
+                    0x168e                  _TemporaryAdcDescend
+                    0x145e                  _U1TxRx
                     0x0f3e                  _U2TxRx
-                    0x1454                  _Uart1
+                    0x1456                  _Uart1
                     0x0f3c                  _Uart2
                     0x11d2                  _Uart232
-                    0x16c6                  _adii
-                    0x157a                  _buf
-                    0x1578                  _compareACnt
-                    0x1662                  _compareACnt1
-                    0x16b6                  _dlyCnt1
-                    0x16b8                  _dlyCnt2
-                    0x16ba                  _dlyCnt3
-                    0x1652                  _feedBackACnt
-                    0x1654                  _feedBackBCnt
-                    0x1656                  _feedBackCCnt
+                    0x16c8                  _adii
+                    0x157c                  _buf
+                    0x157a                  _compareACnt
+                    0x1664                  _compareACnt1
+                    0x16b8                  _dlyCnt1
+                    0x16ba                  _dlyCnt2
+                    0x16bc                  _dlyCnt3
+                    0x1654                  _feedBackACnt
+                    0x1656                  _feedBackBCnt
+                    0x1658                  _feedBackCCnt
                     0x0a80                  _filter_bufIa
                     0x0b4a                  _filter_bufIb
                     0x0c14                  _filter_bufIc
@@ -427,138 +427,138 @@ External Symbols in Data Memory (by name):
                     0x08ec                  _filter_bufUbc
                     0x09b6                  _filter_bufUca
                     0x11ce                  _inputBits
-                    0x1606                  _inputNoUseCnt1
-                    0x1622                  _inputNoUseCnt11
-                    0x1608                  _inputNoUseCnt2
-                    0x15fe                  _inputReadyCnt1
-                    0x161e                  _inputReadyCnt11
-                    0x1600                  _inputReadyCnt2
-                    0x1602                  _inputRunCheckCnt1
-                    0x1620                  _inputRunCheckCnt11
-                    0x1604                  _inputRunCheckCnt2
-                    0x15ee                  _inputStartCnt1
-                    0x161a                  _inputStartCnt11
-                    0x15f0                  _inputStartCnt2
-                    0x15f2                  _inputStartCnt3
-                    0x15f4                  _inputStartCnt4
-                    0x15f6                  _inputStopCnt1
-                    0x161c                  _inputStopCnt11
-                    0x15f8                  _inputStopCnt2
-                    0x15fa                  _inputStopCnt3
-                    0x15fc                  _inputStopCnt4
-                    0x1626                  _inputX1
-                    0x1628                  _inputX2
-                    0x162a                  _inputX3
-                    0x162c                  _inputX4
-                    0x162e                  _inputX5
-                    0x1630                  _inputX6
-                    0x1632                  _inputX7
-                    0x1634                  _inputX8
-                    0x1636                  _inputX9
-                    0x160a                  _input_in6Cnt1
-                    0x160c                  _input_in6Cnt2
-                    0x160e                  _input_in7Cnt1
-                    0x1610                  _input_in7Cnt2
-                    0x1612                  _input_in8Cnt1
-                    0x1614                  _input_in8Cnt2
-                    0x1684                  _limittemp
-                    0x144e                  _lowVoltageCnt
-                    0x11d6                  _lowVoltageTest
-                    0x16aa                  _msCnt1
-                    0x15c6                  _newPhaseACnt
-                    0x15cc                  _newState
-                    0x15d0                  _newcompareACnt
-                    0x1664                  _newcompareACnt1
-                    0x15bc                  _noPowerCnt1
-                    0x15be                  _noPowerCnt2
-                    0x167c                  _normalstopCnt
-                    0x15c8                  _oldPhaseACnt
-                    0x15ce                  _oldState
-                    0x15d2                  _oldcompareACnt
-                    0x1666                  _oldcompareACnt1
-                    0x1674                  _orderClose
-                    0x1676                  _orderCloseCnt
-                    0x1678                  _orderOpen
+                    0x1608                  _inputNoUseCnt1
+                    0x1624                  _inputNoUseCnt11
+                    0x160a                  _inputNoUseCnt2
+                    0x1600                  _inputReadyCnt1
+                    0x1620                  _inputReadyCnt11
+                    0x1602                  _inputReadyCnt2
+                    0x1604                  _inputRunCheckCnt1
+                    0x1622                  _inputRunCheckCnt11
+                    0x1606                  _inputRunCheckCnt2
+                    0x15f0                  _inputStartCnt1
+                    0x161c                  _inputStartCnt11
+                    0x15f2                  _inputStartCnt2
+                    0x15f4                  _inputStartCnt3
+                    0x15f6                  _inputStartCnt4
+                    0x15f8                  _inputStopCnt1
+                    0x161e                  _inputStopCnt11
+                    0x15fa                  _inputStopCnt2
+                    0x15fc                  _inputStopCnt3
+                    0x15fe                  _inputStopCnt4
+                    0x1628                  _inputX1
+                    0x162a                  _inputX2
+                    0x162c                  _inputX3
+                    0x162e                  _inputX4
+                    0x1630                  _inputX5
+                    0x1632                  _inputX6
+                    0x1634                  _inputX7
+                    0x1636                  _inputX8
+                    0x1638                  _inputX9
+                    0x160c                  _input_in6Cnt1
+                    0x160e                  _input_in6Cnt2
+                    0x1610                  _input_in7Cnt1
+                    0x1612                  _input_in7Cnt2
+                    0x1614                  _input_in8Cnt1
+                    0x1616                  _input_in8Cnt2
+                    0x1686                  _limittemp
+                    0x1450                  _lowVoltageCnt
+                    0x11d8                  _lowVoltageTest
+                    0x16ac                  _msCnt1
+                    0x15c8                  _newPhaseACnt
+                    0x15ce                  _newState
+                    0x15d2                  _newcompareACnt
+                    0x1666                  _newcompareACnt1
+                    0x15be                  _noPowerCnt1
+                    0x15c0                  _noPowerCnt2
+                    0x167e                  _normalstopCnt
+                    0x15ca                  _oldPhaseACnt
+                    0x15d0                  _oldState
+                    0x15d4                  _oldcompareACnt
+                    0x1668                  _oldcompareACnt1
+                    0x1676                  _orderClose
+                    0x1678                  _orderCloseCnt
+                    0x167a                  _orderOpen
                     0x11d0                  _outputBits
-                    0x1638                  _outputY1
-                    0x163a                  _outputY2
-                    0x163c                  _outputY3
-                    0x163e                  _outputY4
-                    0x1640                  _outputY5
-                    0x1642                  _outputY6
-                    0x1644                  _outputY7
-                    0x1646                  _outputY8
-                    0x1648                  _outputY9
-                    0x1616                  _output_sccCnt1
-                    0x1618                  _output_scoCnt1
-                    0x1624                  _outputcnt
-                    0x159c                  _overIaCnt1
-                    0x159e                  _overIaCnt2
-                    0x15a0                  _overIbCnt1
-                    0x15a2                  _overIbCnt2
-                    0x15a4                  _overIcCnt1
-                    0x15a6                  _overIcCnt2
-                    0x15b4                  _overInCnt1
-                    0x15b6                  _overInCnt2
-                    0x15c4                  _phaseACnt
-                    0x1660                  _phaseEcnt
-                    0x157e                  _phaseErrCnt1
-                    0x1580                  _phaseErrCnt2
-                    0x1582                  _phaseErrCnt3
-                    0x165c                  _phaseFcnt
-                    0x165e                  _phaseRcnt
-                    0x1576                  _phasecompareError
-                    0x15d6                  _phasecompareErrorcnt
-                    0x15d4                  _phasecompareOKcnt
-                    0x144c                  _powerOnDly1
-                    0x157c                  _poweroffcnt
-                    0x165a                  _pulsedelay
-                    0x168e                  _pwturnflag
-                    0x1698                  _runCloseCnt
-                    0x1696                  _runOpenCnt
-                    0x169a                  _runfeedbackcnt
-                    0x1682                  _samcnt1
-                    0x166e                  _startDelayCnt
-                    0x1670                  _startcompare
-                    0x16bc                  _step1
-                    0x169c                  _step11
-                    0x169e                  _step12
-                    0x16be                  _step13
-                    0x16c0                  _step14
-                    0x16c4                  _step2
-                    0x16cc                  _step3
-                    0x16ae                  _step4
-                    0x16b0                  _step5
-                    0x16b2                  _step6
-                    0x16b4                  _step7
-                    0x1694                  _stopAppCnt
-                    0x1672                  _stopDelayCnt
-                    0x166c                  _stopFlag
-                    0x1692                  _stopFlowCnt
-                    0x16a2                  _sysTimeCnt1
-                    0x16a4                  _sysTimeCnt2
-                    0x16a6                  _sysTimeCnt3
-                    0x16a8                  _sysTimeCnt4
-                    0x167a                  _turnRunCnt
-                    0x1584                  _uaCnt1
-                    0x1586                  _uaCnt2
-                    0x1590                  _uaCnt3
-                    0x1592                  _uaCnt4
-                    0x1588                  _ubCnt1
-                    0x158a                  _ubCnt2
-                    0x1594                  _ubCnt3
-                    0x1596                  _ubCnt4
-                    0x158c                  _ucCnt1
-                    0x158e                  _ucCnt2
-                    0x1598                  _ucCnt3
-                    0x159a                  _ucCnt4
-                    0x1688                  _ulCofTemp1
-                    0x15b8                  _unbalanceICnt1
-                    0x15ba                  _unbalanceICnt2
-                    0x15d8                  _wt1
-                    0x1438                  _zcd_mgr
-                    0x164e                  _zeroCrossCnt1
-                    0x1658                  _zeroCrossCntA
+                    0x163a                  _outputY1
+                    0x163c                  _outputY2
+                    0x163e                  _outputY3
+                    0x1640                  _outputY4
+                    0x1642                  _outputY5
+                    0x1644                  _outputY6
+                    0x1646                  _outputY7
+                    0x1648                  _outputY8
+                    0x164a                  _outputY9
+                    0x1618                  _output_sccCnt1
+                    0x161a                  _output_scoCnt1
+                    0x1626                  _outputcnt
+                    0x159e                  _overIaCnt1
+                    0x15a0                  _overIaCnt2
+                    0x15a2                  _overIbCnt1
+                    0x15a4                  _overIbCnt2
+                    0x15a6                  _overIcCnt1
+                    0x15a8                  _overIcCnt2
+                    0x15b6                  _overInCnt1
+                    0x15b8                  _overInCnt2
+                    0x15c6                  _phaseACnt
+                    0x1662                  _phaseEcnt
+                    0x1580                  _phaseErrCnt1
+                    0x1582                  _phaseErrCnt2
+                    0x1584                  _phaseErrCnt3
+                    0x165e                  _phaseFcnt
+                    0x1660                  _phaseRcnt
+                    0x1578                  _phasecompareError
+                    0x15d8                  _phasecompareErrorcnt
+                    0x15d6                  _phasecompareOKcnt
+                    0x144e                  _powerOnDly1
+                    0x157e                  _poweroffcnt
+                    0x165c                  _pulsedelay
+                    0x1690                  _pwturnflag
+                    0x169a                  _runCloseCnt
+                    0x1698                  _runOpenCnt
+                    0x169c                  _runfeedbackcnt
+                    0x1684                  _samcnt1
+                    0x1670                  _startDelayCnt
+                    0x1672                  _startcompare
+                    0x16be                  _step1
+                    0x169e                  _step11
+                    0x16a0                  _step12
+                    0x16c0                  _step13
+                    0x16c2                  _step14
+                    0x16c6                  _step2
+                    0x16ce                  _step3
+                    0x16b0                  _step4
+                    0x16b2                  _step5
+                    0x16b4                  _step6
+                    0x16b6                  _step7
+                    0x1696                  _stopAppCnt
+                    0x1674                  _stopDelayCnt
+                    0x166e                  _stopFlag
+                    0x1694                  _stopFlowCnt
+                    0x16a4                  _sysTimeCnt1
+                    0x16a6                  _sysTimeCnt2
+                    0x16a8                  _sysTimeCnt3
+                    0x16aa                  _sysTimeCnt4
+                    0x167c                  _turnRunCnt
+                    0x1586                  _uaCnt1
+                    0x1588                  _uaCnt2
+                    0x1592                  _uaCnt3
+                    0x1594                  _uaCnt4
+                    0x158a                  _ubCnt1
+                    0x158c                  _ubCnt2
+                    0x1596                  _ubCnt3
+                    0x1598                  _ubCnt4
+                    0x158e                  _ucCnt1
+                    0x1590                  _ucCnt2
+                    0x159a                  _ucCnt3
+                    0x159c                  _ucCnt4
+                    0x168a                  _ulCofTemp1
+                    0x15ba                  _unbalanceICnt1
+                    0x15bc                  _unbalanceICnt2
+                    0x15da                  _wt1
+                    0x143a                  _zcd_mgr
+                    0x1650                  _zeroCrossCnt1
+                    0x165a                  _zeroCrossCntA
 
 External Symbols in Data EEPROM (by address):
 
@@ -572,8 +572,8 @@ External Symbols in Program Memory (by address):
 
                   0x000100                  __resetPRI
                   0x000122                  __psv_init
-                  0x000132                  __data_init_standard
                   0x000132                  __data_init
+                  0x000132                  __data_init_standard
                   0x000190                  ___divsi3
                   0x0001ae                  ___floatsisf
                   0x000204                  _sqrtf
@@ -664,14 +664,16 @@ External Symbols in Program Memory (by address):
                   0x004f74                  __U1RXInterrupt
                   0x00511e                  __U1TXInterrupt
                   0x005152                  _CRC16_Check
-                  0x0051c2                  _main
-                  0x0052a0                  _ReadEE
-                  0x0052ba                  _EraseEE
-                  0x005302                  _WriteEE
-                  0x0053e8                  _Delay10ms
-                  0x005406                  _Delay3s
-                  0x005424                  _Delay60ms
-                  0x00544c                  __DefaultInterrupt
+                  0x0051c2                  _switch_signal_source
+                  0x0051ec                  _monitor_signal_quality
+                  0x005218                  _main
+                  0x0052f8                  _ReadEE
+                  0x005312                  _EraseEE
+                  0x00535a                  _WriteEE
+                  0x005440                  _Delay10ms
+                  0x00545e                  _Delay3s
+                  0x00547c                  _Delay60ms
+                  0x0054a4                  __DefaultInterrupt
                   0xf80006                  __FBS.sec
                   0xf80008                  __FSS.sec
                   0xf8000a                  __FGS.sec
@@ -681,16 +683,16 @@ External Symbols in Program Memory (by name):
                   0x0042f4                  _AdcDescend
                   0x005152                  _CRC16_Check
                   0x004572                  _CurrentCheck
-                  0x0053e8                  _Delay10ms
-                  0x005406                  _Delay3s
-                  0x005424                  _Delay60ms
+                  0x005440                  _Delay10ms
+                  0x00545e                  _Delay3s
+                  0x00547c                  _Delay60ms
                   0x003066                  _EEWrFaultLastTime
                   0x0030b6                  _EEWrLastStartTime
                   0x00070c                  _EEWriteApp
                   0x000782                  _EEWriteApp2
                   0x0007f8                  _EEWriteApp3
                   0x00087a                  _EEWriteApp4
-                  0x0052ba                  _EraseEE
+                  0x005312                  _EraseEE
                   0x0031bc                  _Frequencydetect1
                   0x00376a                  _IORead
                   0x00482c                  _InitAD
@@ -705,7 +707,7 @@ External Symbols in Program Memory (by name):
                   0x0034b6                  _OverIProtect
                   0x0036ba                  _Protect
                   0x0034f8                  _ROverIProtect
-                  0x0052a0                  _ReadEE
+                  0x0052f8                  _ReadEE
                   0x002bee                  _RelayFlow
                   0x002b28                  _RunClose
                   0x003650                  _SCRProtect
@@ -740,11 +742,11 @@ External Symbols in Program Memory (by name):
                   0x0006c8                  _Uart2TxSetSuccess3
                   0x0006ea                  _Uart2TxSetSuccess4
                   0x00353a                  _UnbalanceIProtect
-                  0x005302                  _WriteEE
+                  0x00535a                  _WriteEE
                   0x003492                  _ZeroIprotect
                   0x0048de                  __ADCInterrupt
                   0x0028ee                  __CNInterrupt
-                  0x00544c                  __DefaultInterrupt
+                  0x0054a4                  __DefaultInterrupt
                   0xf80006                  __FBS.sec
                   0xf8000a                  __FGS.sec
                   0xf80008                  __FSS.sec
@@ -778,11 +780,13 @@ External Symbols in Program Memory (by name):
                   0x000100                  __resetPRI
                   0x0022bc                  _calculate_average_interval
                   0x0022fc                  _check_signal_quality
-                  0x0051c2                  _main
+                  0x005218                  _main
+                  0x0051ec                  _monitor_signal_quality
                   0x003106                  _phasecompare
                   0x00362c                  _poweroffprotect
                   0x002358                  _reset_timer4
                   0x000204                  _sqrtf
+                  0x0051c2                  _switch_signal_source
 
 Memory Configuration
 
@@ -978,132 +982,132 @@ userdata
  *(.debug_aranges)
 
 .ivt              0x000004         0x7c
-                  0x000004          0x4 LONG 0x544c DEFINED (__ReservedTrap0)?<code 339> (__ReservedTrap0):<code 339> (__DefaultInterrupt)
-                  0x000006          0x4 LONG 0x544c DEFINED (__OscillatorFail)?<code 339> (__OscillatorFail):<code 339> (__DefaultInterrupt)
-                  0x000008          0x4 LONG 0x544c DEFINED (__AddressError)?<code 339> (__AddressError):<code 339> (__DefaultInterrupt)
-                  0x00000a          0x4 LONG 0x544c DEFINED (__StackError)?<code 339> (__StackError):<code 339> (__DefaultInterrupt)
-                  0x00000c          0x4 LONG 0x544c DEFINED (__MathError)?<code 339> (__MathError):<code 339> (__DefaultInterrupt)
-                  0x00000e          0x4 LONG 0x544c DEFINED (__ReservedTrap5)?<code 339> (__ReservedTrap5):<code 339> (__DefaultInterrupt)
-                  0x000010          0x4 LONG 0x544c DEFINED (__ReservedTrap6)?<code 339> (__ReservedTrap6):<code 339> (__DefaultInterrupt)
-                  0x000012          0x4 LONG 0x544c DEFINED (__ReservedTrap7)?<code 339> (__ReservedTrap7):<code 339> (__DefaultInterrupt)
-                  0x000014          0x4 LONG 0x544c DEFINED (__INT0Interrupt)?<code 339> (__INT0Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000016          0x4 LONG 0x544c DEFINED (__IC1Interrupt)?<code 339> (__IC1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000018          0x4 LONG 0x544c DEFINED (__OC1Interrupt)?<code 339> (__OC1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000004          0x4 LONG 0x54a4 DEFINED (__ReservedTrap0)?<code 339> (__ReservedTrap0):<code 339> (__DefaultInterrupt)
+                  0x000006          0x4 LONG 0x54a4 DEFINED (__OscillatorFail)?<code 339> (__OscillatorFail):<code 339> (__DefaultInterrupt)
+                  0x000008          0x4 LONG 0x54a4 DEFINED (__AddressError)?<code 339> (__AddressError):<code 339> (__DefaultInterrupt)
+                  0x00000a          0x4 LONG 0x54a4 DEFINED (__StackError)?<code 339> (__StackError):<code 339> (__DefaultInterrupt)
+                  0x00000c          0x4 LONG 0x54a4 DEFINED (__MathError)?<code 339> (__MathError):<code 339> (__DefaultInterrupt)
+                  0x00000e          0x4 LONG 0x54a4 DEFINED (__ReservedTrap5)?<code 339> (__ReservedTrap5):<code 339> (__DefaultInterrupt)
+                  0x000010          0x4 LONG 0x54a4 DEFINED (__ReservedTrap6)?<code 339> (__ReservedTrap6):<code 339> (__DefaultInterrupt)
+                  0x000012          0x4 LONG 0x54a4 DEFINED (__ReservedTrap7)?<code 339> (__ReservedTrap7):<code 339> (__DefaultInterrupt)
+                  0x000014          0x4 LONG 0x54a4 DEFINED (__INT0Interrupt)?<code 339> (__INT0Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000016          0x4 LONG 0x54a4 DEFINED (__IC1Interrupt)?<code 339> (__IC1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000018          0x4 LONG 0x54a4 DEFINED (__OC1Interrupt)?<code 339> (__OC1Interrupt):<code 339> (__DefaultInterrupt)
                   0x00001a          0x4 LONG 0x3d46 DEFINED (__T1Interrupt)?<code 339> (__T1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00001c          0x4 LONG 0x544c DEFINED (__IC2Interrupt)?<code 339> (__IC2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00001e          0x4 LONG 0x544c DEFINED (__OC2Interrupt)?<code 339> (__OC2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00001c          0x4 LONG 0x54a4 DEFINED (__IC2Interrupt)?<code 339> (__IC2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00001e          0x4 LONG 0x54a4 DEFINED (__OC2Interrupt)?<code 339> (__OC2Interrupt):<code 339> (__DefaultInterrupt)
                   0x000020          0x4 LONG 0x2650 DEFINED (__T2Interrupt)?<code 339> (__T2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000022          0x4 LONG 0x544c DEFINED (__T3Interrupt)?<code 339> (__T3Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000024          0x4 LONG 0x544c DEFINED (__SPI1Interrupt)?<code 339> (__SPI1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000022          0x4 LONG 0x54a4 DEFINED (__T3Interrupt)?<code 339> (__T3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000024          0x4 LONG 0x54a4 DEFINED (__SPI1Interrupt)?<code 339> (__SPI1Interrupt):<code 339> (__DefaultInterrupt)
                   0x000026          0x4 LONG 0x4f74 DEFINED (__U1RXInterrupt)?<code 339> (__U1RXInterrupt):<code 339> (__DefaultInterrupt)
                   0x000028          0x4 LONG 0x511e DEFINED (__U1TXInterrupt)?<code 339> (__U1TXInterrupt):<code 339> (__DefaultInterrupt)
                   0x00002a          0x4 LONG 0x48de DEFINED (__ADCInterrupt)?<code 339> (__ADCInterrupt):<code 339> (__DefaultInterrupt)
-                  0x00002c          0x4 LONG 0x544c DEFINED (__NVMInterrupt)?<code 339> (__NVMInterrupt):<code 339> (__DefaultInterrupt)
-                  0x00002e          0x4 LONG 0x544c DEFINED (__SI2CInterrupt)?<code 339> (__SI2CInterrupt):<code 339> (__DefaultInterrupt)
-                  0x000030          0x4 LONG 0x544c DEFINED (__MI2CInterrupt)?<code 339> (__MI2CInterrupt):<code 339> (__DefaultInterrupt)
+                  0x00002c          0x4 LONG 0x54a4 DEFINED (__NVMInterrupt)?<code 339> (__NVMInterrupt):<code 339> (__DefaultInterrupt)
+                  0x00002e          0x4 LONG 0x54a4 DEFINED (__SI2CInterrupt)?<code 339> (__SI2CInterrupt):<code 339> (__DefaultInterrupt)
+                  0x000030          0x4 LONG 0x54a4 DEFINED (__MI2CInterrupt)?<code 339> (__MI2CInterrupt):<code 339> (__DefaultInterrupt)
                   0x000032          0x4 LONG 0x28ee DEFINED (__CNInterrupt)?<code 339> (__CNInterrupt):<code 339> (__DefaultInterrupt)
-                  0x000034          0x4 LONG 0x544c DEFINED (__INT1Interrupt)?<code 339> (__INT1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000036          0x4 LONG 0x544c DEFINED (__IC7Interrupt)?<code 339> (__IC7Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000038          0x4 LONG 0x544c DEFINED (__IC8Interrupt)?<code 339> (__IC8Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00003a          0x4 LONG 0x544c DEFINED (__OC3Interrupt)?<code 339> (__OC3Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00003c          0x4 LONG 0x544c DEFINED (__OC4Interrupt)?<code 339> (__OC4Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000034          0x4 LONG 0x54a4 DEFINED (__INT1Interrupt)?<code 339> (__INT1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000036          0x4 LONG 0x54a4 DEFINED (__IC7Interrupt)?<code 339> (__IC7Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000038          0x4 LONG 0x54a4 DEFINED (__IC8Interrupt)?<code 339> (__IC8Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00003a          0x4 LONG 0x54a4 DEFINED (__OC3Interrupt)?<code 339> (__OC3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00003c          0x4 LONG 0x54a4 DEFINED (__OC4Interrupt)?<code 339> (__OC4Interrupt):<code 339> (__DefaultInterrupt)
                   0x00003e          0x4 LONG 0x28dc DEFINED (__T4Interrupt)?<code 339> (__T4Interrupt):<code 339> (__DefaultInterrupt)
                   0x000040          0x4 LONG 0x252e DEFINED (__T5Interrupt)?<code 339> (__T5Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000042          0x4 LONG 0x544c DEFINED (__INT2Interrupt)?<code 339> (__INT2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000042          0x4 LONG 0x54a4 DEFINED (__INT2Interrupt)?<code 339> (__INT2Interrupt):<code 339> (__DefaultInterrupt)
                   0x000044          0x4 LONG 0x15de DEFINED (__U2RXInterrupt)?<code 339> (__U2RXInterrupt):<code 339> (__DefaultInterrupt)
                   0x000046          0x4 LONG 0x171e DEFINED (__U2TXInterrupt)?<code 339> (__U2TXInterrupt):<code 339> (__DefaultInterrupt)
-                  0x000048          0x4 LONG 0x544c DEFINED (__SPI2Interrupt)?<code 339> (__SPI2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00004a          0x4 LONG 0x544c DEFINED (__C1Interrupt)?<code 339> (__C1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00004c          0x4 LONG 0x544c DEFINED (__IC3Interrupt)?<code 339> (__IC3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000048          0x4 LONG 0x54a4 DEFINED (__SPI2Interrupt)?<code 339> (__SPI2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00004a          0x4 LONG 0x54a4 DEFINED (__C1Interrupt)?<code 339> (__C1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00004c          0x4 LONG 0x54a4 DEFINED (__IC3Interrupt)?<code 339> (__IC3Interrupt):<code 339> (__DefaultInterrupt)
                   0x00004e          0x4 LONG 0x2468 DEFINED (__IC4Interrupt)?<code 339> (__IC4Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000050          0x4 LONG 0x544c DEFINED (__IC5Interrupt)?<code 339> (__IC5Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000052          0x4 LONG 0x544c DEFINED (__IC6Interrupt)?<code 339> (__IC6Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000054          0x4 LONG 0x544c DEFINED (__OC5Interrupt)?<code 339> (__OC5Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000056          0x4 LONG 0x544c DEFINED (__OC6Interrupt)?<code 339> (__OC6Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000058          0x4 LONG 0x544c DEFINED (__OC7Interrupt)?<code 339> (__OC7Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00005a          0x4 LONG 0x544c DEFINED (__OC8Interrupt)?<code 339> (__OC8Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00005c          0x4 LONG 0x544c DEFINED (__INT3Interrupt)?<code 339> (__INT3Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00005e          0x4 LONG 0x544c DEFINED (__INT4Interrupt)?<code 339> (__INT4Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000060          0x4 LONG 0x544c DEFINED (__C2Interrupt)?<code 339> (__C2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000062          0x4 LONG 0x544c DEFINED (__PWMInterrupt)?<code 339> (__PWMInterrupt):<code 339> (__DefaultInterrupt)
-                  0x000064          0x4 LONG 0x544c DEFINED (__QEIInterrupt)?<code 339> (__QEIInterrupt):<code 339> (__DefaultInterrupt)
-                  0x000066          0x4 LONG 0x544c DEFINED (__DCIInterrupt)?<code 339> (__DCIInterrupt):<code 339> (__DefaultInterrupt)
-                  0x000068          0x4 LONG 0x544c DEFINED (__LVDInterrupt)?<code 339> (__LVDInterrupt):<code 339> (__DefaultInterrupt)
-                  0x00006a          0x4 LONG 0x544c DEFINED (__FLTAInterrupt)?<code 339> (__FLTAInterrupt):<code 339> (__DefaultInterrupt)
-                  0x00006c          0x4 LONG 0x544c DEFINED (__FLTBInterrupt)?<code 339> (__FLTBInterrupt):<code 339> (__DefaultInterrupt)
-                  0x00006e          0x4 LONG 0x544c DEFINED (__Interrupt45)?<code 339> (__Interrupt45):<code 339> (__DefaultInterrupt)
-                  0x000070          0x4 LONG 0x544c DEFINED (__Interrupt46)?<code 339> (__Interrupt46):<code 339> (__DefaultInterrupt)
-                  0x000072          0x4 LONG 0x544c DEFINED (__Interrupt47)?<code 339> (__Interrupt47):<code 339> (__DefaultInterrupt)
-                  0x000074          0x4 LONG 0x544c DEFINED (__Interrupt48)?<code 339> (__Interrupt48):<code 339> (__DefaultInterrupt)
-                  0x000076          0x4 LONG 0x544c DEFINED (__Interrupt49)?<code 339> (__Interrupt49):<code 339> (__DefaultInterrupt)
-                  0x000078          0x4 LONG 0x544c DEFINED (__Interrupt50)?<code 339> (__Interrupt50):<code 339> (__DefaultInterrupt)
-                  0x00007a          0x4 LONG 0x544c DEFINED (__Interrupt51)?<code 339> (__Interrupt51):<code 339> (__DefaultInterrupt)
-                  0x00007c          0x4 LONG 0x544c DEFINED (__Interrupt52)?<code 339> (__Interrupt52):<code 339> (__DefaultInterrupt)
-                  0x00007e          0x4 LONG 0x544c DEFINED (__Interrupt53)?<code 339> (__Interrupt53):<code 339> (__DefaultInterrupt)
+                  0x000050          0x4 LONG 0x54a4 DEFINED (__IC5Interrupt)?<code 339> (__IC5Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000052          0x4 LONG 0x54a4 DEFINED (__IC6Interrupt)?<code 339> (__IC6Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000054          0x4 LONG 0x54a4 DEFINED (__OC5Interrupt)?<code 339> (__OC5Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000056          0x4 LONG 0x54a4 DEFINED (__OC6Interrupt)?<code 339> (__OC6Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000058          0x4 LONG 0x54a4 DEFINED (__OC7Interrupt)?<code 339> (__OC7Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00005a          0x4 LONG 0x54a4 DEFINED (__OC8Interrupt)?<code 339> (__OC8Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00005c          0x4 LONG 0x54a4 DEFINED (__INT3Interrupt)?<code 339> (__INT3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00005e          0x4 LONG 0x54a4 DEFINED (__INT4Interrupt)?<code 339> (__INT4Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000060          0x4 LONG 0x54a4 DEFINED (__C2Interrupt)?<code 339> (__C2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000062          0x4 LONG 0x54a4 DEFINED (__PWMInterrupt)?<code 339> (__PWMInterrupt):<code 339> (__DefaultInterrupt)
+                  0x000064          0x4 LONG 0x54a4 DEFINED (__QEIInterrupt)?<code 339> (__QEIInterrupt):<code 339> (__DefaultInterrupt)
+                  0x000066          0x4 LONG 0x54a4 DEFINED (__DCIInterrupt)?<code 339> (__DCIInterrupt):<code 339> (__DefaultInterrupt)
+                  0x000068          0x4 LONG 0x54a4 DEFINED (__LVDInterrupt)?<code 339> (__LVDInterrupt):<code 339> (__DefaultInterrupt)
+                  0x00006a          0x4 LONG 0x54a4 DEFINED (__FLTAInterrupt)?<code 339> (__FLTAInterrupt):<code 339> (__DefaultInterrupt)
+                  0x00006c          0x4 LONG 0x54a4 DEFINED (__FLTBInterrupt)?<code 339> (__FLTBInterrupt):<code 339> (__DefaultInterrupt)
+                  0x00006e          0x4 LONG 0x54a4 DEFINED (__Interrupt45)?<code 339> (__Interrupt45):<code 339> (__DefaultInterrupt)
+                  0x000070          0x4 LONG 0x54a4 DEFINED (__Interrupt46)?<code 339> (__Interrupt46):<code 339> (__DefaultInterrupt)
+                  0x000072          0x4 LONG 0x54a4 DEFINED (__Interrupt47)?<code 339> (__Interrupt47):<code 339> (__DefaultInterrupt)
+                  0x000074          0x4 LONG 0x54a4 DEFINED (__Interrupt48)?<code 339> (__Interrupt48):<code 339> (__DefaultInterrupt)
+                  0x000076          0x4 LONG 0x54a4 DEFINED (__Interrupt49)?<code 339> (__Interrupt49):<code 339> (__DefaultInterrupt)
+                  0x000078          0x4 LONG 0x54a4 DEFINED (__Interrupt50)?<code 339> (__Interrupt50):<code 339> (__DefaultInterrupt)
+                  0x00007a          0x4 LONG 0x54a4 DEFINED (__Interrupt51)?<code 339> (__Interrupt51):<code 339> (__DefaultInterrupt)
+                  0x00007c          0x4 LONG 0x54a4 DEFINED (__Interrupt52)?<code 339> (__Interrupt52):<code 339> (__DefaultInterrupt)
+                  0x00007e          0x4 LONG 0x54a4 DEFINED (__Interrupt53)?<code 339> (__Interrupt53):<code 339> (__DefaultInterrupt)
 
 .aivt             0x000084         0x7c
-                  0x000084          0x4 LONG 0x544c DEFINED (__AltReservedTrap0)?<code 339> (__AltReservedTrap0):DEFINED (__ReservedTrap0)?<code 339> (__ReservedTrap0):<code 339> (__DefaultInterrupt)
-                  0x000086          0x4 LONG 0x544c DEFINED (__AltOscillatorFail)?<code 339> (__AltOscillatorFail):DEFINED (__OscillatorFail)?<code 339> (__OscillatorFail):<code 339> (__DefaultInterrupt)
-                  0x000088          0x4 LONG 0x544c DEFINED (__AltAddressError)?<code 339> (__AltAddressError):DEFINED (__AddressError)?<code 339> (__AddressError):<code 339> (__DefaultInterrupt)
-                  0x00008a          0x4 LONG 0x544c DEFINED (__AltStackError)?<code 339> (__AltStackError):DEFINED (__StackError)?<code 339> (__StackError):<code 339> (__DefaultInterrupt)
-                  0x00008c          0x4 LONG 0x544c DEFINED (__AltMathError)?<code 339> (__AltMathError):DEFINED (__MathError)?<code 339> (__MathError):<code 339> (__DefaultInterrupt)
-                  0x00008e          0x4 LONG 0x544c DEFINED (__AltReservedTrap5)?<code 339> (__AltReservedTrap5):DEFINED (__ReservedTrap5)?<code 339> (__ReservedTrap5):<code 339> (__DefaultInterrupt)
-                  0x000090          0x4 LONG 0x544c DEFINED (__AltReservedTrap6)?<code 339> (__AltReservedTrap6):DEFINED (__ReservedTrap6)?<code 339> (__ReservedTrap6):<code 339> (__DefaultInterrupt)
-                  0x000092          0x4 LONG 0x544c DEFINED (__AltReservedTrap7)?<code 339> (__AltReservedTrap7):DEFINED (__ReservedTrap7)?<code 339> (__ReservedTrap7):<code 339> (__DefaultInterrupt)
-                  0x000094          0x4 LONG 0x544c DEFINED (__AltINT0Interrupt)?<code 339> (__AltINT0Interrupt):DEFINED (__INT0Interrupt)?<code 339> (__INT0Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000096          0x4 LONG 0x544c DEFINED (__AltIC1Interrupt)?<code 339> (__AltIC1Interrupt):DEFINED (__IC1Interrupt)?<code 339> (__IC1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x000098          0x4 LONG 0x544c DEFINED (__AltOC1Interrupt)?<code 339> (__AltOC1Interrupt):DEFINED (__OC1Interrupt)?<code 339> (__OC1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000084          0x4 LONG 0x54a4 DEFINED (__AltReservedTrap0)?<code 339> (__AltReservedTrap0):DEFINED (__ReservedTrap0)?<code 339> (__ReservedTrap0):<code 339> (__DefaultInterrupt)
+                  0x000086          0x4 LONG 0x54a4 DEFINED (__AltOscillatorFail)?<code 339> (__AltOscillatorFail):DEFINED (__OscillatorFail)?<code 339> (__OscillatorFail):<code 339> (__DefaultInterrupt)
+                  0x000088          0x4 LONG 0x54a4 DEFINED (__AltAddressError)?<code 339> (__AltAddressError):DEFINED (__AddressError)?<code 339> (__AddressError):<code 339> (__DefaultInterrupt)
+                  0x00008a          0x4 LONG 0x54a4 DEFINED (__AltStackError)?<code 339> (__AltStackError):DEFINED (__StackError)?<code 339> (__StackError):<code 339> (__DefaultInterrupt)
+                  0x00008c          0x4 LONG 0x54a4 DEFINED (__AltMathError)?<code 339> (__AltMathError):DEFINED (__MathError)?<code 339> (__MathError):<code 339> (__DefaultInterrupt)
+                  0x00008e          0x4 LONG 0x54a4 DEFINED (__AltReservedTrap5)?<code 339> (__AltReservedTrap5):DEFINED (__ReservedTrap5)?<code 339> (__ReservedTrap5):<code 339> (__DefaultInterrupt)
+                  0x000090          0x4 LONG 0x54a4 DEFINED (__AltReservedTrap6)?<code 339> (__AltReservedTrap6):DEFINED (__ReservedTrap6)?<code 339> (__ReservedTrap6):<code 339> (__DefaultInterrupt)
+                  0x000092          0x4 LONG 0x54a4 DEFINED (__AltReservedTrap7)?<code 339> (__AltReservedTrap7):DEFINED (__ReservedTrap7)?<code 339> (__ReservedTrap7):<code 339> (__DefaultInterrupt)
+                  0x000094          0x4 LONG 0x54a4 DEFINED (__AltINT0Interrupt)?<code 339> (__AltINT0Interrupt):DEFINED (__INT0Interrupt)?<code 339> (__INT0Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000096          0x4 LONG 0x54a4 DEFINED (__AltIC1Interrupt)?<code 339> (__AltIC1Interrupt):DEFINED (__IC1Interrupt)?<code 339> (__IC1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x000098          0x4 LONG 0x54a4 DEFINED (__AltOC1Interrupt)?<code 339> (__AltOC1Interrupt):DEFINED (__OC1Interrupt)?<code 339> (__OC1Interrupt):<code 339> (__DefaultInterrupt)
                   0x00009a          0x4 LONG 0x3d46 DEFINED (__AltT1Interrupt)?<code 339> (__AltT1Interrupt):DEFINED (__T1Interrupt)?<code 339> (__T1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00009c          0x4 LONG 0x544c DEFINED (__AltIC2Interrupt)?<code 339> (__AltIC2Interrupt):DEFINED (__IC2Interrupt)?<code 339> (__IC2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x00009e          0x4 LONG 0x544c DEFINED (__AltOC2Interrupt)?<code 339> (__AltOC2Interrupt):DEFINED (__OC2Interrupt)?<code 339> (__OC2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00009c          0x4 LONG 0x54a4 DEFINED (__AltIC2Interrupt)?<code 339> (__AltIC2Interrupt):DEFINED (__IC2Interrupt)?<code 339> (__IC2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x00009e          0x4 LONG 0x54a4 DEFINED (__AltOC2Interrupt)?<code 339> (__AltOC2Interrupt):DEFINED (__OC2Interrupt)?<code 339> (__OC2Interrupt):<code 339> (__DefaultInterrupt)
                   0x0000a0          0x4 LONG 0x2650 DEFINED (__AltT2Interrupt)?<code 339> (__AltT2Interrupt):DEFINED (__T2Interrupt)?<code 339> (__T2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000a2          0x4 LONG 0x544c DEFINED (__AltT3Interrupt)?<code 339> (__AltT3Interrupt):DEFINED (__T3Interrupt)?<code 339> (__T3Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000a4          0x4 LONG 0x544c DEFINED (__AltSPI1Interrupt)?<code 339> (__AltSPI1Interrupt):DEFINED (__SPI1Interrupt)?<code 339> (__SPI1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000a2          0x4 LONG 0x54a4 DEFINED (__AltT3Interrupt)?<code 339> (__AltT3Interrupt):DEFINED (__T3Interrupt)?<code 339> (__T3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000a4          0x4 LONG 0x54a4 DEFINED (__AltSPI1Interrupt)?<code 339> (__AltSPI1Interrupt):DEFINED (__SPI1Interrupt)?<code 339> (__SPI1Interrupt):<code 339> (__DefaultInterrupt)
                   0x0000a6          0x4 LONG 0x4f74 DEFINED (__AltU1RXInterrupt)?<code 339> (__AltU1RXInterrupt):DEFINED (__U1RXInterrupt)?<code 339> (__U1RXInterrupt):<code 339> (__DefaultInterrupt)
                   0x0000a8          0x4 LONG 0x511e DEFINED (__AltU1TXInterrupt)?<code 339> (__AltU1TXInterrupt):DEFINED (__U1TXInterrupt)?<code 339> (__U1TXInterrupt):<code 339> (__DefaultInterrupt)
                   0x0000aa          0x4 LONG 0x48de DEFINED (__AltADCInterrupt)?<code 339> (__AltADCInterrupt):DEFINED (__ADCInterrupt)?<code 339> (__ADCInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ac          0x4 LONG 0x544c DEFINED (__AltNVMInterrupt)?<code 339> (__AltNVMInterrupt):DEFINED (__NVMInterrupt)?<code 339> (__NVMInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ae          0x4 LONG 0x544c DEFINED (__AltSI2CInterrupt)?<code 339> (__AltSI2CInterrupt):DEFINED (__SI2CInterrupt)?<code 339> (__SI2CInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000b0          0x4 LONG 0x544c DEFINED (__AltMI2CInterrupt)?<code 339> (__AltMI2CInterrupt):DEFINED (__MI2CInterrupt)?<code 339> (__MI2CInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ac          0x4 LONG 0x54a4 DEFINED (__AltNVMInterrupt)?<code 339> (__AltNVMInterrupt):DEFINED (__NVMInterrupt)?<code 339> (__NVMInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ae          0x4 LONG 0x54a4 DEFINED (__AltSI2CInterrupt)?<code 339> (__AltSI2CInterrupt):DEFINED (__SI2CInterrupt)?<code 339> (__SI2CInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000b0          0x4 LONG 0x54a4 DEFINED (__AltMI2CInterrupt)?<code 339> (__AltMI2CInterrupt):DEFINED (__MI2CInterrupt)?<code 339> (__MI2CInterrupt):<code 339> (__DefaultInterrupt)
                   0x0000b2          0x4 LONG 0x28ee DEFINED (__AltCNInterrupt)?<code 339> (__AltCNInterrupt):DEFINED (__CNInterrupt)?<code 339> (__CNInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000b4          0x4 LONG 0x544c DEFINED (__AltINT1Interrupt)?<code 339> (__AltINT1Interrupt):DEFINED (__INT1Interrupt)?<code 339> (__INT1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000b6          0x4 LONG 0x544c DEFINED (__AltIC7Interrupt)?<code 339> (__AltIC7Interrupt):DEFINED (__IC7Interrupt)?<code 339> (__IC7Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000b8          0x4 LONG 0x544c DEFINED (__AltIC8Interrupt)?<code 339> (__AltIC8Interrupt):DEFINED (__IC8Interrupt)?<code 339> (__IC8Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ba          0x4 LONG 0x544c DEFINED (__AltOC3Interrupt)?<code 339> (__AltOC3Interrupt):DEFINED (__OC3Interrupt)?<code 339> (__OC3Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000bc          0x4 LONG 0x544c DEFINED (__AltOC4Interrupt)?<code 339> (__AltOC4Interrupt):DEFINED (__OC4Interrupt)?<code 339> (__OC4Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000b4          0x4 LONG 0x54a4 DEFINED (__AltINT1Interrupt)?<code 339> (__AltINT1Interrupt):DEFINED (__INT1Interrupt)?<code 339> (__INT1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000b6          0x4 LONG 0x54a4 DEFINED (__AltIC7Interrupt)?<code 339> (__AltIC7Interrupt):DEFINED (__IC7Interrupt)?<code 339> (__IC7Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000b8          0x4 LONG 0x54a4 DEFINED (__AltIC8Interrupt)?<code 339> (__AltIC8Interrupt):DEFINED (__IC8Interrupt)?<code 339> (__IC8Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ba          0x4 LONG 0x54a4 DEFINED (__AltOC3Interrupt)?<code 339> (__AltOC3Interrupt):DEFINED (__OC3Interrupt)?<code 339> (__OC3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000bc          0x4 LONG 0x54a4 DEFINED (__AltOC4Interrupt)?<code 339> (__AltOC4Interrupt):DEFINED (__OC4Interrupt)?<code 339> (__OC4Interrupt):<code 339> (__DefaultInterrupt)
                   0x0000be          0x4 LONG 0x28dc DEFINED (__AltT4Interrupt)?<code 339> (__AltT4Interrupt):DEFINED (__T4Interrupt)?<code 339> (__T4Interrupt):<code 339> (__DefaultInterrupt)
                   0x0000c0          0x4 LONG 0x252e DEFINED (__AltT5Interrupt)?<code 339> (__AltT5Interrupt):DEFINED (__T5Interrupt)?<code 339> (__T5Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000c2          0x4 LONG 0x544c DEFINED (__AltINT2Interrupt)?<code 339> (__AltINT2Interrupt):DEFINED (__INT2Interrupt)?<code 339> (__INT2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000c2          0x4 LONG 0x54a4 DEFINED (__AltINT2Interrupt)?<code 339> (__AltINT2Interrupt):DEFINED (__INT2Interrupt)?<code 339> (__INT2Interrupt):<code 339> (__DefaultInterrupt)
                   0x0000c4          0x4 LONG 0x15de DEFINED (__AltU2RXInterrupt)?<code 339> (__AltU2RXInterrupt):DEFINED (__U2RXInterrupt)?<code 339> (__U2RXInterrupt):<code 339> (__DefaultInterrupt)
                   0x0000c6          0x4 LONG 0x171e DEFINED (__AltU2TXInterrupt)?<code 339> (__AltU2TXInterrupt):DEFINED (__U2TXInterrupt)?<code 339> (__U2TXInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000c8          0x4 LONG 0x544c DEFINED (__AltSPI2Interrupt)?<code 339> (__AltSPI2Interrupt):DEFINED (__SPI2Interrupt)?<code 339> (__SPI2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ca          0x4 LONG 0x544c DEFINED (__AltC1Interrupt)?<code 339> (__AltC1Interrupt):DEFINED (__C1Interrupt)?<code 339> (__C1Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000cc          0x4 LONG 0x544c DEFINED (__AltIC3Interrupt)?<code 339> (__AltIC3Interrupt):DEFINED (__IC3Interrupt)?<code 339> (__IC3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000c8          0x4 LONG 0x54a4 DEFINED (__AltSPI2Interrupt)?<code 339> (__AltSPI2Interrupt):DEFINED (__SPI2Interrupt)?<code 339> (__SPI2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ca          0x4 LONG 0x54a4 DEFINED (__AltC1Interrupt)?<code 339> (__AltC1Interrupt):DEFINED (__C1Interrupt)?<code 339> (__C1Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000cc          0x4 LONG 0x54a4 DEFINED (__AltIC3Interrupt)?<code 339> (__AltIC3Interrupt):DEFINED (__IC3Interrupt)?<code 339> (__IC3Interrupt):<code 339> (__DefaultInterrupt)
                   0x0000ce          0x4 LONG 0x2468 DEFINED (__AltIC4Interrupt)?<code 339> (__AltIC4Interrupt):DEFINED (__IC4Interrupt)?<code 339> (__IC4Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000d0          0x4 LONG 0x544c DEFINED (__AltIC5Interrupt)?<code 339> (__AltIC5Interrupt):DEFINED (__IC5Interrupt)?<code 339> (__IC5Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000d2          0x4 LONG 0x544c DEFINED (__AltIC6Interrupt)?<code 339> (__AltIC6Interrupt):DEFINED (__IC6Interrupt)?<code 339> (__IC6Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000d4          0x4 LONG 0x544c DEFINED (__AltOC5Interrupt)?<code 339> (__AltOC5Interrupt):DEFINED (__OC5Interrupt)?<code 339> (__OC5Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000d6          0x4 LONG 0x544c DEFINED (__AltOC6Interrupt)?<code 339> (__AltOC6Interrupt):DEFINED (__OC6Interrupt)?<code 339> (__OC6Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000d8          0x4 LONG 0x544c DEFINED (__AltOC7Interrupt)?<code 339> (__AltOC7Interrupt):DEFINED (__OC7Interrupt)?<code 339> (__OC7Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000da          0x4 LONG 0x544c DEFINED (__AltOC8Interrupt)?<code 339> (__AltOC8Interrupt):DEFINED (__OC8Interrupt)?<code 339> (__OC8Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000dc          0x4 LONG 0x544c DEFINED (__AltINT3Interrupt)?<code 339> (__AltINT3Interrupt):DEFINED (__INT3Interrupt)?<code 339> (__INT3Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000de          0x4 LONG 0x544c DEFINED (__AltINT4Interrupt)?<code 339> (__AltINT4Interrupt):DEFINED (__INT4Interrupt)?<code 339> (__INT4Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000e0          0x4 LONG 0x544c DEFINED (__AltC2Interrupt)?<code 339> (__AltC2Interrupt):DEFINED (__C2Interrupt)?<code 339> (__C2Interrupt):<code 339> (__DefaultInterrupt)
-                  0x0000e2          0x4 LONG 0x544c DEFINED (__AltPWMInterrupt)?<code 339> (__AltPWMInterrupt):DEFINED (__PWMInterrupt)?<code 339> (__PWMInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000e4          0x4 LONG 0x544c DEFINED (__AltQEIInterrupt)?<code 339> (__AltQEIInterrupt):DEFINED (__QEIInterrupt)?<code 339> (__QEIInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000e6          0x4 LONG 0x544c DEFINED (__AltDCIInterrupt)?<code 339> (__AltDCIInterrupt):DEFINED (__DCIInterrupt)?<code 339> (__DCIInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000e8          0x4 LONG 0x544c DEFINED (__AltLVDInterrupt)?<code 339> (__AltLVDInterrupt):DEFINED (__LVDInterrupt)?<code 339> (__LVDInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ea          0x4 LONG 0x544c DEFINED (__AltFLTAInterrupt)?<code 339> (__AltFLTAInterrupt):DEFINED (__FLTAInterrupt)?<code 339> (__FLTAInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ec          0x4 LONG 0x544c DEFINED (__AltFLTBInterrupt)?<code 339> (__AltFLTBInterrupt):DEFINED (__FLTBInterrupt)?<code 339> (__FLTBInterrupt):<code 339> (__DefaultInterrupt)
-                  0x0000ee          0x4 LONG 0x544c DEFINED (__AltInterrupt45)?<code 339> (__AltInterrupt45):DEFINED (__Interrupt45)?<code 339> (__Interrupt45):<code 339> (__DefaultInterrupt)
-                  0x0000f0          0x4 LONG 0x544c DEFINED (__AltInterrupt46)?<code 339> (__AltInterrupt46):DEFINED (__Interrupt46)?<code 339> (__Interrupt46):<code 339> (__DefaultInterrupt)
-                  0x0000f2          0x4 LONG 0x544c DEFINED (__AltInterrupt47)?<code 339> (__AltInterrupt47):DEFINED (__Interrupt47)?<code 339> (__Interrupt47):<code 339> (__DefaultInterrupt)
-                  0x0000f4          0x4 LONG 0x544c DEFINED (__AltInterrupt48)?<code 339> (__AltInterrupt48):DEFINED (__Interrupt48)?<code 339> (__Interrupt48):<code 339> (__DefaultInterrupt)
-                  0x0000f6          0x4 LONG 0x544c DEFINED (__AltInterrupt49)?<code 339> (__AltInterrupt49):DEFINED (__Interrupt49)?<code 339> (__Interrupt49):<code 339> (__DefaultInterrupt)
-                  0x0000f8          0x4 LONG 0x544c DEFINED (__AltInterrupt50)?<code 339> (__AltInterrupt50):DEFINED (__Interrupt50)?<code 339> (__Interrupt50):<code 339> (__DefaultInterrupt)
-                  0x0000fa          0x4 LONG 0x544c DEFINED (__AltInterrupt51)?<code 339> (__AltInterrupt51):DEFINED (__Interrupt51)?<code 339> (__Interrupt51):<code 339> (__DefaultInterrupt)
-                  0x0000fc          0x4 LONG 0x544c DEFINED (__AltInterrupt52)?<code 339> (__AltInterrupt52):DEFINED (__Interrupt52)?<code 339> (__Interrupt52):<code 339> (__DefaultInterrupt)
-                  0x0000fe          0x4 LONG 0x544c DEFINED (__AltInterrupt53)?<code 339> (__AltInterrupt53):DEFINED (__Interrupt53)?<code 339> (__Interrupt53):<code 339> (__DefaultInterrupt)
+                  0x0000d0          0x4 LONG 0x54a4 DEFINED (__AltIC5Interrupt)?<code 339> (__AltIC5Interrupt):DEFINED (__IC5Interrupt)?<code 339> (__IC5Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000d2          0x4 LONG 0x54a4 DEFINED (__AltIC6Interrupt)?<code 339> (__AltIC6Interrupt):DEFINED (__IC6Interrupt)?<code 339> (__IC6Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000d4          0x4 LONG 0x54a4 DEFINED (__AltOC5Interrupt)?<code 339> (__AltOC5Interrupt):DEFINED (__OC5Interrupt)?<code 339> (__OC5Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000d6          0x4 LONG 0x54a4 DEFINED (__AltOC6Interrupt)?<code 339> (__AltOC6Interrupt):DEFINED (__OC6Interrupt)?<code 339> (__OC6Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000d8          0x4 LONG 0x54a4 DEFINED (__AltOC7Interrupt)?<code 339> (__AltOC7Interrupt):DEFINED (__OC7Interrupt)?<code 339> (__OC7Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000da          0x4 LONG 0x54a4 DEFINED (__AltOC8Interrupt)?<code 339> (__AltOC8Interrupt):DEFINED (__OC8Interrupt)?<code 339> (__OC8Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000dc          0x4 LONG 0x54a4 DEFINED (__AltINT3Interrupt)?<code 339> (__AltINT3Interrupt):DEFINED (__INT3Interrupt)?<code 339> (__INT3Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000de          0x4 LONG 0x54a4 DEFINED (__AltINT4Interrupt)?<code 339> (__AltINT4Interrupt):DEFINED (__INT4Interrupt)?<code 339> (__INT4Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000e0          0x4 LONG 0x54a4 DEFINED (__AltC2Interrupt)?<code 339> (__AltC2Interrupt):DEFINED (__C2Interrupt)?<code 339> (__C2Interrupt):<code 339> (__DefaultInterrupt)
+                  0x0000e2          0x4 LONG 0x54a4 DEFINED (__AltPWMInterrupt)?<code 339> (__AltPWMInterrupt):DEFINED (__PWMInterrupt)?<code 339> (__PWMInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000e4          0x4 LONG 0x54a4 DEFINED (__AltQEIInterrupt)?<code 339> (__AltQEIInterrupt):DEFINED (__QEIInterrupt)?<code 339> (__QEIInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000e6          0x4 LONG 0x54a4 DEFINED (__AltDCIInterrupt)?<code 339> (__AltDCIInterrupt):DEFINED (__DCIInterrupt)?<code 339> (__DCIInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000e8          0x4 LONG 0x54a4 DEFINED (__AltLVDInterrupt)?<code 339> (__AltLVDInterrupt):DEFINED (__LVDInterrupt)?<code 339> (__LVDInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ea          0x4 LONG 0x54a4 DEFINED (__AltFLTAInterrupt)?<code 339> (__AltFLTAInterrupt):DEFINED (__FLTAInterrupt)?<code 339> (__FLTAInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ec          0x4 LONG 0x54a4 DEFINED (__AltFLTBInterrupt)?<code 339> (__AltFLTBInterrupt):DEFINED (__FLTBInterrupt)?<code 339> (__FLTBInterrupt):<code 339> (__DefaultInterrupt)
+                  0x0000ee          0x4 LONG 0x54a4 DEFINED (__AltInterrupt45)?<code 339> (__AltInterrupt45):DEFINED (__Interrupt45)?<code 339> (__Interrupt45):<code 339> (__DefaultInterrupt)
+                  0x0000f0          0x4 LONG 0x54a4 DEFINED (__AltInterrupt46)?<code 339> (__AltInterrupt46):DEFINED (__Interrupt46)?<code 339> (__Interrupt46):<code 339> (__DefaultInterrupt)
+                  0x0000f2          0x4 LONG 0x54a4 DEFINED (__AltInterrupt47)?<code 339> (__AltInterrupt47):DEFINED (__Interrupt47)?<code 339> (__Interrupt47):<code 339> (__DefaultInterrupt)
+                  0x0000f4          0x4 LONG 0x54a4 DEFINED (__AltInterrupt48)?<code 339> (__AltInterrupt48):DEFINED (__Interrupt48)?<code 339> (__Interrupt48):<code 339> (__DefaultInterrupt)
+                  0x0000f6          0x4 LONG 0x54a4 DEFINED (__AltInterrupt49)?<code 339> (__AltInterrupt49):DEFINED (__Interrupt49)?<code 339> (__Interrupt49):<code 339> (__DefaultInterrupt)
+                  0x0000f8          0x4 LONG 0x54a4 DEFINED (__AltInterrupt50)?<code 339> (__AltInterrupt50):DEFINED (__Interrupt50)?<code 339> (__Interrupt50):<code 339> (__DefaultInterrupt)
+                  0x0000fa          0x4 LONG 0x54a4 DEFINED (__AltInterrupt51)?<code 339> (__AltInterrupt51):DEFINED (__Interrupt51)?<code 339> (__Interrupt51):<code 339> (__DefaultInterrupt)
+                  0x0000fc          0x4 LONG 0x54a4 DEFINED (__AltInterrupt52)?<code 339> (__AltInterrupt52):DEFINED (__Interrupt52)?<code 339> (__Interrupt52):<code 339> (__DefaultInterrupt)
+                  0x0000fe          0x4 LONG 0x54a4 DEFINED (__AltInterrupt53)?<code 339> (__AltInterrupt53):DEFINED (__Interrupt53)?<code 339> (__Interrupt53):<code 339> (__DefaultInterrupt)
                     0x0000                  WREG0 = 0x0
                     0x0000                  _WREG0 = 0x0
                     0x0002                  WREG1 = 0x2
@@ -2416,7 +2420,7 @@ __c30_signature
  __c30_signature
                   0x0000a2          0x6 c:/program files (x86)/microchip/mplabc30/v3.25/bin/bin/../../lib\libm-coff.a(funpack2.o)
 
-.nbss               0x0800        0xe92
+.nbss               0x0800        0xe94
  .nbss              0x0800        0x73c ADInterrupt.o
                     0x0800                  Ia_im
                     0x0802                  Ic_im
@@ -2436,226 +2440,226 @@ __c30_signature
                     0x11ce                  inputBits
                     0x11d0                  outputBits
                     0x11d2                  Uart232
- .nbss              0x11d4        0x280 MainCont.o
-                    0x11d4                  EEPROMADDR
-                    0x11d6                  lowVoltageTest
-                    0x11d8                  Fault
-                    0x11da                  Functionswitch
-                    0x11dc                  Protectswitch
-                    0x11e0                  MainParams
-                    0x1288                  StartState
-                    0x128a                  StartParams
-                    0x134a                  ProtectParams
-                    0x1382                  AdcParams
-                    0x1438                  zcd_mgr
-                    0x144c                  powerOnDly1
-                    0x144e                  lowVoltageCnt
-                    0x1450                  Ia_imcont
-                    0x1452                  Ic_imcont
- .nbss              0x1454        0x122 Uart1ModBus.o
-                    0x1454                  Uart1
-                    0x145c                  U1TxRx
- .nbss              0x1576         0x6e Protect1.o
-                    0x1576                  phasecompareError
-                    0x1578                  compareACnt
-                    0x157a                  buf
-                    0x157c                  poweroffcnt
-                    0x157e                  phaseErrCnt1
-                    0x1580                  phaseErrCnt2
-                    0x1582                  phaseErrCnt3
-                    0x1584                  uaCnt1
-                    0x1586                  uaCnt2
-                    0x1588                  ubCnt1
-                    0x158a                  ubCnt2
-                    0x158c                  ucCnt1
-                    0x158e                  ucCnt2
-                    0x1590                  uaCnt3
-                    0x1592                  uaCnt4
-                    0x1594                  ubCnt3
-                    0x1596                  ubCnt4
-                    0x1598                  ucCnt3
-                    0x159a                  ucCnt4
-                    0x159c                  overIaCnt1
-                    0x159e                  overIaCnt2
-                    0x15a0                  overIbCnt1
-                    0x15a2                  overIbCnt2
-                    0x15a4                  overIcCnt1
-                    0x15a6                  overIcCnt2
-                    0x15a8                  RoverIaCnt1
-                    0x15aa                  RoverIaCnt2
-                    0x15ac                  RoverIbCnt1
-                    0x15ae                  RoverIbCnt2
-                    0x15b0                  RoverIcCnt1
-                    0x15b2                  RoverIcCnt2
-                    0x15b4                  overInCnt1
-                    0x15b6                  overInCnt2
-                    0x15b8                  unbalanceICnt1
-                    0x15ba                  unbalanceICnt2
-                    0x15bc                  noPowerCnt1
-                    0x15be                  noPowerCnt2
-                    0x15c0                  ATSTcnt1
-                    0x15c2                  StartOFTOK
-                    0x15c4                  phaseACnt
-                    0x15c6                  newPhaseACnt
-                    0x15c8                  oldPhaseACnt
-                    0x15ca                  Acnt
-                    0x15cc                  newState
-                    0x15ce                  oldState
-                    0x15d0                  newcompareACnt
-                    0x15d2                  oldcompareACnt
-                    0x15d4                  phasecompareOKcnt
-                    0x15d6                  phasecompareErrorcnt
-                    0x15d8                  wt1
-                    0x15dc                  Dlta_t
-                    0x15e0                  Dltat
- .nbss              0x15e4         0x66 IO.o
-                    0x15e4                  OUTPUT_EXTERN_READY
-                    0x15e6                  OUTPUT_EXTERN_ALARM
-                    0x15e8                  OUTPUT_EXTERN_TRIP
-                    0x15ea                  OUTPUT_NO_USE
-                    0x15ec                  Input
-                    0x15ee                  inputStartCnt1
-                    0x15f0                  inputStartCnt2
-                    0x15f2                  inputStartCnt3
-                    0x15f4                  inputStartCnt4
-                    0x15f6                  inputStopCnt1
-                    0x15f8                  inputStopCnt2
-                    0x15fa                  inputStopCnt3
-                    0x15fc                  inputStopCnt4
-                    0x15fe                  inputReadyCnt1
-                    0x1600                  inputReadyCnt2
-                    0x1602                  inputRunCheckCnt1
-                    0x1604                  inputRunCheckCnt2
-                    0x1606                  inputNoUseCnt1
-                    0x1608                  inputNoUseCnt2
-                    0x160a                  input_in6Cnt1
-                    0x160c                  input_in6Cnt2
-                    0x160e                  input_in7Cnt1
-                    0x1610                  input_in7Cnt2
-                    0x1612                  input_in8Cnt1
-                    0x1614                  input_in8Cnt2
-                    0x1616                  output_sccCnt1
-                    0x1618                  output_scoCnt1
-                    0x161a                  inputStartCnt11
-                    0x161c                  inputStopCnt11
-                    0x161e                  inputReadyCnt11
-                    0x1620                  inputRunCheckCnt11
-                    0x1622                  inputNoUseCnt11
-                    0x1624                  outputcnt
-                    0x1626                  inputX1
-                    0x1628                  inputX2
-                    0x162a                  inputX3
-                    0x162c                  inputX4
-                    0x162e                  inputX5
-                    0x1630                  inputX6
-                    0x1632                  inputX7
-                    0x1634                  inputX8
-                    0x1636                  inputX9
-                    0x1638                  outputY1
-                    0x163a                  outputY2
-                    0x163c                  outputY3
-                    0x163e                  outputY4
-                    0x1640                  outputY5
-                    0x1642                  outputY6
-                    0x1644                  outputY7
-                    0x1646                  outputY8
-                    0x1648                  outputY9
- .nbss              0x164a         0x1e PhyVol.o
-                    0x164e                  zeroCrossCnt1
-                    0x1650                  Feedback
-                    0x1652                  feedBackACnt
-                    0x1654                  feedBackBCnt
-                    0x1656                  feedBackCCnt
-                    0x1658                  zeroCrossCntA
-                    0x165a                  pulsedelay
-                    0x165c                  phaseFcnt
-                    0x165e                  phaseRcnt
-                    0x1660                  phaseEcnt
-                    0x1662                  compareACnt1
-                    0x1664                  newcompareACnt1
-                    0x1666                  oldcompareACnt1
- .nbss              0x1668         0x16 RelayFlow.o
-                    0x1668                  Relay
-                    0x166a                  SysStatus
-                    0x166c                  stopFlag
-                    0x166e                  startDelayCnt
-                    0x1670                  startcompare
-                    0x1672                  stopDelayCnt
-                    0x1674                  orderClose
-                    0x1676                  orderCloseCnt
-                    0x1678                  orderOpen
-                    0x167a                  turnRunCnt
-                    0x167c                  normalstopCnt
- .nbss              0x167e         0x14 Current.o
-                    0x167e                  Delay2sCnt1
-                    0x1680                  Delay2sCnt2
-                    0x1682                  samcnt1
-                    0x1684                  limittemp
-                    0x1688                  ulCofTemp1
-                    0x168c                  TemporaryAdcDescend
-                    0x168e                  pwturnflag
-                    0x1690                  PULSEWidth1
+ .nbss              0x11d4        0x282 MainCont.o
+                    0x11d6                  EEPROMADDR
+                    0x11d8                  lowVoltageTest
+                    0x11da                  Fault
+                    0x11dc                  Functionswitch
+                    0x11de                  Protectswitch
+                    0x11e2                  MainParams
+                    0x128a                  StartState
+                    0x128c                  StartParams
+                    0x134c                  ProtectParams
+                    0x1384                  AdcParams
+                    0x143a                  zcd_mgr
+                    0x144e                  powerOnDly1
+                    0x1450                  lowVoltageCnt
+                    0x1452                  Ia_imcont
+                    0x1454                  Ic_imcont
+ .nbss              0x1456        0x122 Uart1ModBus.o
+                    0x1456                  Uart1
+                    0x145e                  U1TxRx
+ .nbss              0x1578         0x6e Protect1.o
+                    0x1578                  phasecompareError
+                    0x157a                  compareACnt
+                    0x157c                  buf
+                    0x157e                  poweroffcnt
+                    0x1580                  phaseErrCnt1
+                    0x1582                  phaseErrCnt2
+                    0x1584                  phaseErrCnt3
+                    0x1586                  uaCnt1
+                    0x1588                  uaCnt2
+                    0x158a                  ubCnt1
+                    0x158c                  ubCnt2
+                    0x158e                  ucCnt1
+                    0x1590                  ucCnt2
+                    0x1592                  uaCnt3
+                    0x1594                  uaCnt4
+                    0x1596                  ubCnt3
+                    0x1598                  ubCnt4
+                    0x159a                  ucCnt3
+                    0x159c                  ucCnt4
+                    0x159e                  overIaCnt1
+                    0x15a0                  overIaCnt2
+                    0x15a2                  overIbCnt1
+                    0x15a4                  overIbCnt2
+                    0x15a6                  overIcCnt1
+                    0x15a8                  overIcCnt2
+                    0x15aa                  RoverIaCnt1
+                    0x15ac                  RoverIaCnt2
+                    0x15ae                  RoverIbCnt1
+                    0x15b0                  RoverIbCnt2
+                    0x15b2                  RoverIcCnt1
+                    0x15b4                  RoverIcCnt2
+                    0x15b6                  overInCnt1
+                    0x15b8                  overInCnt2
+                    0x15ba                  unbalanceICnt1
+                    0x15bc                  unbalanceICnt2
+                    0x15be                  noPowerCnt1
+                    0x15c0                  noPowerCnt2
+                    0x15c2                  ATSTcnt1
+                    0x15c4                  StartOFTOK
+                    0x15c6                  phaseACnt
+                    0x15c8                  newPhaseACnt
+                    0x15ca                  oldPhaseACnt
+                    0x15cc                  Acnt
+                    0x15ce                  newState
+                    0x15d0                  oldState
+                    0x15d2                  newcompareACnt
+                    0x15d4                  oldcompareACnt
+                    0x15d6                  phasecompareOKcnt
+                    0x15d8                  phasecompareErrorcnt
+                    0x15da                  wt1
+                    0x15de                  Dlta_t
+                    0x15e2                  Dltat
+ .nbss              0x15e6         0x66 IO.o
+                    0x15e6                  OUTPUT_EXTERN_READY
+                    0x15e8                  OUTPUT_EXTERN_ALARM
+                    0x15ea                  OUTPUT_EXTERN_TRIP
+                    0x15ec                  OUTPUT_NO_USE
+                    0x15ee                  Input
+                    0x15f0                  inputStartCnt1
+                    0x15f2                  inputStartCnt2
+                    0x15f4                  inputStartCnt3
+                    0x15f6                  inputStartCnt4
+                    0x15f8                  inputStopCnt1
+                    0x15fa                  inputStopCnt2
+                    0x15fc                  inputStopCnt3
+                    0x15fe                  inputStopCnt4
+                    0x1600                  inputReadyCnt1
+                    0x1602                  inputReadyCnt2
+                    0x1604                  inputRunCheckCnt1
+                    0x1606                  inputRunCheckCnt2
+                    0x1608                  inputNoUseCnt1
+                    0x160a                  inputNoUseCnt2
+                    0x160c                  input_in6Cnt1
+                    0x160e                  input_in6Cnt2
+                    0x1610                  input_in7Cnt1
+                    0x1612                  input_in7Cnt2
+                    0x1614                  input_in8Cnt1
+                    0x1616                  input_in8Cnt2
+                    0x1618                  output_sccCnt1
+                    0x161a                  output_scoCnt1
+                    0x161c                  inputStartCnt11
+                    0x161e                  inputStopCnt11
+                    0x1620                  inputReadyCnt11
+                    0x1622                  inputRunCheckCnt11
+                    0x1624                  inputNoUseCnt11
+                    0x1626                  outputcnt
+                    0x1628                  inputX1
+                    0x162a                  inputX2
+                    0x162c                  inputX3
+                    0x162e                  inputX4
+                    0x1630                  inputX5
+                    0x1632                  inputX6
+                    0x1634                  inputX7
+                    0x1636                  inputX8
+                    0x1638                  inputX9
+                    0x163a                  outputY1
+                    0x163c                  outputY2
+                    0x163e                  outputY3
+                    0x1640                  outputY4
+                    0x1642                  outputY5
+                    0x1644                  outputY6
+                    0x1646                  outputY7
+                    0x1648                  outputY8
+                    0x164a                  outputY9
+ .nbss              0x164c         0x1e PhyVol.o
+                    0x1650                  zeroCrossCnt1
+                    0x1652                  Feedback
+                    0x1654                  feedBackACnt
+                    0x1656                  feedBackBCnt
+                    0x1658                  feedBackCCnt
+                    0x165a                  zeroCrossCntA
+                    0x165c                  pulsedelay
+                    0x165e                  phaseFcnt
+                    0x1660                  phaseRcnt
+                    0x1662                  phaseEcnt
+                    0x1664                  compareACnt1
+                    0x1666                  newcompareACnt1
+                    0x1668                  oldcompareACnt1
+ .nbss              0x166a         0x16 RelayFlow.o
+                    0x166a                  Relay
+                    0x166c                  SysStatus
+                    0x166e                  stopFlag
+                    0x1670                  startDelayCnt
+                    0x1672                  startcompare
+                    0x1674                  stopDelayCnt
+                    0x1676                  orderClose
+                    0x1678                  orderCloseCnt
+                    0x167a                  orderOpen
+                    0x167c                  turnRunCnt
+                    0x167e                  normalstopCnt
+ .nbss              0x1680         0x14 Current.o
+                    0x1680                  Delay2sCnt1
+                    0x1682                  Delay2sCnt2
+                    0x1684                  samcnt1
+                    0x1686                  limittemp
+                    0x168a                  ulCofTemp1
+                    0x168e                  TemporaryAdcDescend
+                    0x1690                  pwturnflag
+                    0x1692                  PULSEWidth1
 
-.ndata              0x1692          0xe
- .ndata             0x1692          0xe RelayFlow.o
-                    0x1692                  stopFlowCnt
-                    0x1694                  stopAppCnt
-                    0x1696                  runOpenCnt
-                    0x1698                  runCloseCnt
-                    0x169a                  runfeedbackcnt
-                    0x169c                  step11
-                    0x169e                  step12
+.ndata              0x1694          0xe
+ .ndata             0x1694          0xe RelayFlow.o
+                    0x1694                  stopFlowCnt
+                    0x1696                  stopAppCnt
+                    0x1698                  runOpenCnt
+                    0x169a                  runCloseCnt
+                    0x169c                  runfeedbackcnt
+                    0x169e                  step11
+                    0x16a0                  step12
 
-.nbss               0x16a0          0xc
- .nbss              0x16a0          0xc T1_CTRL.o
-                    0x16a0                  SysTime
-                    0x16a2                  sysTimeCnt1
-                    0x16a4                  sysTimeCnt2
-                    0x16a6                  sysTimeCnt3
-                    0x16a8                  sysTimeCnt4
-                    0x16aa                  msCnt1
+.nbss               0x16a2          0xc
+ .nbss              0x16a2          0xc T1_CTRL.o
+                    0x16a2                  SysTime
+                    0x16a4                  sysTimeCnt1
+                    0x16a6                  sysTimeCnt2
+                    0x16a8                  sysTimeCnt3
+                    0x16aa                  sysTimeCnt4
+                    0x16ac                  msCnt1
 
-.ndata              0x16ac          0xa
- .ndata             0x16ac          0xa PhyVol.o
-                    0x16ac                  ICflag
-                    0x16ad                  ICcnt
-                    0x16ae                  step4
-                    0x16b0                  step5
-                    0x16b2                  step6
-                    0x16b4                  step7
+.ndata              0x16ae          0xa
+ .ndata             0x16ae          0xa PhyVol.o
+                    0x16ae                  ICflag
+                    0x16af                  ICcnt
+                    0x16b0                  step4
+                    0x16b2                  step5
+                    0x16b4                  step6
+                    0x16b6                  step7
 
-.nbss               0x16b6          0x6
- .nbss              0x16b6          0x6 Delays.o
-                    0x16b6                  dlyCnt1
-                    0x16b8                  dlyCnt2
-                    0x16ba                  dlyCnt3
+.nbss               0x16b8          0x6
+ .nbss              0x16b8          0x6 Delays.o
+                    0x16b8                  dlyCnt1
+                    0x16ba                  dlyCnt2
+                    0x16bc                  dlyCnt3
 
-.ndata              0x16bc          0xc
- .ndata             0x16bc          0x6 IO.o
-                    0x16bc                  step1
-                    0x16be                  step13
-                    0x16c0                  step14
- .ndata             0x16c2          0x4 Protect1.o
-                    0x16c2                  LT
-                    0x16c4                  step2
- .ndata             0x16c6          0x2 ADInterrupt.o
-                    0x16c6                  adii
+.ndata              0x16be          0xc
+ .ndata             0x16be          0x6 IO.o
+                    0x16be                  step1
+                    0x16c0                  step13
+                    0x16c2                  step14
+ .ndata             0x16c4          0x4 Protect1.o
+                    0x16c4                  LT
+                    0x16c6                  step2
+ .ndata             0x16c8          0x2 ADInterrupt.o
+                    0x16c8                  adii
 
-.nbss               0x16c8          0x2
- .nbss              0x16c8          0x2 init5011.o
-                    0x16c8                  PULSEWidth
+.nbss               0x16ca          0x2
+ .nbss              0x16ca          0x2 init5011.o
+                    0x16ca                  PULSEWidth
 
-.ndata              0x16ca          0x4
- .ndata             0x16ca          0x2 MainCont.o
-                    0x16ca                  Dsp_State_Start
- .ndata             0x16cc          0x2 T1_CTRL.o
-                    0x16cc                  step3
+.ndata              0x16cc          0x4
+ .ndata             0x16cc          0x2 MainCont.o
+                    0x16cc                  Dsp_State_Start
+ .ndata             0x16ce          0x2 T1_CTRL.o
+                    0x16ce                  step3
 
-.nbss               0x16ce          0x2
- .nbss              0x16ce          0x2 c:/program files (x86)/microchip/mplabc30/v3.25/bin/bin/../../lib\libm-coff.a(errno.o)
-                    0x16ce                  errno
+.nbss               0x16d0          0x2
+ .nbss              0x16d0          0x2 c:/program files (x86)/microchip/mplabc30/v3.25/bin/bin/../../lib\libm-coff.a(errno.o)
+                    0x16d0                  errno
 
-.text             0x000554       0x4dfa
+.text             0x000554       0x4e52
  .text            0x000554       0x13b6 Uart2.o
                   0x000554                  Uart2RxErrApp
                   0x00058c                  Uart2App
@@ -2740,28 +2744,30 @@ __c30_signature
                   0x004f74                  _U1RXInterrupt
                   0x00511e                  _U1TXInterrupt
                   0x005152                  CRC16_Check
- .text            0x0051c2         0xde MainCont.o
-                  0x0051c2                  main
- .text            0x0052a0         0xae DataEEPROM.o
-                  0x0052a0                  ReadEE
-                  0x0052ba                  EraseEE
-                  0x005302                  WriteEE
+ .text            0x0051c2        0x136 MainCont.o
+                  0x0051c2                  switch_signal_source
+                  0x0051ec                  monitor_signal_quality
+                  0x005218                  main
+ .text            0x0052f8         0xae DataEEPROM.o
+                  0x0052f8                  ReadEE
+                  0x005312                  EraseEE
+                  0x00535a                  WriteEE
 
-.dinit            0x00534e         0x9a
- .dinit           0x00534e         0x9a data_init
+.dinit            0x0053a6         0x9a
+ .dinit           0x0053a6         0x9a data_init
 
-.text             0x0053e8         0x64
- .text            0x0053e8         0x64 Delays.o
-                  0x0053e8                  Delay10ms
-                  0x005406                  Delay3s
-                  0x005424                  Delay60ms
+.text             0x005440         0x64
+ .text            0x005440         0x64 Delays.o
+                  0x005440                  Delay10ms
+                  0x00545e                  Delay3s
+                  0x00547c                  Delay60ms
 
-.isr              0x00544c          0x2
- .isr             0x00544c          0x2 default_isr
-                  0x00544c                  _DefaultInterrupt
+.isr              0x0054a4          0x2
+ .isr             0x0054a4          0x2 default_isr
+                  0x0054a4                  _DefaultInterrupt
 
-_033dc15069183274
+_0353c150691d9217
                     0xfc00        0x100 load address 0x7ffc00  
- _033dc15069183274
+ _0353c150691d9217
                     0xfc00        0x100 MainCont.o
                     0xfc00                  EPConfigS

@@ -24,7 +24,41 @@ unsigned int Ic_imcont;
 extern unsigned int   Ia_im;
 extern unsigned int   Ic_im;
 
+void switch_signal_source(unsigned char use_simulated)
+{
+  if(use_simulated && !zcd_mgr.use_simulated) //切换模拟信号
+     {
+      zcd_mgr.use_simulated=1;
+      T4CONbits.TON=1;
+     }
+  else if(!use_simulated && zcd_mgr.use_simulated) //切换实际信号
+     {
+      zcd_mgr.use_simulated=0;
+      T4CONbits.TON=0;
+     }
+     
+}
 
+void monitor_signal_quality(void)
+{
+ static unsigned char stable_count=0;
+  if(!zcd_mgr.signal_quality)
+    {
+      switch_signal_source(1);
+      stable_count=0;
+    }
+  else
+   {
+     stable_count++;
+     if(stable_count >3 && zcd_mgr.use_simulated)
+       {
+        switch_signal_source(0);
+         }
+
+
+   }
+
+}
  
 //键盘设定参数EEPROM存储数组，64个参数
 //键盘设定参数EEPROM存储数组，64个参数
@@ -138,6 +172,7 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
 
 		if(SysTime.Ms10)
 		{   
+            monitor_signal_quality();
             AdcDescend();
             CurrentCheck();
 			if(!StartState.Test)

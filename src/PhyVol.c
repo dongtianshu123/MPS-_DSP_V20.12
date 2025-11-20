@@ -6,6 +6,7 @@
 #include "Function.h"	//系统外部调用函数声明，内部调用函数在对应文件内声明
 #include "variable.h"	//系统全局变量声明，局部变量在对应文件内声明
 
+#define t4_delay 1000
 
 unsigned int feedBackACnt;
 unsigned int feedBackBCnt;
@@ -79,10 +80,33 @@ unsigned char check_signal_quality(unsigned int current_interval)
 {
    T4CONbits.TON = 0;             //关闭定时器
    TMR4=0;                        //重置计数器
-   PR4=zcd_mgr.simulated_interval;//更新周期
+   PR4=zcd_mgr.simulated_interval+t4_delay;//更新周期
    T4CONbits.TON = 1; 
 
 
+}
+
+/**********************************统一的过零处理子程序***********************************************/
+void zero_cross_processing(void)
+{
+      if(StartState.PulseF)
+	 {
+		TMR5 = 0; 
+      if(Functionswitch.Fre==0)
+       {PR5 = 1667;}
+      else
+       {PR5 = 1389;}//装载1667us
+	  	IFS1bits.T5IF = 0;       
+	    IEC1bits.T5IE = 1;     //T5使能
+		T5CONbits.TON = 1; 	   //T5使能
+
+        step4=1;
+        ICflag=1;
+		IFS1bits.IC4IF = 0;    //清零中断标志
+		IC4CONbits.ICM = 0;
+		IEC1bits.IC4IE = 0; 
+
+	}
 }
 
 void InitIC( void )
@@ -143,6 +167,7 @@ void InitTmr2(void)
 
 	T4CON= 0;                    // 关闭定时器3
     TMR4 = 0;                    // 复位定时器计3数器
+    PR4=20000;
     T4CONbits.TSIDL = 1;         // 空闲模式下停止工作
     T4CONbits.TGATE = 0;         // 禁止门控定时器累计
     T4CONbits.TCS = 0;           // 使用Tcy 作为源时钟
@@ -153,7 +178,7 @@ void InitTmr2(void)
 
 	IPC5bits.T4IP = 6;
     IFS1bits.T4IF = 0;               
-    IEC1bits.T4IE = 0;           // 禁止timer3 中断     
+    IEC1bits.T4IE = 1;           // 使能timer4 中断     
 
 	T5CON= 0;                    // 关闭定时器3
     TMR5 = 0;                    // 复位定时器计3数器
@@ -171,7 +196,11 @@ void InitTmr2(void)
 	
   
 void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
-{
+{    
+    StartState.AZeroflag=1;
+	IFS1bits.IC4IF = 0;              //清零中断标志
+	IC4CONbits.ICM = 2;
+	zeroCrossCnt1 = 0;
 
    /*********************************************************/
     static unsigned int last_capture=0;
@@ -184,10 +213,13 @@ void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
       {interval=(0xFFFF-last_capture)+current_capture;}
 
     //保存间隔到历史记录
-    zcd_mgr.interval_history[zcd_mgr.history_index]=interval;
-    zcd_mgr.history_index=(zcd_mgr.history_index+1)%4;
+    if (interval>19420&& interval<21500)
+    {
+      zcd_mgr.interval_history[zcd_mgr.history_index]=interval;
+      zcd_mgr.history_index=(zcd_mgr.history_index+1)%4;
+    }
 
-    //计算评价间隔
+    //计算平均间隔
      zcd_mgr.actual_interval=calculate_average_interval();
 
     //过零信号质量检测
@@ -201,36 +233,15 @@ void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
     last_capture=current_capture; //更新上一次时间记录值
      
     if(!zcd_mgr.use_simulated)
-     {//zero_cross_processing();
+     {
+       zero_cross_processing (); 
      }
 
    /*********************************************************/
 
-    StartState.AZeroflag=1;
-	IFS1bits.IC4IF = 0;              //清零中断标志
-	IC4CONbits.ICM = 2;
-	zeroCrossCnt1 = 0;
+
     
-    if(StartState.PulseF)
-	 {
-		TMR5 = 0; 
-      if(Functionswitch.Fre==0)
-       {PR5 = 1667;}
-      else
-       {PR5 = 1389;}//装载1667us
-	  	IFS1bits.T5IF = 0;       
-	    IEC1bits.T5IE = 1;     //T5使能
-		T5CONbits.TON = 1; 	   //T5使能
 
-        step4=1;
-        ICflag=1;
-		IFS1bits.IC4IF = 0;              //清零中断标志
-		IC4CONbits.ICM = 0;
-		IEC1bits.IC4IE = 0; 
-
-
-
-	}
       
 	return;
 }
@@ -680,6 +691,12 @@ void __attribute__((__interrupt__)) _T4Interrupt(void)
 		IEC1bits.IC4IE = 0;
         step4=2; 
         */
+     if(zcd_mgr.simulated_interval)
+       {
+         zero_cross_processing();
+       }
+
+     PR5=PR5-t4_delay;
 
     return;
 } 

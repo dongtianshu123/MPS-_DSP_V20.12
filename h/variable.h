@@ -26,13 +26,18 @@ extern unsigned int step11;
 extern unsigned int lowVoltageTest;
 extern unsigned int zeroCrossCnt1;
 
+
 extern unsigned int		OUTPUT_EXTERN_READY;
 extern unsigned int		OUTPUT_EXTERN_ALARM;
 extern unsigned int		OUTPUT_EXTERN_TRIP;
 extern unsigned int     OUTPUT_NO_USE;
-
+extern unsigned int     OUTPUT_EXTERN_TRIGGER;
 extern unsigned int   Ia_im;
 extern unsigned int   Ic_im;
+
+
+
+
 //****************** 结构变量**********************
 
 // 过零信号管理结构体
@@ -43,9 +48,12 @@ typedef struct {
     unsigned char history_index;         // 历史索引
     unsigned char signal_quality;        // 信号质量标志
     unsigned char use_simulated;         // 使用模拟信号标志
+    unsigned char switch_simulated;
     unsigned long last_actual_time;     // 上次实际过零时间
+
 } tzcd_mgr;
 //volatile ZCD_Manager_t zcd_mgr;
+
 
 typedef struct {
     unsigned Start: 1;
@@ -499,11 +507,11 @@ typedef struct{
 	unsigned int RxDataCnt;
 	unsigned int RxDataCnt1;
 	unsigned int RxDataCnt2;
-	unsigned int RxData[100];
+	unsigned int RxData[60];
 	unsigned int RxEnd; 
 	unsigned int RxDataAddrH;
 	unsigned int RxDataAddrL;
-	unsigned int RxData16Bits[100];
+	unsigned int RxData16Bits[60];
 	unsigned int RxIntervalCnt;
 	unsigned int RxIntervalCnt1;
 
@@ -516,7 +524,7 @@ typedef struct{
 	unsigned int TxDataCnt;
 	unsigned int TxDataCnt1;
 	unsigned int TxDataCnt2;
-	unsigned int TxData[100];
+	unsigned int TxData[60];
 	unsigned int TxEnd; 
 	unsigned int TxDataAddrH;
 	unsigned int TxDataAddrL;

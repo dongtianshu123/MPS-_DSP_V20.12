@@ -44,6 +44,8 @@
 #define		INPUT_NO_USE		PORTGbits.RG0
 #define		INPUT_ZA			PORTDbits.RD11
 
+
+
 #define       INPUT_in6                  PORTCbits.RC13
 #define       INPUT_in7                 PORTCbits.RC14
 #define       INPUT_in8                  PORTBbits.RB2
@@ -64,6 +66,7 @@
 #define		OUTPUT_PA			LATDbits.LATD3
 #define		OUTPUT_PB			LATDbits.LATD2
 #define		OUTPUT_PC			LATDbits.LATD1
+
 
 #define		FEEDBACK_A			PORTDbits.RD6
 #define		FEEDBACK_B			PORTDbits.RD5

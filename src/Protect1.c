@@ -22,41 +22,41 @@ unsigned int phaseErrCnt2;
 unsigned int phaseErrCnt3;
 
 unsigned int uaCnt1;
-unsigned int uaCnt2;
+
 unsigned int ubCnt1;
-unsigned int ubCnt2;
+
 unsigned int ucCnt1;
-unsigned int ucCnt2;
+
 
 unsigned int uaCnt3;
-unsigned int uaCnt4;
+
 unsigned int ubCnt3;
-unsigned int ubCnt4;
+
 unsigned int ucCnt3;
-unsigned int ucCnt4;
+
 
 unsigned int overIaCnt1;
-unsigned int overIaCnt2;
+
 unsigned int overIbCnt1;
 unsigned int overIbCnt2;
 unsigned int overIcCnt1;
-unsigned int overIcCnt2;
+
 
 unsigned int RoverIaCnt1;
 unsigned int RoverIaCnt2;
-unsigned int RoverIbCnt1;
-unsigned int RoverIbCnt2;
+
+
 unsigned int RoverIcCnt1;
-unsigned int RoverIcCnt2;
+//unsigned int RoverIcCnt2;
 
 unsigned int overInCnt1;
-unsigned int overInCnt2;
+//unsigned int overInCnt2;
 
 unsigned int unbalanceICnt1;
 unsigned int unbalanceICnt2;
 
 unsigned int noPowerCnt1;
-unsigned int noPowerCnt2;
+//unsigned int noPowerCnt2;
 unsigned int ATSTcnt1;  
 unsigned int StartOFTOK;
 

@@ -50,7 +50,7 @@ unsigned int		OUTPUT_EXTERN_READY;
 unsigned int		OUTPUT_EXTERN_ALARM;
 unsigned int		OUTPUT_EXTERN_TRIP;
 unsigned int        OUTPUT_NO_USE;
-
+unsigned int        OUTPUT_EXTERN_TRIGGER;
 
 tInput  Input; 
 void IORead(void) //10ms

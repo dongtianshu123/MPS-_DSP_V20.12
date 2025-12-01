@@ -22,10 +22,10 @@ extern unsigned int PULSEWidth1;
 
 
 unsigned int zeroCrossCnt1;
-unsigned int zeroCrossCntA;
+
 unsigned char ICflag=0;
 unsigned char ICcnt=0;
-unsigned int  pulsedelay;
+
 unsigned int  step4=0;
 unsigned int  step5=0;
 unsigned int  step6=0;
@@ -39,6 +39,13 @@ unsigned int newcompareACnt1;
 unsigned int oldcompareACnt1;
 
 extern unsigned int phaseACnt;
+
+unsigned int last_capture=0;
+unsigned int current_capture;//当前捕捉数值
+unsigned int interval;
+
+
+
 /**********************************计算平均间隔***********************************************/
 unsigned int calculate_average_interval(void)
 {
@@ -89,6 +96,9 @@ unsigned char check_signal_quality(unsigned int current_interval)
 /**********************************统一的过零处理子程序***********************************************/
 void zero_cross_processing(void)
 {
+        OUTPUT_TRIGGER = 1;
+        OUTPUT_EXTERN_TRIGGER=1;
+        ICflag=1;
       if(StartState.PulseF)
 	 {
 		TMR5 = 0; 
@@ -102,6 +112,8 @@ void zero_cross_processing(void)
 
         step4=1;
         ICflag=1;
+        OUTPUT_TRIGGER = 1;
+        OUTPUT_EXTERN_TRIGGER=1;
 		IFS1bits.IC4IF = 0;    //清零中断标志
 		IC4CONbits.ICM = 0;
 		IEC1bits.IC4IE = 0; 
@@ -203,9 +215,7 @@ void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
 	zeroCrossCnt1 = 0;
 
    /*********************************************************/
-    static unsigned int last_capture=0;
-    unsigned int current_capture=IC4BUF;//当前捕捉数值
-    unsigned int interval;
+    current_capture=IC4BUF;
     //计算时间间隔
     if(current_capture>=last_capture)
       {interval=current_capture -last_capture;}
@@ -691,12 +701,17 @@ void __attribute__((__interrupt__)) _T4Interrupt(void)
 		IEC1bits.IC4IE = 0;
         step4=2; 
         */
-     if(zcd_mgr.simulated_interval)
+     if(zcd_mgr.use_simulated)
        {
          zero_cross_processing();
        }
+      TMR4 = 0; 
+	  IFS1bits.T4IF = 0;       
+	  IEC1bits.T4IE = 1;
+      T4CONbits.TON = 1;   
 
-     PR5=PR5-t4_delay;
+
+      PR5=PR5-t4_delay;
 
     return;
 } 

@@ -98,7 +98,7 @@ void StopFlow(void)
     Uart2.commandtest=0;
 //	Delay60ms();
 	OUTPUT_START = 0;
-	OUTPUT_TRIGGER = 0;
+	//OUTPUT_TRIGGER = 0;
  
 			IFS1bits.IC4IF = 0;
 			IC4CONbits.ICM = 2;
@@ -235,7 +235,7 @@ void RelayFlow(void)
                     step11=2;
 					startDelayCnt = 0;
 					OUTPUT_START = 1;
-					OUTPUT_TRIGGER = 1;	
+					//OUTPUT_TRIGGER = 1;	
 					OUTPUT_READY = 0;
 					OUTPUT_EXTERN_READY = 0;
 					StateInit();
@@ -343,7 +343,7 @@ void RelayFlow(void)
   else if (step11==10)  // È·ÈÏÈíÍ£
     {
         OUTPUT_START = 1;
-		OUTPUT_TRIGGER = 1;
+		//OUTPUT_TRIGGER = 1;
 		stopDelayCnt++;
 		if(stopDelayCnt > 200)	
 		{
@@ -361,7 +361,7 @@ void RelayFlow(void)
 else if (step11==17)
    {    
         OUTPUT_START = 1;
-		OUTPUT_TRIGGER = 1;
+		//OUTPUT_TRIGGER = 1;
 		stopDelayCnt++;
 		if(stopDelayCnt > 20)	
 		{

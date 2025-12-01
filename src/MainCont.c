@@ -6,6 +6,7 @@
 #include "Function.h"	//系统外部调用函数声明，内部调用函数在对应文件内声明
 #include "variable.h"	//系统全局变量声明，局部变量在对应文件内声明
 #include <p30fxxxx.h>
+
 tMainParams MainParams;  
 tStartParams StartParams;
 tProtectParams ProtectParams;  
@@ -24,17 +25,25 @@ unsigned int Ic_imcont;
 extern unsigned int   Ia_im;
 extern unsigned int   Ic_im;
 
-void switch_signal_source(unsigned char use_simulated)
+
+
+void switch_signal_source(void)
 {
-  if(use_simulated && !zcd_mgr.use_simulated) //切换模拟信号
+  if(zcd_mgr.switch_simulated>0) //切换模拟信号
      {
-      zcd_mgr.use_simulated=1;
-      T4CONbits.TON=1;
+       if(zcd_mgr.use_simulated==0)
+          {
+            zcd_mgr.use_simulated=1;
+             T4CONbits.TON=1;
+          } 
      }
-  else if(!use_simulated && zcd_mgr.use_simulated) //切换实际信号
+  else if(zcd_mgr.switch_simulated==0) //切换实际信号
      {
-      zcd_mgr.use_simulated=0;
-      T4CONbits.TON=0;
+        if(zcd_mgr.use_simulated>0)
+           {
+             zcd_mgr.use_simulated=0;
+             T4CONbits.TON=0;
+           }
      }
      
 }
@@ -44,7 +53,8 @@ void monitor_signal_quality(void)
  static unsigned char stable_count=0;
   if(!zcd_mgr.signal_quality)
     {
-      switch_signal_source(1);
+      zcd_mgr.switch_simulated=1;
+      switch_signal_source();
       stable_count=0;
     }
   else
@@ -52,7 +62,8 @@ void monitor_signal_quality(void)
      stable_count++;
      if(stable_count >3 && zcd_mgr.use_simulated)
        {
-        switch_signal_source(0);
+        zcd_mgr.switch_simulated=0;
+        switch_signal_source();
          }
 
 

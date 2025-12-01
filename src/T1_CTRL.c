@@ -29,6 +29,8 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
 		{
 			ICcnt=0;
 			ICflag=0;
+            OUTPUT_TRIGGER = 0;
+            OUTPUT_EXTERN_TRIGGER=0;
 			IFS1bits.IC4IF = 0;
 			IC4CONbits.ICM = 2;
 			IEC1bits.IC4IE = 1;

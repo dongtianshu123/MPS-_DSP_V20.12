@@ -32,7 +32,7 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
             OUTPUT_TRIGGER = 0;
             OUTPUT_EXTERN_TRIGGER=0;
 			IFS1bits.IC4IF = 0;
-			IC4CONbits.ICM = 2;
+			IC4CONbits.ICM = 3;
 			IEC1bits.IC4IE = 1;
 		}
 	}
@@ -134,7 +134,7 @@ void SoftStart(void)//1ms执行周期
 				if(msCnt1 > 19)
 				{
 //					IEC1bits.IC4IE = 1;
-					IC4CONbits.ICM = 2;
+					IC4CONbits.ICM = 3;
 					IFS1bits.IC4IF = 1;              //清零中断标志
 					zeroCrossCnt1 = 0;
 					msCnt1 = 0;

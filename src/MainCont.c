@@ -184,7 +184,7 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
 
 		if(SysTime.Ms10)
 		{   
-            monitor_signal_quality();
+//            monitor_signal_quality();
             AdcDescend();
             CurrentCheck();
 			if(!StartState.Test)

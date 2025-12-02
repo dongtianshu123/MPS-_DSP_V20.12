@@ -101,7 +101,7 @@ void StopFlow(void)
 	//OUTPUT_TRIGGER = 0;
  
 			IFS1bits.IC4IF = 0;
-			IC4CONbits.ICM = 2;
+			IC4CONbits.ICM = 3;
 			IEC1bits.IC4IE = 1;
 	OUTPUT_PA = 0;
 	OUTPUT_PB = 0;

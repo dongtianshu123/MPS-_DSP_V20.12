@@ -25,6 +25,7 @@ unsigned int zeroCrossCnt1;
 
 unsigned char ICflag=0;
 unsigned char ICcnt=0;
+unsigned char actual_zero_flag;
 
 unsigned int  step4=0;
 unsigned int  step5=0;
@@ -128,7 +129,7 @@ void InitIC( void )
     IC4CONbits.ICTMR = 0;            /*1 = TMR2 contents are captured on capture event
 									0 = TMR3 contents are captured on capture event*/
     IC4CONbits.ICI = 0;              
-    IC4CONbits.ICM = 2;              /*010 = Capture mode, every falling edge
+    IC4CONbits.ICM = 3;              /*010 = Capture mode, every falling edge
 									001 = Capture mode, every edge (rising and falling) 
 									011 = Capture mode, every rising edge*/
    
@@ -211,7 +212,7 @@ void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
 {    
     StartState.AZeroflag=1;
 	IFS1bits.IC4IF = 0;              //清零中断标志
-	IC4CONbits.ICM = 2;
+	IC4CONbits.ICM = 3;
 	zeroCrossCnt1 = 0;
 
    /*********************************************************/
@@ -237,12 +238,13 @@ void __attribute__((__interrupt__)) _IC4Interrupt (void)  //过零捕捉中断
 
     if(zcd_mgr.signal_quality)
       { //
-       zcd_mgr.simulated_interval=zcd_mgr.actual_interval;
+        zcd_mgr.simulated_interval=zcd_mgr.actual_interval;
         reset_timer4(); //重置T4
+        actual_zero_flag=1;
       }
     last_capture=current_capture; //更新上一次时间记录值
      
-    if(!zcd_mgr.use_simulated)
+    if(zcd_mgr.signal_quality)
      {
        zero_cross_processing (); 
      }
@@ -273,7 +275,7 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
 
         IFS1bits.IC4IF = 0;              //重新打开IC检测
 		IEC1bits.IC4IE = 1; 
-		IC4CONbits.ICM = 2;
+		IC4CONbits.ICM = 3;
         T4CONbits.TON = 0; 	             //关掉虚拟过零延时
         IFS1bits.T4IF = 0;                
         IEC1bits.T4IE = 0;
@@ -702,17 +704,19 @@ void __attribute__((__interrupt__)) _T4Interrupt(void)
         step4=2; 
         */
 
-
+     PR4=zcd_mgr.simulated_interval;
      zcd_mgr.signal_quality=0;
-     if(zcd_mgr.use_simulated)
+     if(!zcd_mgr.signal_quality)
        {
          zero_cross_processing();
        }
-     if(PR4==zcd_mgr.simulated_interval+t4_delay)
+     if(actual_zero_flag)
        {
+        actual_zero_flag=0;
         PR5=PR5-t4_delay;
-        PR4=zcd_mgr.simulated_interval;
+        PR4=zcd_mgr.simulated_interval-t4_delay;
        }
+      
       TMR4 = 0; 
 	  IFS1bits.T4IF = 0;       
 	  IEC1bits.T4IE = 1;

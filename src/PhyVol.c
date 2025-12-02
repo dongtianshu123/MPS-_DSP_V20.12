@@ -65,20 +65,20 @@ unsigned char check_signal_quality(unsigned int current_interval)
   //频率范围检查(46.5Hz-51.5Hz,对应19420us-21500us)
     if(current_interval<19420 || current_interval>21500)
      {error_count++;
-      if (error_count >3)
+      if (error_count >2)
        {return 0;}//信号质量差
-
+     } 
       else
-       {  
+     {  
          error_count=0;
          //时间间隔变化率检查 超过25%为信号质量差
          unsigned int avg_interval=calculate_average_interval();
           if(abs((int)current_interval-(int)avg_interval)>(avg_interval>>2))
             {return 0;}//信号质量差
 
-       }
-
      }
+
+     
      return 1;//信号质量好
 
 }
@@ -701,9 +701,17 @@ void __attribute__((__interrupt__)) _T4Interrupt(void)
 		IEC1bits.IC4IE = 0;
         step4=2; 
         */
+
+
+     zcd_mgr.signal_quality=0;
      if(zcd_mgr.use_simulated)
        {
          zero_cross_processing();
+       }
+     if(PR4==zcd_mgr.simulated_interval+t4_delay)
+       {
+        PR5=PR5-t4_delay;
+        PR4=zcd_mgr.simulated_interval;
        }
       TMR4 = 0; 
 	  IFS1bits.T4IF = 0;       
@@ -711,7 +719,7 @@ void __attribute__((__interrupt__)) _T4Interrupt(void)
       T4CONbits.TON = 1;   
 
 
-      PR5=PR5-t4_delay;
+      
 
     return;
 } 

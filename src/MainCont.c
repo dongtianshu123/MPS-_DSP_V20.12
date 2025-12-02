@@ -60,7 +60,8 @@ void monitor_signal_quality(void)
   else
    {
      stable_count++;
-     if(stable_count >3 && zcd_mgr.use_simulated)
+     //if(stable_count >3 && zcd_mgr.use_simulated)
+     if(zcd_mgr.use_simulated)
        {
         zcd_mgr.switch_simulated=0;
         switch_signal_source();

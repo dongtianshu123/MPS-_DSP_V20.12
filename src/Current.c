@@ -160,7 +160,7 @@ void CurrentCheck(void)
 		else if( (MainParams.Ia > AdcParams.AgoIa) && (StartState.UpCarIaF == 0) )
 		{
 			AdcParams.CarUpTimesIa++;
-			if(AdcParams.CarUpTimesIa > StartParams.I_increase) 
+			if(AdcParams.CarUpTimesIa > (StartParams.I_increase+10)) 
 			{
 				if(MainParams.Ia > ProtectParams.RatingCurrent)
 				{
@@ -183,9 +183,11 @@ void CurrentCheck(void)
 		{
 			AdcParams.MaxIa = MainParams.Ia;
 		}
-		else if(MainParams.Ia < AdcParams.MaxIa)
+
+		else if(MainParams.Ia < AdcParams.MaxIa )
 		{
-			if(StartState.UpCarIaF && MainParams.Ua>50)
+           
+			if(StartState.UpCarIaF && MainParams.Ua>50 )
 			{
 				TemporaryAdcDescend = AdcParams.MaxIa >> 1;
 
@@ -282,7 +284,7 @@ void CurrentCheck(void)
 		else if( (MainParams.Ic > AdcParams.AgoIc) && (StartState.UpCarIcF == 0) )
 		{
 			AdcParams.CarUpTimesIc++;
-			if(AdcParams.CarUpTimesIc > StartParams.I_increase) 
+			if(AdcParams.CarUpTimesIc > (StartParams.I_increase+10)) 
 			{
 				if(MainParams.Ic > ProtectParams.RatingCurrent)
 				{

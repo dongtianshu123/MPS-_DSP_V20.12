@@ -26,6 +26,7 @@ unsigned int zeroCrossCnt1;
 unsigned char ICflag=0;
 unsigned char ICcnt=0;
 unsigned char actual_zero_flag;
+unsigned char actual_zero_flag1;
 
 unsigned int  step4=0;
 unsigned int  step5=0;
@@ -97,9 +98,7 @@ unsigned char check_signal_quality(unsigned int current_interval)
 /**********************************统一的过零处理子程序***********************************************/
 void zero_cross_processing(void)
 {
-        OUTPUT_TRIGGER = 1;
-        OUTPUT_EXTERN_TRIGGER=1;
-        ICflag=1;
+
       if(StartState.PulseF)
 	 {
 		TMR5 = 0; 
@@ -263,7 +262,7 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
 
    
    
-	if((step4==1)&&(INPUT_ZA))      //防抖判断  
+	if((step4==1)&&(!INPUT_ZA)&&zcd_mgr.signal_quality)      //防抖判断  
 	{
 	
 			                               //如果是抖动
@@ -276,20 +275,22 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
         IFS1bits.IC4IF = 0;              //重新打开IC检测
 		IEC1bits.IC4IE = 1; 
 		IC4CONbits.ICM = 3;
-        T4CONbits.TON = 0; 	             //关掉虚拟过零延时
-        IFS1bits.T4IF = 0;                
-        IEC1bits.T4IE = 0;
+     //   T4CONbits.TON = 0; 	             //关掉虚拟过零延时
+     //   IFS1bits.T4IF = 0;                
+     //   IEC1bits.T4IE = 0;
   
 	}
-	else if ((step4==1)&&(!INPUT_ZA)) 
+	else if ((step4==1)&&(INPUT_ZA)&&zcd_mgr.signal_quality) 
 	{   step4=2;
         IFS1bits.IC4IF = 0;              //如果不是抖动，禁用IC中断
 		IEC1bits.IC4IE = 0; 
 		IC4CONbits.ICM = 0;
 
-
-
-   }
+     }   
+   else if((step4==1)&&(!INPUT_ZA)&&(!zcd_mgr.signal_quality))
+    {   step4=2;
+    }
+   
   else
   {}
   
@@ -297,6 +298,11 @@ void __attribute__((__interrupt__)) _T5Interrupt(void)
    {
         TMR5 = 0;                               //如果不是抖动
 		PR5 = StartParams.OutData;       	     //装载触发角延时
+        if(actual_zero_flag1==1)
+          {
+           actual_zero_flag1=0;
+           PR5=PR5-t4_delay;
+          }
         PULSEWidth=PULSEWidth1;
         IFS1bits.T5IF = 0;               
         IEC1bits.T5IE = 1;
@@ -713,7 +719,8 @@ void __attribute__((__interrupt__)) _T4Interrupt(void)
      if(actual_zero_flag)
        {
         actual_zero_flag=0;
-        PR5=PR5-t4_delay;
+        actual_zero_flag1=1;
+        
         PR4=zcd_mgr.simulated_interval-t4_delay;
        }
       

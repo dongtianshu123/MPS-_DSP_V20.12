@@ -14,7 +14,8 @@
 unsigned int Delay2sCnt1;
 unsigned int Delay2sCnt2;
 unsigned int samcnt1;
-long limittemp;
+unsigned int reducecnt1;
+unsigned int reducecnt2;
 
 unsigned long ulCofTemp1;
 unsigned int TemporaryAdcDescend;
@@ -152,7 +153,6 @@ void CurrentCheck(void)
 			AdcParams.CarDescendTimesIa++;
 			if(AdcParams.CarDescendTimesIa > I_DECREASE)  
 			{
-				//StartState.TurnRunF= 1;;
 				AdcParams.CarDescendTimesIa = 0;
 			}
 					
@@ -160,7 +160,7 @@ void CurrentCheck(void)
 		else if( (MainParams.Ia > AdcParams.AgoIa) && (StartState.UpCarIaF == 0) )
 		{
 			AdcParams.CarUpTimesIa++;
-			if(AdcParams.CarUpTimesIa > (StartParams.I_increase+10)) 
+			if(AdcParams.CarUpTimesIa > (StartParams.I_increase)) 
 			{
 				if(MainParams.Ia > ProtectParams.RatingCurrent)
 				{
@@ -193,11 +193,15 @@ void CurrentCheck(void)
 
 				if((MainParams.Ia < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
 				{
-                  PULSEWidth1=2777;
-                  StartParams.Data = StartParams.Ugmin;//导通角增大抑制振荡
-                  Delay2sCnt1++;
-				   if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
-				     {StartState.TurnRunF= 1;}
+                   reducecnt1++;
+                   if(reducecnt1>2)
+                     {
+                       PULSEWidth1=2777;
+                       StartParams.Data = StartParams.Ugmin;//导通角增大抑制振荡
+                       Delay2sCnt1++;
+				       if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
+				         {StartState.TurnRunF= 1;}
+                     } 
 
 				}
 				else if(MainParams.Ia < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
@@ -212,7 +216,10 @@ void CurrentCheck(void)
                 else if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
                 {StartState.TurnRunF= 1;}
 				else
-				{Delay2sCnt1=0;}
+				{
+                 Delay2sCnt1=0;
+                 reducecnt1=0;
+                }
 			}
 		}
 		else
@@ -284,7 +291,7 @@ void CurrentCheck(void)
 		else if( (MainParams.Ic > AdcParams.AgoIc) && (StartState.UpCarIcF == 0) )
 		{
 			AdcParams.CarUpTimesIc++;
-			if(AdcParams.CarUpTimesIc > (StartParams.I_increase+10)) 
+			if(AdcParams.CarUpTimesIc > (StartParams.I_increase)) 
 			{
 				if(MainParams.Ic > ProtectParams.RatingCurrent)
 				{
@@ -316,13 +323,16 @@ void CurrentCheck(void)
 
 				if((MainParams.Ic < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
 				{
-                 PULSEWidth1=2777;
-                 StartParams.Data = StartParams.Ugmin;
-			     Delay2sCnt2++;
-				if(Delay2sCnt2 > StartParams.t5 && Protectswitch.sampletest==0)
-				{StartState.TurnRunF= 1;}
-                
-		    	
+                   reducecnt2++;
+                   if(reducecnt2>2)
+                     {
+                      PULSEWidth1=2777;
+                      StartParams.Data = StartParams.Ugmin;
+			          Delay2sCnt2++;
+				      if(Delay2sCnt2 > StartParams.t5 && Protectswitch.sampletest==0)
+				      {StartState.TurnRunF= 1;}
+                     }
+              	    	
 				}
 				else if(MainParams.Ic < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
 				{
@@ -335,7 +345,9 @@ void CurrentCheck(void)
                 else if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
                 {StartState.TurnRunF= 1;}
                 else
-				{Delay2sCnt2=0;}
+				{Delay2sCnt2=0;
+                 reducecnt2=0;
+                }
 			
 				
 			}

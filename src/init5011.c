@@ -70,7 +70,7 @@ else
 
 	StartParams.StartTime = MainParams.SaveParams[1] * 100;
 
-	StartParams.LoopData = ( StartParams.BeginVoltage - StartParams.Ugmin) / StartParams.StartTime;
+	StartParams.LoopData = ( StartParams.BeginVoltage - StartParams.Ugmin) / 4000;
 	StartParams.MaxLoopData = ( StartParams.BeginVoltage - StartParams.Ugmin) / MAXSTEP_TIME;
 //************* //额定电流	 ******************			
 	if(MainParams.SaveParams[3]>2000)
@@ -556,9 +556,9 @@ else
 
 /*************************电流上升时间**********************************************/
 
-StartParams.I_increase=MainParams.SaveParams[51];
+StartParams.I_increase=MainParams.SaveParams[51]*10;
 if (StartParams.I_increase==0)
-{StartParams.I_increase=15;}
+{StartParams.I_increase=150;}
 
 /*************************************************************************************/
 /*************************过流延时整定**********************************************/

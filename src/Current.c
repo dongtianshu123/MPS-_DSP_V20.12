@@ -1,10 +1,10 @@
-#include "UserParams.h"	//ÓÃ»§ÏµÍ³ÅäÖÃ£¬³£Êý¶¨Òå¼°ÅäÖÃÖµ
-#include "Function.h"	//ÏµÍ³Íâ²¿µ÷ÓÃº¯ÊýÉùÃ÷£¬ÄÚ²¿µ÷ÓÃº¯ÊýÔÚ¶ÔÓ¦ÎÄ¼þÄÚÉùÃ÷
-#include "variable.h"	//ÏµÍ³È«¾Ö±äÁ¿ÉùÃ÷£¬¾Ö²¿±äÁ¿ÔÚ¶ÔÓ¦ÎÄ¼þÄÚÉùÃ÷
+#include "UserParams.h"	//ï¿½Ã»ï¿½ÏµÍ³ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¼°ï¿½ï¿½ï¿½ï¿½Öµ
+#include "Function.h"	//ÏµÍ³ï¿½â²¿ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Ó¦ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+#include "variable.h"	//ÏµÍ³È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Ó¦ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #include "math.h"
 
 #define COF_U 780
-#define COF_I 77// KZX 3.3 
+#define COF_I 161// KZX 3.0/3.1 
 #define COF_IN 165
 #define COF_TEMPRATURE 2000
 #define	I_DECREASE		100
@@ -20,7 +20,7 @@ unsigned int reducecnt2;
 unsigned long ulCofTemp1;
 unsigned int TemporaryAdcDescend;
 unsigned int pwturnflag;
-unsigned int PULSEWidth1;//Âö¿í¸üÐÂ»º´æ
+unsigned int PULSEWidth1;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½ï¿½ï¿½
 extern unsigned int PULSEWidth;
 extern unsigned int pwturnflag;
 
@@ -38,7 +38,7 @@ void AdcDescend(void)
     AdcParams.Ib_value=sqrt(AdcParams.siAdTemp6/AdcParams.FILTER_N1);
     AdcParams.In_value=sqrt(AdcParams.siAdTemp8/AdcParams.FILTER_N1);
 
-    AdcParams.Ps_value=__builtin_mulss(AdcParams.Uab_value, AdcParams.Ia_value);//ÊÓÔÚ¹¦ÂÊ
+    AdcParams.Ps_value=__builtin_mulss(AdcParams.Uab_value, AdcParams.Ia_value);//ï¿½ï¿½ï¿½Ú¹ï¿½ï¿½ï¿½
     AdcParams.cos_value=(double)AdcParams.siAdTemp10/(AdcParams.FILTER_N1*AdcParams.Ps_value);
    //AdcParams.acos_int=(signed int)(acos(AdcParams.cos_value)*100.0); 
    //limittemp=__builtin_mulss(AdcParams.acos_int,3185);
@@ -47,7 +47,7 @@ void AdcDescend(void)
     
   if((MainParams.Ia> ProtectParams.RatingCurrent
 			|| MainParams.Ib> ProtectParams.RatingCurrent
-			|| MainParams.Ic> ProtectParams.RatingCurrent)&&Protectswitch.sampletest==1)            //ÅÐ¶Ï¹¦ÂÊÒòÊý£¬Èç¹ûÔÚÆð¶¯µçÁ÷´óÓÚ¶î¶¨µçÁ÷ºó£¬Îª¸ºÖµ³ÖÐø1sÅÐ¶ÏÆð¶¯¹ÊÕÏ
+			|| MainParams.Ic> ProtectParams.RatingCurrent)&&Protectswitch.sampletest==1)            //ï¿½Ð¶Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ð¶¯µï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶î¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½1sï¿½Ð¶ï¿½ï¿½ð¶¯¹ï¿½ï¿½ï¿½
   {
    if(AdcParams.pf<0)
    {samcnt1++;
@@ -87,16 +87,16 @@ void AdcDescend(void)
        }
     
         
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ia_value);  //AÏàµçÁ÷
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ia_value);  //Aï¿½ï¿½ï¿½ï¿½ï¿½
 	MainParams.Ia = __builtin_divud(ulCofTemp1,COF_I);
     
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ib_value);  //BÏàµçÁ÷
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ib_value);  //Bï¿½ï¿½ï¿½ï¿½ï¿½
 	MainParams.Ib = __builtin_divud(ulCofTemp1,COF_I);
 
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ic_value);  //CÏàµçÁ÷
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ic_value);  //Cï¿½ï¿½ï¿½ï¿½ï¿½
 	MainParams.Ic = __builtin_divud(ulCofTemp1,COF_I);
 
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI_zero, AdcParams.In_value);  //ÁãÐòµçÁ÷
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI_zero, AdcParams.In_value);  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MainParams.In = __builtin_divud(ulCofTemp1,COF_I);
 
 //	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, ADI.IcOri);
@@ -136,7 +136,7 @@ void AdcDescend(void)
 void CurrentCheck(void)
   {
 	
-	if((step11==3)&&(StartState.stopflag==0))  //µçÁ÷ÇÐ»»ÔÚÕý³£Æð¶¯Ä£Ê½ÏÂºÍ·ÇÈíÍ£Ä£Ê½ÏÂ²ÅÅÐ¶Ï
+	if((step11==3)&&(StartState.stopflag==0))  //ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ÂºÍ·ï¿½ï¿½ï¿½Í£Ä£Ê½ï¿½Â²ï¿½ï¿½Ð¶ï¿½
 	{
 		if(MainParams.Ia> ProtectParams.RatingCurrent
 			|| MainParams.Ib> ProtectParams.RatingCurrent
@@ -197,7 +197,7 @@ void CurrentCheck(void)
                    if(reducecnt1>2)
                      {
                        PULSEWidth1=2777;
-                       StartParams.Data = StartParams.Ugmin;//µ¼Í¨½ÇÔö´óÒÖÖÆÕñµ´
+                       StartParams.Data = StartParams.Ugmin;//ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                        Delay2sCnt1++;
 				       if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
 				         {StartState.TurnRunF= 1;}

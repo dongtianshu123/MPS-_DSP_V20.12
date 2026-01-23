@@ -231,6 +231,10 @@ void SoftStart(void)//1msÖ´ÐÐÖÜÆÚ
 				if( StartParams.RunCount > 6000)
 				{Fault.Bits.StartTO = 1;}		
 			}
+          	if(StartParams.StartTimeCount > StartParams.StartTime)
+		    {
+			   StartState.TurnRunF = 1;
+		    }
 				
 			StartParams.OutData = StartParams.Data >> 10;
 		}

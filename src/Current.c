@@ -4,7 +4,7 @@
 #include "math.h"
 
 #define COF_U 780
-#define COF_I 161// KZX 3.0/3.1 
+#define COF_I 77// KZX 3.0/3.1 -161  KZX 3.3/3.4 -77
 #define COF_IN 165
 #define COF_TEMPRATURE 2000
 #define	I_DECREASE		100
@@ -47,7 +47,7 @@ void AdcDescend(void)
     
   if((MainParams.Ia> ProtectParams.RatingCurrent
 			|| MainParams.Ib> ProtectParams.RatingCurrent
-			|| MainParams.Ic> ProtectParams.RatingCurrent)&&Protectswitch.sampletest==1)            //�жϹ���������������𶯵������ڶ������Ϊ��ֵ����1s�ж��𶯹���
+			|| MainParams.Ic> ProtectParams.RatingCurrent)&&Protectswitch.sampletest==1)            //�жϹ���������������𶯵������ڶ������Ϊ��ֵ����?s�ж��𶯹���
   {
    if(AdcParams.pf<0)
    {samcnt1++;
@@ -87,16 +87,16 @@ void AdcDescend(void)
        }
     
         
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ia_value);  //A�����
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ia_value);  //A�����?
 	MainParams.Ia = __builtin_divud(ulCofTemp1,COF_I);
     
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ib_value);  //B�����
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ib_value);  //B�����?
 	MainParams.Ib = __builtin_divud(ulCofTemp1,COF_I);
 
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ic_value);  //C�����
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, AdcParams.Ic_value);  //C�����?
 	MainParams.Ic = __builtin_divud(ulCofTemp1,COF_I);
 
-	ulCofTemp1 = __builtin_muluu(AdcParams.CofI_zero, AdcParams.In_value);  //�������
+	ulCofTemp1 = __builtin_muluu(AdcParams.CofI_zero, AdcParams.In_value);  //�������?
 	MainParams.In = __builtin_divud(ulCofTemp1,COF_I);
 
 //	ulCofTemp1 = __builtin_muluu(AdcParams.CofI, ADI.IcOri);

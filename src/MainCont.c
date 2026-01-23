@@ -15,6 +15,7 @@ tStartState StartState;
 tFault Fault;
 tFunctionswitch Functionswitch;
 tProtectswitch Protectswitch;
+tProtectswitch1 Protectswitch1;
 tzcd_mgr zcd_mgr;
 
 unsigned int powerOnDly1;
@@ -87,8 +88,8 @@ unsigned int _EEDATA(128) EPConfigS[128]={
                              75,512,55,40,  //	X,X,上次故障 ,启动时间	   
 
                              21,25,34,35,    //自定义-Vb       V1       V2       V3
-                             35,5,3,3,    //         V4       V5       T1       T2
-                             3,3,3,10,      //         T3       T4       T5       零序定值
+                             35,5,3,1000,    //         V4       V5       T1       欠电流定值
+                             300,300,3,10,      //         欠电流T3延时      过温延时        切换延时       零序定值
                              6000,50,500,10,      //        零序延时  零序CT  运行过流定值 运行过流延时
                              100,3,95,20,     //        触发延时     备用     保护压板   电流上升时间
                             10,30,10,50,//        过流延时 电流不平衡 过压延时  欠压延时

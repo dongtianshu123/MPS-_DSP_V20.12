@@ -88,7 +88,7 @@ typedef union{
 	unsigned Overload: 1;
 	unsigned SCR: 1;
 	unsigned OverIa: 1;
-	unsigned OverIb: 1;
+	unsigned OverTem: 1;
 	unsigned OverIc: 1;
 	unsigned UnbalanceI: 1;
 	unsigned PhaseFault: 1;
@@ -182,11 +182,17 @@ typedef struct{
     unsigned R_overload:1;        
     unsigned sampletest:1; 
 	unsigned runcheckswitch:1;
-    unsigned runchecktrip:1;
+
 		
 }tProtectswitch;
 
-
+typedef struct{
+	
+    //运行保护压板
+    unsigned runchecktrip:1;
+    unsigned overtem:1;	
+    unsigned RLI:1;	
+}tProtectswitch1;
 
 
 typedef struct{
@@ -316,9 +322,12 @@ unsigned int ROCD;
 
 unsigned int I_increase;
 unsigned int OverIdelay;
+unsigned int OverTdelay;
 unsigned int UnbalanceIdelay;
 unsigned int Overvoltagedelay;
 unsigned int Lowervoltagedelay;
+unsigned int Lowercurrentset;
+unsigned int Lowercurrentdelay;
 
 unsigned int umin;
 long Ugmin;
@@ -594,6 +603,7 @@ extern tFault Fault;
 extern tFeedback Feedback;
 extern tFunctionswitch Functionswitch;
 extern tProtectswitch Protectswitch;
+extern tProtectswitch1 Protectswitch1;
 extern tMainParams MainParams;  
 extern tStartState StartState;
 extern tStartParams StartParams;

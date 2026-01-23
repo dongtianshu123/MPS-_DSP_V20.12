@@ -349,9 +349,9 @@ StartParams.V5=MainParams.SaveParams[37];//231109 修改为电流振荡抑制系数，旁路切
 
 
 StartParams.t1=MainParams.SaveParams[38]*100;
-StartParams.t2=MainParams.SaveParams[39]*100;
-StartParams.t3=MainParams.SaveParams[40]*100;
-StartParams.t4=MainParams.SaveParams[41]*100;
+StartParams.Lowercurrentset=MainParams.SaveParams[39];//260115 修改为欠电流保护定值
+StartParams.Lowercurrentdelay=MainParams.SaveParams[40];//260115 修改为欠电流保护延时
+StartParams.OverTdelay=MainParams.SaveParams[41];//260115 修改为过温延时
 StartParams.t5=MainParams.SaveParams[42]*100;//231109 修改为切换延时，旁路切换时判断以10ms为单位的延时
 
 
@@ -455,14 +455,26 @@ else
 
  int  temp36=MainParams.SaveParams[49]&0x0002;
 if (temp36==0x0002)
-  {Protectswitch.runchecktrip=1;}
+  {Protectswitch1.runchecktrip=1;}
 else
-  {Protectswitch.runchecktrip=0;}
+  {Protectswitch1.runchecktrip=0;}
+
+int temp20=MainParams.SaveParams[49]&0x0004;
+if (temp20==0x0004)
+  {Protectswitch1.overtem=1;}
+else
+  {Protectswitch1.overtem=0;}
+
+ temp20=MainParams.SaveParams[49]&0x0008;
+if (temp20==0x0008)
+  {Protectswitch1.RLI=1;}
+else
+  {Protectswitch1.RLI=0;}
 
 
 /*******************************保护压板******************************************************/
 
-int temp20=MainParams.SaveParams[50]&0x0001;
+ temp20=MainParams.SaveParams[50]&0x0001;
 if (temp20==0x0001)
   {Protectswitch.SOV=1;}
 else

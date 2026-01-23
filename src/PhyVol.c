@@ -112,7 +112,7 @@ void zero_cross_processing(void)
 
         step4=1;
         ICflag=1;
-        OUTPUT_TRIGGER = 1;
+        //OUTPUT_TRIGGER = 1;
         OUTPUT_EXTERN_TRIGGER=1;
 		IFS1bits.IC4IF = 0;    //清零中断标志
 		IC4CONbits.ICM = 0;

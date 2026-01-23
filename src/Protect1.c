@@ -34,13 +34,13 @@ unsigned int ubCnt3;
 
 unsigned int ucCnt3;
 
-
 unsigned int overIaCnt1;
 
-unsigned int overIbCnt1;
-unsigned int overIbCnt2;
 unsigned int overIcCnt1;
+unsigned int overTCnt1;
 
+unsigned int LowerIaCnt1;
+unsigned int LowerIcCnt1;
 
 unsigned int RoverIaCnt1;
 unsigned int RoverIaCnt2;
@@ -474,21 +474,9 @@ void OverIProtect()                              //过流保护
 	    {Fault.Bits.OverIa = 1;}
 	}
 	else
-	{
-		
+	{		
 		overIaCnt1 = 0;
 	}
-
-//	if(MainParams.Ib > ProtectParams.CurrentUpperLimit)
-//	{
-//		overIbCnt1++;
-//		overIbCnt2 = 0;
-//	}
-//	else
-//	{
-//		overIbCnt2++;
-//		overIbCnt1 = 0;
-//	}
 	
 	if(MainParams.Ic >= ProtectParams.CurrentUpperLimit)
 	{
@@ -497,69 +485,56 @@ void OverIProtect()                              //过流保护
 	{Fault.Bits.OverIc = 1;}
 	}
 	else
-	{
-	
+	{	
 		overIcCnt1 = 0;
 	}
-
-
-
-
-
-
-
-
 	
 }
 
-
-
-void ROverIProtect()                              //过流保护
+void LowerIProtect()                              //欠电流保护
 {	
-	if(MainParams.Ia >= StartParams.ROCV)
+	if(MainParams.Ia <= StartParams.Lowercurrentset)
 	{
-		RoverIaCnt1++;
-	if(RoverIaCnt1>StartParams.ROCD)  //A相过流
-	  {Fault.Bits.OverIa = 1;}
+		LowerIaCnt1++;
+	   	if(LowerIaCnt1>StartParams.Lowercurrentdelay)  //A相欠电流
+	    {Fault.Bits.UnnormalStart = 1;}
 	}
 	else
-	{
-	
-		RoverIaCnt1 = 0;
+	{		
+		LowerIaCnt1 = 0;
 	}
-
-//	if(MainParams.Ib > ProtectParams.CurrentUpperLimit)
-//	{
-//		overIbCnt1++;
-//		overIbCnt2 = 0;
-//	}
-//	else
-//	{
-//		overIbCnt2++;
-//		overIbCnt1 = 0;
-//	}
 	
-	if(MainParams.Ic >= StartParams.ROCV)
+	if(MainParams.Ic <= StartParams.Lowercurrentset)
 	{
-		RoverIcCnt1++;
-	  if(RoverIcCnt1>StartParams.ROCD)  //C相过流
-	   {Fault.Bits.OverIc = 1;}
+		LowerIcCnt1++;
+	   	if(LowerIcCnt1>StartParams.Lowercurrentdelay)  //C相欠电流
+	    {Fault.Bits.UnnormalStart = 1;}
 	}
 	else
-	{
-	
-		RoverIcCnt1 = 0;
+	{		
+		LowerIcCnt1 = 0;
 	}
-
-
-
-
-
-
-
-
+	
 	
 }
+
+void OverTProtect()                              //过温保护
+{	
+	if(MainParams.Temperature > ProtectParams.Temperature)
+	{
+		overTCnt1++;
+	   	if(overTCnt1>StartParams.OverTdelay)  //过温相过流
+	    {Fault.Bits.OverTem = 1;}
+	}
+	else
+	{		
+		overTCnt1 = 0;
+	}
+		
+}
+
+
+
 
 
 
@@ -697,6 +672,9 @@ void Protect()
      if(Protectswitch.S_ZeroI)                             //零序保护-起动
       {ZeroIprotect();}
 
+      if(Protectswitch1.overtem)                             //过温保护-起动
+      {OverTProtect();}
+
     }  
   
     
@@ -708,11 +686,15 @@ void Protect()
           {UProtect2();}
   
          if(Protectswitch.ROC)                             //过流保护-运行
-         {ROverIProtect();}
+         {OverIProtect();}
     
 
          if(Protectswitch.R_ZeroI)                             //零序保护-运行
            {ZeroIprotect();}
+
+         if(Protectswitch1.RLI)                             //低电流保护
+           {LowerIProtect();}
+
        }  
    } 
    

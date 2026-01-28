@@ -179,7 +179,14 @@ void CurrentCheck(void)
                              if(reducecnt1>2)
                                {
                                   PULSEWidth1=2777;
-                                  StartParams.Data = StartParams.Ugmin;//ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                  if(StartParams.Data > StartParams.Ugmin)
+                                     {
+                                      StartParams.Data = StartParams.Data - (StartParams.LoopData<<StartParams.K1); // Ã¿ 10ms ¼õÐ¡ K1²½³¤£¬Æ½»¬È«¿ª
+                                     }
+                                  else
+                                     {
+                                      StartParams.Data = StartParams.Ugmin;
+                                      }
                                   Delay2sCnt1++;
 				                  if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
 				                     {StartState.TurnRunF= 1;}
@@ -248,7 +255,14 @@ void CurrentCheck(void)
                              if(reducecnt2>2)
                                 {
                                   PULSEWidth1=2777;
-                                  StartParams.Data = StartParams.Ugmin;//ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                  if(StartParams.Data > StartParams.Ugmin)
+                                     {
+                                      StartParams.Data = StartParams.Data - (StartParams.LoopData<<StartParams.K1); // Ã¿ 10ms ¼õÐ¡ K1²½³¤£¬Æ½»¬È«¿ª
+                                     }
+                                  else
+                                     {
+                                      StartParams.Data = StartParams.Ugmin;
+                                      }
                                   Delay2sCnt2++;
 				                  if(Delay2sCnt2 > StartParams.t5&& Protectswitch.sampletest==0)
 				                     {StartState.TurnRunF= 1;}

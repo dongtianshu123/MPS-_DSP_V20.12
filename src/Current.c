@@ -148,211 +148,146 @@ void CurrentCheck(void)
 		StartParams.StartDownCurrent = StartParams.StartCurrentOld - StartParams.StartCurrent;
 		StartParams.StartCurrentOld = StartParams.StartCurrent;
 			
-		if( (MainParams.Ia < AdcParams.AgoIa) && (StartState.UpCarIaF == 1) )
-		{
-			AdcParams.CarDescendTimesIa++;
-			if(AdcParams.CarDescendTimesIa > I_DECREASE)  
+        if((MainParams.Ia > (ProtectParams.RatingCurrent )) && (StartState.UpCarIaF == 0) )
+		  {
+			
+			if(AdcParams.CarUpTimesIa < StartParams.I_increase) 
 			{
-				AdcParams.CarDescendTimesIa = 0;
+               AdcParams.CarUpTimesIa++;
 			}
-					
-		}
-		else if( (MainParams.Ia > AdcParams.AgoIa) && (StartState.UpCarIaF == 0) )
-		{
-			AdcParams.CarUpTimesIa++;
-			if(AdcParams.CarUpTimesIa > (StartParams.I_increase)) 
-			{
-				if(MainParams.Ia > ProtectParams.RatingCurrent)
-				{
-					StartState.UpCarIaF = 1;
-					AdcParams.CarDescendTimesIa = 0;
-				}
-			}
-          	if(MainParams.Ia>ProtectParams.FastCurrent)
-			{
-					StartState.UpCarIaF = 1;
-					AdcParams.CarDescendTimesIa  = 0;
-			}
-		}
-		else
-		{Nop();}	
-		AdcParams.AgoIa = MainParams.Ia;
+            else
+            {StartState.UpCarIaF = 1;}
+		  }
+
+        if(StartState.UpCarIaF)// ¸üÐÂÀúÊ·×î´óµçÁ÷
+          {
+		    if(MainParams.Ia > AdcParams.MaxIa)
+		      {
+		        AdcParams.MaxIa = MainParams.Ia;
+		      }
+                
+		    else if (MainParams.Ia < AdcParams.MaxIa )
+		       {
+           
+			    if(StartState.UpCarIaF && MainParams.Ua>50 )
+			       {
+				    TemporaryAdcDescend = AdcParams.MaxIa >> 1;
+
+				    if((MainParams.Ia < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
+				        {
+                             reducecnt1++;
+                             if(reducecnt1>2)
+                               {
+                                  PULSEWidth1=2777;
+                                  StartParams.Data = StartParams.Ugmin;//ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                  Delay2sCnt1++;
+				                  if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
+				                     {StartState.TurnRunF= 1;}
+                               } 
+
+				         }
+				     else if(MainParams.Ia < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
+				         {
+					             Delay2sCnt1++;
+				              if(Delay2sCnt1 > 2&& Protectswitch.sampletest==0)
+				                {StartState.TurnRunF= 1;}
+                              if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
+                                 {StartState.TurnRunF= 1;}
+				          }
+
+                      else if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
+                          {StartState.TurnRunF= 1;}
+			           	 else
+				           {
+                              Delay2sCnt1=0;
+                              reducecnt1=0;
+                           }
+			          }
+		          }
+            }
+
+
 		
 
-		if(MainParams.Ia > AdcParams.MaxIa)
-		{
-			AdcParams.MaxIa = MainParams.Ia;
-		}
 
-		else if(MainParams.Ia < AdcParams.MaxIa )
-		{
-           
-			if(StartState.UpCarIaF && MainParams.Ua>50 )
-			{
-				TemporaryAdcDescend = AdcParams.MaxIa >> 1;
-
-				if((MainParams.Ia < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
-				{
-                   reducecnt1++;
-                   if(reducecnt1>2)
-                     {
-                       PULSEWidth1=2777;
-                       StartParams.Data = StartParams.Ugmin;//ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-                       Delay2sCnt1++;
-				       if(Delay2sCnt1 > StartParams.t5&& Protectswitch.sampletest==0)
-				         {StartState.TurnRunF= 1;}
-                     } 
-
-				}
-				else if(MainParams.Ia < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
-				{
-					Delay2sCnt1++;
-				if(Delay2sCnt1 > 2&& Protectswitch.sampletest==0)
-				{StartState.TurnRunF= 1;}
-                if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
-                {StartState.TurnRunF= 1;}
-				}
-
-                else if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
-                {StartState.TurnRunF= 1;}
-				else
-				{
-                 Delay2sCnt1=0;
-                 reducecnt1=0;
-                }
-			}
-		}
-		else
-		{Nop();}
-/***************************************************************************************************/	
-/***************************************************************************************************/
-/***************************************************************************************************/
-/***************************************************************************************************/		
-// 		if( (MainParams.Ib < AdcParams.AgoIb) && (StartState.UpCarIbF == 1) )
-//		{
-//			AdcParams.CarDescendTimesIb++;
-//			if(AdcParams.CarDescendTimesIb > I_DECREASE)  
-//			{
-//				StartState.TurnRunF= 1;
-//				AdcParams.CarDescendTimesIb = 0;
-//			}
-//					
-//		}
-//		else if( (MainParams.Ib > AdcParams.AgoIb) && (StartState.UpCarIbF == 0) )
-//		{
-//			AdcParams.CarUpTimesIb++;
-//			if(AdcParams.CarUpTimesIb > I_INCREASE) 
-//			{
-//				if(MainParams.Ib > ProtectParams.RatingCurrent)
-//				{
-//					StartState.UpCarIbF = 1;
-//					AdcParams.CarDescendTimesIb = 0;
-//				}
-//			}
-//		}
-//			
-//		AdcParams.AgoIb = MainParams.Ib;
-//
-//		if(MainParams.Ib > AdcParams.MaxIb)
-//		{
-//			AdcParams.MaxIb = MainParams.Ib;
-//		}
-//		else if(MainParams.Ib < AdcParams.MaxIb)
-//		{
-//			if(StartState.UpCarIbF)
-//			{
-//				TemporaryAdcDescend = AdcParams.MaxIb >> 1;
-//				if(MainParams.Ib < TemporaryAdcDescend)
-//				{
-//					StartState.TurnRunF= 1;
-//				}
-//				else if(MainParams.Ib < ProtectParams.RatingCurrent)
-//				{
-//					StartState.TurnRunF= 1;
-//				}
-//			}
-//		}
 			
 /***************************************************************************************************/	
 /***************************************************************************************************/
 /***************************************************************************************************/
 /***************************************************************************************************/			
 			
- 		if( (MainParams.Ic < AdcParams.AgoIc) && (StartState.UpCarIcF == 1) )
-		{
-			AdcParams.CarDescendTimesIc++;
-			if(AdcParams.CarDescendTimesIc > I_DECREASE)  
-			{
-				//StartState.TurnRunF= 1;
-				AdcParams.CarDescendTimesIc = 0;
-			}
-					
-		}
-		else if( (MainParams.Ic > AdcParams.AgoIc) && (StartState.UpCarIcF == 0) )
-		{
-			AdcParams.CarUpTimesIc++;
-			if(AdcParams.CarUpTimesIc > (StartParams.I_increase)) 
-			{
-				if(MainParams.Ic > ProtectParams.RatingCurrent)
-				{
-					StartState.UpCarIcF = 1;
-					AdcParams.CarDescendTimesIc = 0;
-				}
-			}
-          	if(MainParams.Ic >ProtectParams.FastCurrent)
-			{
-					StartState.UpCarIcF = 1;
-					AdcParams.CarDescendTimesIc  = 0;
-			}
-
-		}
-		else
-		{Nop();}
+      if((MainParams.Ic > (ProtectParams.RatingCurrent )) && (StartState.UpCarIcF == 0) )
+	     {
 			
-		AdcParams.AgoIc = MainParams.Ic;
-
-		if(MainParams.Ic > AdcParams.MaxIc)
-		{
-			AdcParams.MaxIc = MainParams.Ic;
-		}
-		else if(MainParams.Ic < AdcParams.MaxIc)
-		{
-			if(StartState.UpCarIcF && MainParams.Ua>50)
+			if(AdcParams.CarUpTimesIc < StartParams.I_increase) 
 			{
-				TemporaryAdcDescend = AdcParams.MaxIc >> 1;
-
-				if((MainParams.Ic < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
-				{
-                   reducecnt2++;
-                   if(reducecnt2>2)
-                     {
-                      PULSEWidth1=2777;
-                      StartParams.Data = StartParams.Ugmin;
-			          Delay2sCnt2++;
-				      if(Delay2sCnt2 > StartParams.t5 && Protectswitch.sampletest==0)
-				      {StartState.TurnRunF= 1;}
-                     }
-              	    	
-				}
-				else if(MainParams.Ic < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
-				{
-                Delay2sCnt2++;
-				if(Delay2sCnt2 > 2&& Protectswitch.sampletest==0)
-				{StartState.TurnRunF= 1;}
-                if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
-                {StartState.TurnRunF= 1;}
-		    	}
-                else if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
-                {StartState.TurnRunF= 1;}
-                else
-				{Delay2sCnt2=0;
-                 reducecnt2=0;
-                }
-			
-				
+               AdcParams.CarUpTimesIc++;
 			}
-		}	
-		else
-		{Nop();}
+            else
+            {StartState.UpCarIcF = 1;}
+
+
+	     }
+      if(StartState.UpCarIcF)// ¸üÐÂÀúÊ·×î´óµçÁ÷
+         {
+		        if(MainParams.Ic > AdcParams.MaxIc)
+		          {
+		             AdcParams.MaxIc = MainParams.Ic;
+		          }
+                
+		        else if (MainParams.Ic < AdcParams.MaxIc )
+		          {
+           
+			        if(StartState.UpCarIcF && MainParams.Uc>50 )
+			           {
+				        TemporaryAdcDescend = AdcParams.MaxIc >> 1;
+
+				        if((MainParams.Ic < TemporaryAdcDescend)&&(Functionswitch.Ieswitch==0))
+				            {
+                             reducecnt2++;
+                             if(reducecnt2>2)
+                                {
+                                  PULSEWidth1=2777;
+                                  StartParams.Data = StartParams.Ugmin;//ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                                  Delay2sCnt2++;
+				                  if(Delay2sCnt2 > StartParams.t5&& Protectswitch.sampletest==0)
+				                     {StartState.TurnRunF= 1;}
+                                } 
+
+				             }
+				         else if(MainParams.Ic < ProtectParams.RatingCurrent &&(Functionswitch.Ieswitch==1)&& MainParams.Ua>20)
+				             {
+					             Delay2sCnt2++;
+				              if(Delay2sCnt2 > 2&& Protectswitch.sampletest==0)
+				                {StartState.TurnRunF= 1;}
+                              if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
+                                 {StartState.TurnRunF= 1;}
+				             }
+
+                         else if(AdcParams.pf>=StartParams.cosa && Protectswitch.sampletest==1)
+                               {StartState.TurnRunF= 1;}
+			           	 else
+				               {
+                                 Delay2sCnt2=0;
+                                 reducecnt2=0;
+                               }
+			             }
+		           }
+            }
+	
+
 	}
+	else
+	{
+          AdcParams.CarUpTimesIa=0;
+          AdcParams.CarUpTimesIc=0;
+          StartState.UpCarIaF=0;
+          StartState.UpCarIcF=0;
+          reducecnt1=0;
+          reducecnt2=0;
+          AdcParams.MaxIa=0;
+          AdcParams.MaxIc=0;
+
+    }
+	
 }

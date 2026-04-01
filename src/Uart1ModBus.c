@@ -103,28 +103,29 @@ void Modbus_Slave_App(void)
     unsigned int startAddr, regNum, i;
     unsigned int crcCalc, crcRecv;
     
-    if (MB.FrameReady == 0) return; // 无新帧则返回
+    if (MB.FrameReady == 0) return; 
 
-    // 1. 基本校验：站号匹配及最小长度校验
+    // 1. 基本校验
     if (MB.RxBuf[0] != StartParams.modbusaddr || MB.RxCnt < 4) goto RESET_MB;
 
     // 2. CRC 校验
-    crcCalc = CRC16_Check(MB.RxBuf, MB.RxCnt - 2);
+    crcCalc = CRC16_Check((unsigned char *)MB.RxBuf, MB.RxCnt - 2);
     crcRecv = (unsigned int)MB.RxBuf[MB.RxCnt - 2] << 8 | MB.RxBuf[MB.RxCnt - 1];
     if (crcCalc != crcRecv) goto RESET_MB;
 
     // 3. 功能码处理
     switch (MB.RxBuf[1]) 
     {
-        case 0x03: // 读多个保持寄存器
+        case 0x03: // 读保持寄存器
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
             
-            if ((startAddr + regNum) > MB_REG_MAX) break; // 超限不做响应或发异常码
+            // 安全检查：防止读请求导致内存越界崩溃
+            if ((startAddr + regNum) > MB_REG_MAX) break; 
 
             MB.TxBuf[0] = StartParams.modbusaddr;
             MB.TxBuf[1] = 0x03;
-            MB.TxBuf[2] = (unsigned char)(regNum * 2); // 字节数
+            MB.TxBuf[2] = (unsigned char)(regNum * 2);
             for (i = 0; i < regNum; i++) {
                 MB.TxBuf[3 + i * 2] = (unsigned char)(Modbus_Regs[startAddr + i] >> 8);
                 MB.TxBuf[4 + i * 2] = (unsigned char)(Modbus_Regs[startAddr + i] & 0xFF);
@@ -136,31 +137,26 @@ void Modbus_Slave_App(void)
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             if (startAddr < MB_REG_MAX) {
                 Modbus_Regs[startAddr] = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
-                // 写入后的特殊逻辑处理：起停控制
+                
+                // 执行逻辑：起动/停止控制
                 if (startAddr == REG_START_CMD && Modbus_Regs[startAddr] == 0x00AA) Input.Start = 1;
                 if (startAddr == REG_STOP_CMD  && Modbus_Regs[startAddr] == 0x00BB) Input.Stop = 1;
                 
-                // 原样返回应答帧
                 for(i=0; i<8; i++) MB.TxBuf[i] = MB.RxBuf[i];
                 Modbus_Start_Transmit(8);
             }
             break;
 
-        case 0x10: // 写多个寄存器 (16进制 10H)
+        case 0x10: // 写多个寄存器
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
             if ((startAddr + regNum) <= MB_REG_MAX) {
                 for (i = 0; i < regNum; i++) {
                     Modbus_Regs[startAddr + i] = (unsigned int)MB.RxBuf[7 + i * 2] << 8 | MB.RxBuf[8 + i * 2];
                 }
-                // 返回确认帧 (站号+功能码+地址+数量+CRC)
                 for(i=0; i<6; i++) MB.TxBuf[i] = MB.RxBuf[i];
                 Modbus_Start_Transmit(6);
             }
-            break;
-
-        default:
-            // 未定义功能码异常处理
             break;
     }
 
@@ -279,6 +275,8 @@ void __attribute__((__interrupt__)) _U1RXInterrupt (void)
 void Modbus_Start_Transmit(unsigned char len)
 {
     unsigned int crc;
+    unsigned int i;
+    
     crc = CRC16_Check(MB.TxBuf, len);
     MB.TxBuf[len] = (unsigned char)(crc >> 8);
     MB.TxBuf[len + 1] = (unsigned char)(crc & 0xFF);
@@ -286,8 +284,29 @@ void Modbus_Start_Transmit(unsigned char len)
     MB.TxLen = len + 2;
     MB.TxPtr = 0;
     
-    LATFbits.LATF6 = 0; // RS485 切换至发送模式 (DE 引脚有效)
-    U1TXREG = MB.TxBuf[MB.TxPtr++]; // 触发首个字符发送
+    // 切换至发送模式 (用户硬件逻辑：0 为发送)
+    LATFbits.LATF6 = 0; 
+    
+    // 采用循环发送，防止中断嵌套导致逻辑混乱
+    for(i = 0; i < MB.TxLen; i++)
+    {
+        while(U1STAbits.UTXBF); // 等待硬件 FIFO 空间
+        U1TXREG = MB.TxBuf[i];
+    }
+    
+    // *** 关键：等待移位寄存器清空，确保最后一个 Stop Bit 离开引脚 ***
+    while(!U1STAbits.TRMT); 
+    
+    // --- 影子数据清理 (针对 RS485 自发自收) ---
+    {
+        unsigned char dummy;
+        while(U1STAbits.URXDA) dummy = U1RXREG; // 读空发送产生的回流数据
+        U1STAbits.OERR = 0;                     // 强制复位溢出错误
+        IFS0bits.U1RXIF = 0;                    // 清除自收导致的中断标志
+    }
+    
+    // 切换回接收模式 (用户硬件逻辑：1 为接收)
+    LATFbits.LATF6 = 1;
 }
 
 /* UART 发送中断 */

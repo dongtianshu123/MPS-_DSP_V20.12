@@ -591,13 +591,14 @@ typedef struct{
 
 
 typedef struct {
-    unsigned char  RxBuf[128];
-    unsigned char  RxCnt;
-    unsigned char  TxBuf[128];
-    unsigned char  TxLen;
-    unsigned char  TxPtr;
-    unsigned char  FrameReady;    // 帧接收完成标志
-    unsigned int   Timer35T;      // 3.5T 超时计数器
+    volatile unsigned char  RxBuf[128];
+    volatile unsigned char RxCnt;
+    volatile unsigned char  TxBuf[128];
+    volatile unsigned char  TxLen;
+    volatile unsigned char  TxPtr;
+    volatile unsigned char  FrameReady;    // 帧接收完成标志
+    volatile unsigned int   Timer35T;      // 3.5T 超时计数器
+    volatile unsigned long  ErrorCount;    // 统计溢出次数，用于诊断
 } tModbus_Ctrl;
 
 

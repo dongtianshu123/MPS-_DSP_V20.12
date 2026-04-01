@@ -218,15 +218,58 @@ void InitUart1(void)
 /* UART 接收中断 */
 void __attribute__((__interrupt__)) _U1RXInterrupt (void)
 {
-    if(U1STAbits.OERR) U1STAbits.OERR = 0;
-    
-    if(MB.RxCnt < 128) {
-        MB.RxBuf[MB.RxCnt++] = U1RXREG;
-    } else {
-        U1RXREG; // 缓冲区溢出处理
+    unsigned char temp_byte;
+
+    // --- 1. 硬件错误处理 (最高优先级) ---
+    if (U1STAbits.OERR == 1) 
+    {
+        // 发生溢出错误：通常是因为 CPU 处理其他高优先级中断太久，没来得及读 FIFO
+        U1STAbits.OERR = 0;   // 硬件规范：必须清零 OERR 才能继续接收
+        MB.ErrorCount++;      // 记录错误，用于现场通讯稳定性评估
     }
     
-    MB.Timer35T = 0; // 收到新字节，清零 3.5T 定时器计数
+    if (U1STAbits.FERR == 1)
+    {
+        // 发生帧错误：通常是电磁干扰（dv/dt）或波特率严重偏离
+        U1STAbits.FERR = 0;   // 清除错误，丢弃当前受损字节
+    }
+
+    // --- 2. 接收 FIFO 处理 ---
+    // 使用 while 循环确保读完硬件缓冲区里的所有字节
+    while (U1STAbits.URXDA) 
+    {
+        temp_byte = U1RXREG;  // 读取硬件寄存器
+
+        // --- 3. 状态机与保护逻辑 ---
+        if (MB.FrameReady == 0) 
+        {
+            // 正常状态：缓冲区空闲，允许存入数据
+            if (MB.RxCnt < 128) 
+            {
+                MB.RxBuf[MB.RxCnt] = temp_byte;
+                MB.RxCnt++;
+                
+                // 收到合法字节，重置 3.5T 定时器
+                // 注意：这里仅负责重置，由专门的 Timer 中断负责累加和判断超时
+                MB.Timer35T = 0; 
+            }
+            else 
+            {
+                // 异常：单帧报文超过了定义的缓冲区长度
+                // 策略：通常选择重置计数器，等待下一帧，或者记录错误
+                MB.RxCnt = 0; 
+            }
+        }
+        else 
+        {
+            // 异常：主循环尚未处理完上一帧，新字节就到达了
+            // 策略：在高压 MPS 环境下，为了保证当前正在处理指令的完整性，
+            // 我们选择丢弃这个字节，不覆盖原有缓冲区（防止 CRC 校验在计算中被篡改）
+            MB.ErrorCount++; 
+        }
+    }
+
+    // --- 4. 清除中断标志 ---
     IFS0bits.U1RXIF = 0;
 }
 
@@ -243,7 +286,7 @@ void Modbus_Start_Transmit(unsigned char len)
     MB.TxLen = len + 2;
     MB.TxPtr = 0;
     
-    LATFbits.LATF6 = 1; // RS485 切换至发送模式 (DE 引脚有效)
+    LATFbits.LATF6 = 0; // RS485 切换至发送模式 (DE 引脚有效)
     U1TXREG = MB.TxBuf[MB.TxPtr++]; // 触发首个字符发送
 }
 
@@ -256,7 +299,7 @@ void __attribute__((__interrupt__)) _U1TXInterrupt (void)
     } else {
         // 等待硬件移位寄存器发完后再拉高 DE，防止末尾字节截断
         while(!U1STAbits.TRMT); 
-        LATFbits.LATF6 = 0; // 切换回接收模式
+        LATFbits.LATF6 = 1; // 切换回接收模式
     }
 }
 /*

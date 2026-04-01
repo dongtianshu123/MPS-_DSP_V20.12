@@ -71,7 +71,7 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
     if (MB.RxCnt > 0) 
        {
         MB.Timer35T++;
-        if (MB.Timer35T > 5) 
+        if (MB.Timer35T > 10) 
           { // 9600波特率下 >5ms 认为帧结束
             MB.FrameReady = 1;
             MB.Timer35T = 0;

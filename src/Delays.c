@@ -38,7 +38,7 @@ void Delay60ms(void)
 			SysTime.Ms10 = 0;
                       
 			Uart2App();	
-			Uart1App();				
+			//Uart1App();				
 		}
 
 	}

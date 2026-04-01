@@ -17,6 +17,7 @@ tFunctionswitch Functionswitch;
 tProtectswitch Protectswitch;
 tProtectswitch1 Protectswitch1;
 tzcd_mgr zcd_mgr;
+tModbus_Ctrl MB;
 
 unsigned int powerOnDly1;
 unsigned int lowVoltageTest;
@@ -208,9 +209,11 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
 			
    
 			Uart2RxErrApp();
-			Uart1RxErrApp();
+		//	Uart1RxErrApp();
 			Uart2App();
-			Uart1App();
+			//Uart1App();
+            Modbus_Slave_App();
+            Update_Modbus_Registers();
 		}
 	}
 }

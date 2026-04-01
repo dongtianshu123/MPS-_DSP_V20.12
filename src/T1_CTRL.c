@@ -67,6 +67,20 @@ void __attribute__((__interrupt__)) _T1Interrupt(void)
 		sysTimeCnt4 = 0;
 	}
 
+    // 3.5T 帧结束检测逻辑
+    if (MB.RxCnt > 0) 
+       {
+        MB.Timer35T++;
+        if (MB.Timer35T > 5) 
+          { // 9600波特率下 >5ms 认为帧结束
+            MB.FrameReady = 1;
+            MB.Timer35T = 0;
+          }
+       }
+
+
+
+
 	#ifdef TEST_AUTOZERO
 
 	#endif

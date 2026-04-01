@@ -4,6 +4,17 @@
 
 *********************************************************************************************************
 */
+
+/* 寄存器地址定义 - 映射到软起动器内部变量 */
+#define REG_SYS_STATUS    0x0000  // 系统状态 (只读)
+#define REG_FAULT_CODE    0x0001  // 故障代码 (只读)
+#define REG_CURRENT_A     0x0002  // A相电流 (只读)
+#define REG_VOLTAGE_A     0x0003  // A相电压 (只读)
+#define REG_START_CMD     0x0064  // 0x64: 远程起停控制 (读写)
+#define REG_STOP_CMD      0x0065  // 0x65: 远程停止控制
+
+#define MB_REG_MAX        128     // 寄存器池大小
+unsigned int Modbus_Regs[MB_REG_MAX]; 
 /*
 *********************************************************************************************************
 * Uart1 OPERATIONS  
@@ -42,7 +53,9 @@
 * GLOBAL VARIABLES
 *********************************************************************************************************
 */
-tUart1	Uart1;
+
+
+
 /*
 *********************************************************************************************************
 *********************************************************************************************************
@@ -52,79 +65,109 @@ tUart1	Uart1;
 */
 void __attribute__((__interrupt__)) _U1RXInterrupt (void);
 void __attribute__((__interrupt__)) _U1TXInterrupt (void);
-void Uart1RxApp(void);
-void Uart1RxErrApp(void);
-void Uart1App(void);
-void Uart1TxModbus(void);
-void Uart1TxCRCerr(void);
+//void Uart1RxApp(void);
+//void Uart1RxErrApp(void);
+void Modbus_Slave_App(void);
+//void Uart1App(void);
+//void Uart1TxModbus(void);
+//void Uart1TxCRCerr(void);
 void InitUart1(void);
 unsigned int CRC16_Check(unsigned char *Pushdata,unsigned char length);
+void Modbus_Start_Transmit(unsigned char len);
+
+void Update_Modbus_Registers(void);
 /*
 *********************************************************************************************************
 *********************************************************************************************************
 *********************************************************************************************************
 *********************************************************************************************************
 */
-tU1TxRx	U1TxRx;
+//tU1TxRx	U1TxRx;
 /*
 *********************************************************************************************************
 *********************************************************************************************************
 */
-void Uart1RxErrApp()
+
+/*
+*********************************************************************************************************
+*********************************************************************************************************
+*/
+/*
+*********************************************************************************************************
+* 函数名称: Modbus_Slave_App
+* 功能描述: 在主循环中调用，解析并响应功能码 03, 06, 16
+*********************************************************************************************************
+*/
+void Modbus_Slave_App(void)
 {
-	if(Uart1.RxByteF)
-	{
-		U1TxRx.RxIntervalCnt++;
-		if(U1TxRx.RxIntervalCnt > RX_INTERVER_TIME)
-		{
-			U1TxRx.RxTimes = 0;
-		}
-	}
-//	U1TxRx.RxIntervalCnt1++;
-//	if(Uart1.RxFrameF)
-//	{
-//		U1TxRx.RxIntervalCnt1 = 0;	
-//	}
-//	if(U1TxRx.RxIntervalCnt1 > 300)
-//	{
-//		InitUart1();
-//		U1TxRx.RxIntervalCnt1 = 0;
-//	}
-	if(U1STAbits.PERR || U1STAbits.OERR || U1STAbits.FERR)
-	{InitUart1();}
-	
-	
+    unsigned int startAddr, regNum, i;
+    unsigned int crcCalc, crcRecv;
+    
+    if (MB.FrameReady == 0) return; // 无新帧则返回
+
+    // 1. 基本校验：站号匹配及最小长度校验
+    if (MB.RxBuf[0] != StartParams.modbusaddr || MB.RxCnt < 4) goto RESET_MB;
+
+    // 2. CRC 校验
+    crcCalc = CRC16_Check(MB.RxBuf, MB.RxCnt - 2);
+    crcRecv = (unsigned int)MB.RxBuf[MB.RxCnt - 2] << 8 | MB.RxBuf[MB.RxCnt - 1];
+    if (crcCalc != crcRecv) goto RESET_MB;
+
+    // 3. 功能码处理
+    switch (MB.RxBuf[1]) 
+    {
+        case 0x03: // 读多个保持寄存器
+            startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
+            regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
+            
+            if ((startAddr + regNum) > MB_REG_MAX) break; // 超限不做响应或发异常码
+
+            MB.TxBuf[0] = StartParams.modbusaddr;
+            MB.TxBuf[1] = 0x03;
+            MB.TxBuf[2] = (unsigned char)(regNum * 2); // 字节数
+            for (i = 0; i < regNum; i++) {
+                MB.TxBuf[3 + i * 2] = (unsigned char)(Modbus_Regs[startAddr + i] >> 8);
+                MB.TxBuf[4 + i * 2] = (unsigned char)(Modbus_Regs[startAddr + i] & 0xFF);
+            }
+            Modbus_Start_Transmit(3 + regNum * 2);
+            break;
+
+        case 0x06: // 写单个寄存器
+            startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
+            if (startAddr < MB_REG_MAX) {
+                Modbus_Regs[startAddr] = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
+                // 写入后的特殊逻辑处理：起停控制
+                if (startAddr == REG_START_CMD && Modbus_Regs[startAddr] == 0x00AA) Input.Start = 1;
+                if (startAddr == REG_STOP_CMD  && Modbus_Regs[startAddr] == 0x00BB) Input.Stop = 1;
+                
+                // 原样返回应答帧
+                for(i=0; i<8; i++) MB.TxBuf[i] = MB.RxBuf[i];
+                Modbus_Start_Transmit(8);
+            }
+            break;
+
+        case 0x10: // 写多个寄存器 (16进制 10H)
+            startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
+            regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
+            if ((startAddr + regNum) <= MB_REG_MAX) {
+                for (i = 0; i < regNum; i++) {
+                    Modbus_Regs[startAddr + i] = (unsigned int)MB.RxBuf[7 + i * 2] << 8 | MB.RxBuf[8 + i * 2];
+                }
+                // 返回确认帧 (站号+功能码+地址+数量+CRC)
+                for(i=0; i<6; i++) MB.TxBuf[i] = MB.RxBuf[i];
+                Modbus_Start_Transmit(6);
+            }
+            break;
+
+        default:
+            // 未定义功能码异常处理
+            break;
+    }
+
+RESET_MB:
+    MB.RxCnt = 0;
+    MB.FrameReady = 0;
 }
-/*
-*********************************************************************************************************
-*********************************************************************************************************
-*/
-void Uart1App()
-{
-    U1TxRx.Txcnt++;
-    if(U1TxRx.Txcnt>500)
-    {InitUart1();
-    U1TxRx.RxTimes = 0;
-	Uart1.RxByteF = 0;
-	LATFbits.LATF6 = 0;	
-    Uart1.RxFrameF=1;
-    Uart1.RxFrameF1=1;
-    }
-	if(Uart1.RxFrameF==1 && Uart1.RxFrameF1==1)
-	{   
-		Uart1.RxFrameF = 0;	
-        Uart1.RxFrameF1=0;
-        U1TxRx.Txcnt=0;
-		Uart1TxModbus();
-	}
-    if(Uart1.RxFrameF==1 && Uart1.RxFrameF2==1)
-	{   
-		Uart1.RxFrameF = 0;	
-        Uart1.RxFrameF2=0;
-        U1TxRx.Txcnt=0;
-		Uart1TxModbus2();
-	}
-}
 
 /*
 *********************************************************************************************************
@@ -134,283 +177,108 @@ void Uart1App()
 *********************************************************************************************************
 *********************************************************************************************************
 */
-void Uart1TxModbus(void)
-{
-	unsigned int i;
-	i = 30;
-	EEPROMADDR = 0xFC00 + 2 * i;
-    ReadEE(__builtin_tblpage(&EPConfigS[0]),EEPROMADDR,&MainParams.SaveParams[i], WORD);
-	i = 31;
-	EEPROMADDR = 0xFC00 + 2 * i;
-    ReadEE(__builtin_tblpage(&EPConfigS[0]),EEPROMADDR,&MainParams.SaveParams[i], WORD);
-   
 
-	U1TxRx.TxData[0] = StartParams.modbusaddr;    //从站地址为1
-	U1TxRx.TxData[1] = 0x03;     //读功能码
-	U1TxRx.TxData[2] = 0x0E;      //响应14个字节
-	U1TxRx.TxData[3] = SysStatus >> 8;
-	U1TxRx.TxData[4] = SysStatus;
-	U1TxRx.TxData[5] = Fault.Byte >> 8;
-	U1TxRx.TxData[6] = Fault.Byte;
-
-
-  if(SysStatus != START&&MainParams.Ia<=5)
-    {U1TxRx.TxData[7] =0;
-     U1TxRx.TxData[8] =0;
-    }
-  if(SysStatus != START&&MainParams.Ia>5)
-    {U1TxRx.TxData[7] = MainParams.Ia >> 8; //电流
-     U1TxRx.TxData[8] = MainParams.Ia;
-    }
-	U1TxRx.TxData[9] = MainParams.Ua >> 8; //电压
-	U1TxRx.TxData[10] = MainParams.Ua;
-
-	U1TxRx.TxData[11] = MainParams.Temperature >> 8;//温度
-	U1TxRx.TxData[12] = MainParams.Temperature;
-
-
-	U1TxRx.TxData[13] = MainParams.SaveParams[30] >> 8;
-	U1TxRx.TxData[14] = MainParams.SaveParams[30];
-	U1TxRx.TxData[15] = MainParams.SaveParams[31] >> 8;
-	U1TxRx.TxData[16] = MainParams.SaveParams[31];
-
-	U1TxRx.TxDataCrc = CRC16_Check(&U1TxRx.TxData[0],17);
-	
-	U1TxRx.TxData[17] = U1TxRx.TxDataCrc >> 8;
-	U1TxRx.TxData[18] = U1TxRx.TxDataCrc;
-
-	U1TxRx.TxTimes = 20; //发送字节次数
-	U1TxRx.TxDataCnt = 0; //当前次数清0
-	U1TXREG = U1TxRx.TxData[0];	
-}	
-
-void Uart1TxModbus2(void)
-{
-
-   
-
-	U1TxRx.TxData[0] = StartParams.modbusaddr;    //从站地址为1
-	U1TxRx.TxData[1] = 0x02;     //读功能码
-	U1TxRx.TxData[2] = 0x02;      //响应14个字节
-	U1TxRx.TxData[3] = Fault.Byte >> 8;
-	U1TxRx.TxData[4] = Fault.Byte;
-
-
-  
-
-	U1TxRx.TxDataCrc = CRC16_Check(&U1TxRx.TxData[0],5);
-	
-	U1TxRx.TxData[5] = U1TxRx.TxDataCrc >> 8;
-	U1TxRx.TxData[6] = U1TxRx.TxDataCrc;
-
-	U1TxRx.TxTimes = 8; //发送字节次数
-	U1TxRx.TxDataCnt = 0; //当前次数清0
-	U1TXREG = U1TxRx.TxData[0];	
-}	
 /*
 *********************************************************************************************************
 *********************************************************************************************************
 */
 void InitUart1(void)
-{	
-	U1BRG = BAUD_RATE;
+{
+    // 1. 设置引脚方向 (48引脚 5011 专用)
+    TRISFbits.TRISF2 = 1;     // RF2 作为 U1RX 输入
+    TRISFbits.TRISF3 = 0;     // RF3 作为 U1TX 输出
+    
+    // 2. 彻底关闭冲突外设
+    SPI1STATbits.SPIEN = 0;   // 确保 SPI1 没有抢占 RF2/RF3
 
-	U1MODE = 0;
-	U1MODEbits.UARTEN = 1;			/*1 = Enable UARTx; UARTx pins are controlled by UARTx module*/
-	U1MODEbits.USIDL = 1;			/*1 = Discontinue operation when device enters Idle mode*/
-	U1MODEbits.ABAUD = 0;			/*0 = Baud rate measurement disabled or completed*/
-	U1MODEbits.PDSEL = 0;			/*00 = 8-bit data, no parity*/
-	U1MODEbits.STSEL = 0;			/*0 = 1 Stop bit*/
+    // 3. 配置波特率 (假设 Fcy=7.3728M, 9600bps 则为 11, 若 Fcy=29.49M 则为 191)
+    U1BRG = BAUD_RATE; 
 
-	U1STA = 0;
-	U1STAbits.UTXEN = 1; 			/*1 = transmitter enabled, UxTX pin controlled by UARTx (UARTEN=1)*/
-	U1STAbits.UTXISEL = 1;			/*0 = Interrupt when a character is transferred to the Transmit 
-									Shift register
-									1 = Interrupt when a character is transferred to the Transmit 
-									Shift register and as result, the transmit buffer becomes empty*/
-	U1STAbits.URXISEL = 0;			/*0x =Interrupt flag bit is set when a character is received*/
-	 
-	IFS0bits.U1TXIF = 0;
-	IFS0bits.U1RXIF = 0;
-	IPC2bits.U1TXIP = 4;
-	IPC2bits.U1RXIP = 4;
-	IEC0bits.U1TXIE = 1;				// 1 允许U1TX中断  
-	IEC0bits.U1RXIE = 1;				// 1 允许U1RX中断 
-
-	LATF = 0;
-	TRISFbits.TRISF6 = 0;
-	LATFbits.LATF6 = 1;				//RS485 RX ENABLE	
-	
+    // 4. 配置模式
+    U1MODE = 0;
+    U1MODEbits.UARTEN = 1;    // 开启 UART
+    U1MODEbits.ALTIO = 0;     // 48脚封装: 0 使用 RF2/RF3; 1 使用备用引脚(如有)
+    
+    // 5. 配置状态与中断
+    U1STA = 0;
+    U1STAbits.UTXEN = 1;      // 发送使能
+    
+    IFS0bits.U1RXIF = 0;
+    IEC0bits.U1RXIE = 1;      // 接收中断使能
+    
+    // 6. RS485 控制 (高压软起动板通常 0 为收，1 为发)
+    TRISFbits.TRISF6 = 0;
+    LATFbits.LATF6 = 1;       // 默认进入监听模式
 }
 
 /*
 *********************************************************************************************************
 *********************************************************************************************************
 */
+/* UART 接收中断 */
 void __attribute__((__interrupt__)) _U1RXInterrupt (void)
 {
-	if(U1STAbits.OERR == 1) 
-	{
-		U1STAbits.OERR = 0; // Clear Overrun Error to receive data
-	}
-	Uart1.RxByteF = 1;
-	U1TxRx.RxIntervalCnt = 0;
-	if(!Uart1.RxFrameF)
-	{
-	if (U1STAbits.FERR ==0 )
-	{
-		if(U1TxRx.RxTimes == 0)
-		{
-			U1TxRx.RxAddr =	 U1RXREG;
-            
-			if(U1TxRx.RxAddr == StartParams.modbusaddr)
-			{
-				U1TxRx.RxTimes = 1;
-			}
-			else
-			{
-				U1TxRx.RxTimes = 0;
-			}
-		}
-		else if(U1TxRx.RxTimes == 1)
-		{		
-			
-			U1TxRx.RxFnctNbr = U1RXREG; 
-			
-			if(U1TxRx.RxFnctNbr ==0x03||U1TxRx.RxFnctNbr ==0x06)
-			{
-				U1TxRx.RxTimes = 2;
-                Uart1.RxFrameF1=1;
-			}
-   			else if(U1TxRx.RxFnctNbr ==0x02)
-			{
-				U1TxRx.RxTimes = 2;
-                Uart1.RxFrameF2=1;
-			}
-			else
-			{
-				U1TxRx.RxTimes = 0;
-			}
-		
-		}
-		else if(U1TxRx.RxTimes == 2)
-		{
-			U1TxRx.RxTimes = 3;
-			U1TxRx.RxDataAddrHi  = U1RXREG;
-		}     
-		else if(U1TxRx.RxTimes == 3)
-		{
-			U1TxRx.RxTimes = 4;
-			U1TxRx.RxDataAddrLo = U1RXREG;			
-		}
-		else if(U1TxRx.RxTimes == 4)
-		{
-			U1TxRx.RxTimes = 5;
-			U1TxRx.RxDataCntHi = U1RXREG;
-		}
-		else if(U1TxRx.RxTimes == 5)
-		{
-			U1TxRx.RxTimes = 6;
-			U1TxRx.RxDataCntLo = U1RXREG;
-		}
-		else if(U1TxRx.RxTimes == 6)
-		{
-			U1TxRx.RxTimes = 7;
-			U1TxRx.RxDataCrcHi = U1RXREG;
-		}
-		else if(U1TxRx.RxTimes == 7)
-		{
-			U1TxRx.RxDataCrcLo = U1RXREG;
-
-            U1TxRx.RxData[0] = U1TxRx.RxAddr;
-            U1TxRx.RxData[1] = U1TxRx.RxFnctNbr;
-            U1TxRx.RxData[2] = U1TxRx.RxDataAddrHi;
-            U1TxRx.RxData[3] = U1TxRx.RxDataAddrLo;
-            U1TxRx.RxData[4] = U1TxRx.RxDataCntHi;
-            U1TxRx.RxData[5] = U1TxRx.RxDataCntLo;
-            U1TxRx.RxData[6] = U1TxRx.RxDataCrcHi;
-            U1TxRx.RxData[7] = U1TxRx.RxDataCrcLo;
- 
-         U1TxRx.RxCalCrc = CRC16_Check(&U1TxRx.RxData[0],6);
-         U1TxRx.RxDataCrc =U1TxRx.RxData[7]+(U1TxRx.RxData[6]<<8);
-
-
-             if(U1TxRx.RxFnctNbr ==0x06)
-                    {
-                     if(U1TxRx.RxDataAddrHi==0 && U1TxRx.RxDataAddrLo==0x64)
-                       {
-                        if(U1TxRx.RxDataCntHi==0 &&U1TxRx.RxDataCntLo==0xAA)
-                           {Input.Start = 1;}
-                              
-                  
-                      }
-                    }
-             if(U1TxRx.RxFnctNbr ==0x06)
-                    {
-                     if(U1TxRx.RxDataAddrHi==0 && U1TxRx.RxDataAddrLo==0x65)
-                       {
-                        if(U1TxRx.RxDataCntHi==0 &&U1TxRx.RxDataCntLo==0xBB)
-                           {Input.Stop = 1;}
-                              
-                  
-                      }
-                    }
-           
-                
-          if(U1TxRx.RxCalCrc==U1TxRx.RxDataCrc)
-           {
-			Uart1.RxFrameF = 1;
-				
-			U1TxRx.RxTimes = 0;
-			Uart1.RxByteF = 0;
-			LATFbits.LATF6 = 0;	}
-		}
-		else 
-		{
-			U1TxRx.RxTimes = 0;
-			U1TxRx.RxAddr = U1RXREG;
-		}
-
-		}
-	}
-	else
-	{U1TxRx.RxAddr = U1RXREG;}	
-	IFS0bits.U1RXIF = 0;
-	return;
+    if(U1STAbits.OERR) U1STAbits.OERR = 0;
+    
+    if(MB.RxCnt < 128) {
+        MB.RxBuf[MB.RxCnt++] = U1RXREG;
+    } else {
+        U1RXREG; // 缓冲区溢出处理
+    }
+    
+    MB.Timer35T = 0; // 收到新字节，清零 3.5T 定时器计数
+    IFS0bits.U1RXIF = 0;
 }
 
-/*
-*********************************************************************************************************
-*********************************************************************************************************
-*/
+
+
+/* 启动发送函数 */
+void Modbus_Start_Transmit(unsigned char len)
+{
+    unsigned int crc;
+    crc = CRC16_Check(MB.TxBuf, len);
+    MB.TxBuf[len] = (unsigned char)(crc >> 8);
+    MB.TxBuf[len + 1] = (unsigned char)(crc & 0xFF);
+    
+    MB.TxLen = len + 2;
+    MB.TxPtr = 0;
+    
+    LATFbits.LATF6 = 1; // RS485 切换至发送模式 (DE 引脚有效)
+    U1TXREG = MB.TxBuf[MB.TxPtr++]; // 触发首个字符发送
+}
+
+/* UART 发送中断 */
 void __attribute__((__interrupt__)) _U1TXInterrupt (void)
 {
-            //U1TxRx.RxAddr=0;
-           // U1TxRx.RxFnctNbr=0;
-            //U1TxRx.RxDataAddrHi=0;
-            //U1TxRx.RxDataAddrLo=0;
-           // U1TxRx.RxDataCntHi=0;
-           // U1TxRx.RxDataCntLo=0;
-           // U1TxRx.RxDataCrcHi=0;
-          //  U1TxRx.RxDataCrcLo=0;
-	IFS0bits.U1TXIF = 0;
-	U1TxRx.TxDataCnt++;
-	if(U1TxRx.TxDataCnt < U1TxRx.TxTimes )
-	{
-		U1TXREG = U1TxRx.TxData[U1TxRx.TxDataCnt];
-	}
-	else
-	{
-		LATFbits.LATF6 = 1;				//RS485 RX ENABLE
-	}
-
-	return;	
+    IFS0bits.U1TXIF = 0;
+    if (MB.TxPtr < MB.TxLen) {
+        U1TXREG = MB.TxBuf[MB.TxPtr++];
+    } else {
+        // 等待硬件移位寄存器发完后再拉高 DE，防止末尾字节截断
+        while(!U1STAbits.TRMT); 
+        LATFbits.LATF6 = 0; // 切换回接收模式
+    }
 }
 /*
 *********************************************************************************************************
 *********************************************************************************************************
 */
-
+void Update_Modbus_Registers(void)
+{
+    // 将关键运行数据同步到映射表
+    Modbus_Regs[REG_SYS_STATUS] = SysStatus;
+    Modbus_Regs[REG_FAULT_CODE] = Fault.Byte;
+    
+    // 针对你的 Ia <= 5A 的逻辑：
+    if(SysStatus != START && MainParams.Ia <= 5) {
+        Modbus_Regs[REG_CURRENT_A] = 0;
+    } else {
+        Modbus_Regs[REG_CURRENT_A] = MainParams.Ia;
+    }
+    
+    Modbus_Regs[REG_VOLTAGE_A] = MainParams.Ua;
+    // 温度等其他参数...
+}
 /*
 *********************************************************************************************************
 *********************************************************************************************************

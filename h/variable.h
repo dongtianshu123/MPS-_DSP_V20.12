@@ -539,7 +539,7 @@ typedef struct{
 	unsigned int TxDataAddrL;
     unsigned int Txcnt;
 }tU2TxRx;
-
+/*
 typedef struct{
 	unsigned :1;
 	unsigned RxByteF:1;
@@ -586,7 +586,19 @@ typedef struct{
 }tU1TxRx;
 
 
+*/
 
+
+
+typedef struct {
+    unsigned char  RxBuf[128];
+    unsigned char  RxCnt;
+    unsigned char  TxBuf[128];
+    unsigned char  TxLen;
+    unsigned char  TxPtr;
+    unsigned char  FrameReady;    // 帧接收完成标志
+    unsigned int   Timer35T;      // 3.5T 超时计数器
+} tModbus_Ctrl;
 
 
 
@@ -612,7 +624,9 @@ extern tAdcParams AdcParams;
 extern tUart2	Uart2;
 extern tInput  Input;
 extern unsigned int stopFlag;
-extern tUart1	Uart1;
-extern 	tU1TxRx U1TxRx;
+//extern tUart1	Uart1;
+//extern 	tU1TxRx U1TxRx;
 extern tzcd_mgr zcd_mgr;
+
+extern tModbus_Ctrl MB;
 #endif  

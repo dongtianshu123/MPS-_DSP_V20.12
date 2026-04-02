@@ -294,6 +294,19 @@ void SoftStart(void)//1msÖ´ÐÐÖÜÆÚ
 
 
     }
+	else if(StartParams.ControlMode == 4)
+		{
+			
+			
+			if(StartParams.Data < StartParams.Ugmin)
+			{
+				StartParams.Data = StartParams.Ugmin;
+			
+			}
+
+				
+			StartParams.OutData = StartParams.Data >> 10;
+		}
 
 
 

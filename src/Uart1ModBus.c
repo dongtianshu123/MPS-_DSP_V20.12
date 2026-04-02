@@ -15,6 +15,12 @@
 
 #define MB_REG_MAX        128     // 寄存器池大小
 unsigned int Modbus_Regs[MB_REG_MAX]; 
+extern unsigned int StartOFTOK;
+extern unsigned int inputBits;
+extern unsigned int outputBits;
+    unsigned long ulTempCalc;  // 32位中间变量，防止乘法溢出
+    unsigned long  uSpan;       // 量程区间宽度
+
 /*
 *********************************************************************************************************
 * Uart1 OPERATIONS  
@@ -93,34 +99,36 @@ void Update_Modbus_Registers(void);
 *********************************************************************************************************
 */
 /*
+/*
 *********************************************************************************************************
 * 函数名称: Modbus_Slave_App
-* 功能描述: 在主循环中调用，解析并响应功能码 03, 06, 16
+* 功能描述: Modbus从站协议解析引擎 - 处理读(03)、写(06)、多写(16)
+* 优化重点: 增加 0x64/65/66/67 遥控遥调逻辑，强化写入安全性校验
 *********************************************************************************************************
 */
 void Modbus_Slave_App(void)
 {
     unsigned int startAddr, regNum, i;
     unsigned int crcCalc, crcRecv;
+    unsigned int writeVal;
     
-    if (MB.FrameReady == 0) return; 
+    if (MB.FrameReady == 0) return; // 无完整帧则退出
 
-    // 1. 基本校验
+    // 1. 站号与长度基础校验
     if (MB.RxBuf[0] != StartParams.modbusaddr || MB.RxCnt < 4) goto RESET_MB;
 
-    // 2. CRC 校验
+    // 2. CRC 校验 (调用你提供的 CRC16_Check)
     crcCalc = CRC16_Check((unsigned char *)MB.RxBuf, MB.RxCnt - 2);
     crcRecv = (unsigned int)MB.RxBuf[MB.RxCnt - 2] << 8 | MB.RxBuf[MB.RxCnt - 1];
     if (crcCalc != crcRecv) goto RESET_MB;
 
-    // 3. 功能码处理
+    // 3. 功能码解析
     switch (MB.RxBuf[1]) 
     {
-        case 0x03: // 读保持寄存器
+        case 0x03: // --- 读保持寄存器 ---
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
             
-            // 安全检查：防止读请求导致内存越界崩溃
             if ((startAddr + regNum) > MB_REG_MAX) break; 
 
             MB.TxBuf[0] = StartParams.modbusaddr;
@@ -133,30 +141,71 @@ void Modbus_Slave_App(void)
             Modbus_Start_Transmit(3 + regNum * 2);
             break;
 
-        case 0x06: // 写单个寄存器
+        case 0x06: // --- 写单个寄存器 (遥控/遥调) ---
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
+            writeVal  = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
+            
             if (startAddr < MB_REG_MAX) {
-                Modbus_Regs[startAddr] = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
+                // 将数据存入映射表
+                Modbus_Regs[startAddr] = writeVal;
+
+                // 具体的遥控执行逻辑
+                switch (startAddr)
+                {
+                    case 0x0064: // 遥控起动
+                        if (writeVal == 0x00AA) {
+                            Input.Start = 1; // 触发起动逻辑
+                        }
+                        break;
+
+                    case 0x0065: // 遥控停止
+                        if (writeVal == 0x00BB) {
+                            Input.Stop = 1;  // 触发停止逻辑
+                        }
+                        break;
+
+                    case 0x0066: // 遥控故障复位
+                        if (writeVal == 0x00CC) {
+                            // 执行故障清除逻辑
+                            Fault.Byte = 0;
+                            Input.reset = 1; 
+                        }
+                        break;
+
+                    case 0x0067: // 远程遥调写指令
+                        // 直接写入调整参数，范围 0-0xFFFF
+                        StartParams.AdjustData = writeVal; 
+                        break;
+                    case 0x0068: // 调试指令，临时将模式调整到4
+                        // 
+                        StartParams.ControlMode=4; 
+                        break;
+                       
+
+                    default:
+                        // 其他可写寄存器逻辑
+                        break;
+                }
                 
-                // 执行逻辑：起动/停止控制
-                if (startAddr == REG_START_CMD && Modbus_Regs[startAddr] == 0x00AA) Input.Start = 1;
-                if (startAddr == REG_STOP_CMD  && Modbus_Regs[startAddr] == 0x00BB) Input.Stop = 1;
-                
-                for(i=0; i<8; i++) MB.TxBuf[i] = MB.RxBuf[i];
-                Modbus_Start_Transmit(8);
+                // 按照 Modbus 标准：06 功能码响应原报文
+                for(i = 0; i < 6; i++) MB.TxBuf[i] = MB.RxBuf[i];
+                Modbus_Start_Transmit(6);
             }
             break;
 
-        case 0x10: // 写多个寄存器
+        case 0x10: // --- 写多个寄存器 ---
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
             if ((startAddr + regNum) <= MB_REG_MAX) {
                 for (i = 0; i < regNum; i++) {
                     Modbus_Regs[startAddr + i] = (unsigned int)MB.RxBuf[7 + i * 2] << 8 | MB.RxBuf[8 + i * 2];
                 }
-                for(i=0; i<6; i++) MB.TxBuf[i] = MB.RxBuf[i];
+                for(i = 0; i < 6; i++) MB.TxBuf[i] = MB.RxBuf[i];
                 Modbus_Start_Transmit(6);
             }
+            break;
+
+        default:
             break;
     }
 
@@ -325,21 +374,139 @@ void __attribute__((__interrupt__)) _U1TXInterrupt (void)
 *********************************************************************************************************
 *********************************************************************************************************
 */
+/*
+*********************************************************************************************************
+* 函数名称: Update_Modbus_Registers
+* 功能描述: 将系统变量同步至 Modbus 寄存器映射表 (Modbus_Regs[])
+* 备注: 严格对应串口 Uart2 的报文逻辑，实现数据跨协议同步
+*********************************************************************************************************
+*/
 void Update_Modbus_Registers(void)
 {
-    // 将关键运行数据同步到映射表
-    Modbus_Regs[REG_SYS_STATUS] = SysStatus;
-    Modbus_Regs[REG_FAULT_CODE] = Fault.Byte;
-    
-    // 针对你的 Ia <= 5A 的逻辑：
-    if(SysStatus != START && MainParams.Ia <= 5) {
-        Modbus_Regs[REG_CURRENT_A] = 0;
-    } else {
-        Modbus_Regs[REG_CURRENT_A] = MainParams.Ia;
+    unsigned int inputBits = 0;
+    unsigned int outputBits = 0;
+    unsigned int SystemStatusBits = 0;
+    unsigned int tempStatus = 0;
+
+    // --- 1. 三相电流 (起动/运行状态下显示真实值，否则清零) ---
+    if ((SysStatus == START) || (SysStatus == RUN))
+    {
+        Modbus_Regs[0] = ADI.Ia; 
+        Modbus_Regs[1] = ADI.Ib; 
+        Modbus_Regs[2] = ADI.Ic; 
     }
+    else
+    {
+        Modbus_Regs[0] = 0;
+        Modbus_Regs[1] = 0;
+        Modbus_Regs[2] = 0;
+    }
+
+    // --- 2. 三相电压 ---
+    Modbus_Regs[3] = MainParams.Ua;
+    Modbus_Regs[4] = MainParams.Ub;
+    Modbus_Regs[5] = MainParams.Uc;
+
+    // --- 3. IO输入点状态封包 (逻辑取反: 0为有效) ---
+    if(INPUT_START == 0)    inputBits |= 0x0001;
+    if(INPUT_STOP == 0)     inputBits |= 0x0002;
+    if(INPUT_READY == 0)    inputBits |= 0x0004;
+    if(INPUT_RUN_CHECK == 0)inputBits |= 0x0008;
+    if(INPUT_NO_USE == 0)   inputBits |= 0x0010;
+    if(INPUT_in6 == 0)      inputBits |= 0x0020;
+    if(INPUT_in7 == 0)      inputBits |= 0x0040;
+    if(INPUT_in8 == 0)      inputBits |= 0x0080;
+    if(INPUT_in9 == 0)      inputBits |= 0x0100;
+    if(INPUT_in10 == 0)     inputBits |= 0x0200;
+    if(Functionswitch.FWD_REV == 1) inputBits |= 0x8000; // 1为反转
+    Modbus_Regs[6] = inputBits;
+
+    // --- 4. IO输出点状态封包 (逻辑: 1为有效) ---
+    if(OUTPUT_READY == 1)   outputBits |= 0x0001;
+    if(OUTPUT_START == 1)   outputBits |= 0x0002;
+    if(OUTPUT_TRIGGER == 1) outputBits |= 0x0004;
+    if(OUTPUT_RUN_ON == 1)  outputBits |= 0x0008;
+    if(OUTPUT_RUN_OFF == 1) outputBits |= 0x0010;
+    if(OUTPUT_ALARM == 1)   outputBits |= 0x0020;
+    if(OUTPUT_K5 == 1)      outputBits |= 0x0040;
+    if(OUTPUT_K6 == 1)      outputBits |= 0x0080;
+    if(OUTPUT_K7 == 1)      outputBits |= 0x0100;
+    if(OUTPUT_K8 == 1)      outputBits |= 0x0200;
+    Modbus_Regs[7] = outputBits;
+
+    // --- 5. 系统运行状态映射 ---
+    tempStatus = SysStatus;
+    if (tempStatus == 0 || tempStatus == 1) 
+    {
+        if (lowVoltageTest == 0xaaaa) Modbus_Regs[8] = 4; // 低压测试状态
+        else Modbus_Regs[8] = tempStatus;
+    }
+    else if (tempStatus == 2 || tempStatus == 3) Modbus_Regs[8] = 2; // 运行/过载运行
+    else if (tempStatus == 4) Modbus_Regs[8] = 3; // 软停
+    else if (tempStatus == 5) Modbus_Regs[8] = 5; // 故障
+    else Modbus_Regs[8] = 0;
+
+    // --- 6. 系统实时参数 ---
+    Modbus_Regs[9]  = MainParams.Temperature;
+    Modbus_Regs[10] = Fault.Byte;
+    Modbus_Regs[11] = StartParams.StartTime1s;
+    Modbus_Regs[12] = MainParams.frequency;
+    Modbus_Regs[13] = Version;
+    Modbus_Regs[14] = compareACnt;
+    Modbus_Regs[15] = ProtectParams.intevalmin;
+
+    // --- 7. 系统状态位 SystemStatusBits ---
+    if(phasecompareError == 1) SystemStatusBits |= 0x0001; 
+    if(Input.Ready == 1)       SystemStatusBits |= 0x0002; 
+    if(StartOFTOK == 1)        SystemStatusBits |= 0x0004; 
+    if(MainParams.Temperature < ProtectParams.Temperature || Functionswitch.TDetection == 0)
+                               SystemStatusBits |= 0x0008; 
+    Modbus_Regs[16] = SystemStatusBits;
+
+    // --- 8. 扩展 ADC 参数 ---
+    if (Functionswitch.Delay_Zero == 0) Modbus_Regs[17] = LT;
+    else Modbus_Regs[17] = MainParams.In;
+
+    Modbus_Regs[18] = StartParams.OutData;
+    Modbus_Regs[19] = step11;
+    Modbus_Regs[20] = AdcParams.pf;
+    Modbus_Regs[21] = AdcParams.acos_max;
+    Modbus_Regs[22] = AdcParams.Imax;
+    Modbus_Regs[23] = AdcParams.Laststarttime;
+    Modbus_Regs[24] = AdcParams.Ud;
+
+
+
+    unsigned int begin;
+    unsigned int ugmin;
+
+    // 1. 获取上位机下发的原始数据 (来自 Modbus 寄存器 0x0067)
+    // 假设 Modbus_Slave_App 已经将数据写入 StartParams.AdjustData
     
-    Modbus_Regs[REG_VOLTAGE_A] = MainParams.Ua;
-    // 温度等其他参数...
+    // 2. 计算目标区间的跨度 (Span)
+    // 增加防御性编程：确保上限大于下限，防止出现负数或反向映射
+    if (StartParams.Ugmin < StartParams.BeginVoltage)
+    {
+        ugmin=StartParams.Ugmin>>10;
+        begin=StartParams.BeginVoltage>>10;
+        uSpan = begin-ugmin;
+
+        // 3. 线性缩放计算: Y = A + (X * Span) / 32767
+        // 强制转换为 unsigned long 确保 32 位乘法执行
+        ulTempCalc = (unsigned long)StartParams.AdjustData * uSpan;
+        
+        // 执行除法并取整归一化
+        // 加上 16383 (即 32767/2) 可实现四舍五入效果，提高控制精度
+        StartParams.Data = StartParams.Ugmin + (unsigned long)(((ulTempCalc + 16383) / 32767)<<10);
+    }
+
+    else
+    {
+        // 上下限相等的情况
+        StartParams.Data = StartParams.BeginVoltage;
+    }
+
+     StartParams.OutData = StartParams.Data >> 10; 
 }
 /*
 *********************************************************************************************************

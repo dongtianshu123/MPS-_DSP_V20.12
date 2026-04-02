@@ -259,7 +259,7 @@ typedef struct{
     unsigned int LoopData;
  	unsigned int MaxLoopData;
     unsigned long StartTimeCount;
-    
+    unsigned int AdjustData;
     long Datastore;
     unsigned int Stoptimestore;
     

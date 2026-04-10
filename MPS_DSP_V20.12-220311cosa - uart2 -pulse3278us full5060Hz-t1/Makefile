@@ -1,0 +1,59 @@
+# MPLAB IDE generated this makefile for use with GNU make.
+# Project: mps_dsp_V19.79.mcp
+# Date: Tue Nov 03 11:35:08 2020
+
+AS = pic30-as.exe
+CC = pic30-gcc.exe
+LD = pic30-ld.exe
+AR = pic30-ar.exe
+HX = pic30-bin2hex.exe
+RM = rm
+
+mps_dsp_V19.79.hex : mps_dsp_V19.79.cof
+	$(HX) "mps_dsp_V19.79.cof"
+
+mps_dsp_V19.79.cof : ADInterrupt.o Current.o DataEEPROM.o Delays.o init5011.o IO.o MainCont.o PhyVol.o Protect1.o RelayFlow.o T1_CTRL.o Uart1ModBus.o Uart2.o
+	$(CC) -mcpu=30F5011 "ADInterrupt.o" "Current.o" "DataEEPROM.o" "Delays.o" "init5011.o" "IO.o" "MainCont.o" "PhyVol.o" "Protect1.o" "RelayFlow.o" "T1_CTRL.o" "Uart1ModBus.o" "Uart2.o" -o"mps_dsp_V19.79.cof" -Wl,-L"C:\Program Files\Microchip\mplabc30\v3.25\lib",-Tp30F5011.gld,--defsym=__MPLAB_BUILD=1,--defsym=__MPLAB_DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,--defsym=__ICD2RAM=1,-Map="mps_dsp_V19.79.map",--report-mem
+
+ADInterrupt.o : c:/program\ files/microchip/mplabc30/v3.25/include/math.h h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/ADInterrupt.c
+	$(CC) -mcpu=30F5011 -x c -c "src\ADInterrupt.c" -o"ADInterrupt.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+Current.o : c:/program\ files/microchip/mplabc30/v3.25/include/math.h h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/Current.c
+	$(CC) -mcpu=30F5011 -x c -c "src\Current.c" -o"Current.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+DataEEPROM.o : c:/program\ files/microchip/mplabc30/v3.25/support/dsPIC30F/inc/p30f5011.inc c:/program\ files/microchip/mplabc30/v3.25/support/dsPIC30F/inc/p30fxxxx.inc src/DataEEPROM.s
+	$(CC) -mcpu=30F5011 -c -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 "src\DataEEPROM.s" -o"DataEEPROM.o" -Wa,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,-g
+
+Delays.o : h/p30f5011.h c:/program\ files/microchip/mplabc30/v3.25/support/dsPIC30F/h/p30fxxxx.h h/Function.h h/p30F5011.h h/variable.h h/UserParams.h src/Delays.c
+	$(CC) -mcpu=30F5011 -x c -c "src\Delays.c" -o"Delays.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+init5011.o : h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/init5011.c
+	$(CC) -mcpu=30F5011 -x c -c "src\init5011.c" -o"init5011.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+IO.o : h/p30F5011.h h/variable.h h/UserParams.h src/IO.c
+	$(CC) -mcpu=30F5011 -x c -c "src\IO.c" -o"IO.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+MainCont.o : h/p30f5011.h c:/program\ files/microchip/mplabc30/v3.25/support/dsPIC30F/h/p30fxxxx.h h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/MainCont.c
+	$(CC) -mcpu=30F5011 -x c -c "src\MainCont.c" -o"MainCont.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+PhyVol.o : h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/PhyVol.c
+	$(CC) -mcpu=30F5011 -x c -c "src\PhyVol.c" -o"PhyVol.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+Protect1.o : h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/Protect1.c
+	$(CC) -mcpu=30F5011 -x c -c "src\Protect1.c" -o"Protect1.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+RelayFlow.o : h/UserParams.h h/variable.h h/p30F5011.h src/RelayFlow.c
+	$(CC) -mcpu=30F5011 -x c -c "src\RelayFlow.c" -o"RelayFlow.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+T1_CTRL.o : h/p30F5011.h h/variable.h h/Function.h h/UserParams.h src/T1_CTRL.c
+	$(CC) -mcpu=30F5011 -x c -c "src\T1_CTRL.c" -o"T1_CTRL.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+Uart1ModBus.o : h/p30F5011.h h/Variable.h h/Function.h h/UserParams.h c:/program\ files/microchip/mplabc30/v3.25/include/stddef.h c:/program\ files/microchip/mplabc30/v3.25/include/string.h c:/program\ files/microchip/mplabc30/v3.25/include/math.h h/UniversalDef.h h/p30f5011.h c:/program\ files/microchip/mplabc30/v3.25/support/dsPIC30F/h/p30fxxxx.h src/Uart1ModBus.c
+	$(CC) -mcpu=30F5011 -x c -c "src\Uart1ModBus.c" -o"Uart1ModBus.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+Uart2.o : h/p30F5011.h h/Variable.h h/Function.h h/UserParams.h c:/program\ files/microchip/mplabc30/v3.25/include/stddef.h c:/program\ files/microchip/mplabc30/v3.25/include/string.h c:/program\ files/microchip/mplabc30/v3.25/include/math.h h/UniversalDef.h h/p30f5011.h c:/program\ files/microchip/mplabc30/v3.25/support/dsPIC30F/h/p30fxxxx.h src/Uart2.c
+	$(CC) -mcpu=30F5011 -x c -c "src\Uart2.c" -o"Uart2.o" -I".\h" -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -g -Wall
+
+clean : 
+	$(RM) "ADInterrupt.o" "Current.o" "DataEEPROM.o" "Delays.o" "init5011.o" "IO.o" "MainCont.o" "PhyVol.o" "Protect1.o" "RelayFlow.o" "T1_CTRL.o" "Uart1ModBus.o" "Uart2.o" "mps_dsp_V19.79.cof" "mps_dsp_V19.79.hex"
+

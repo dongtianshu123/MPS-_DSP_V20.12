@@ -497,16 +497,16 @@ void Update_Modbus_Registers(void)
         
         // 执行除法并取整归一化
         // 加上 16383 (即 32767/2) 可实现四舍五入效果，提高控制精度
-        StartParams.Data = StartParams.Ugmin + (unsigned long)(((ulTempCalc + 16383) / 32767)<<10);
+        StartParams.Data_remote = StartParams.Ugmin + (unsigned long)(((ulTempCalc + 16383) / 32767)<<10);
     }
 
     else
     {
         // 上下限相等的情况
-        StartParams.Data = StartParams.BeginVoltage;
+        StartParams.Data_remote = StartParams.BeginVoltage;
     }
 
-     StartParams.OutData = StartParams.Data >> 10; 
+     
 }
 /*
 *********************************************************************************************************

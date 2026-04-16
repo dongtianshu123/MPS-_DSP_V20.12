@@ -194,10 +194,7 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
               Protect();
             }
             RelayFlow();
-		     if(step11== 3) //正常起动步骤
-			{
-				SoftStart();
-			}
+
                  
 			if(step11== 12)
 			{SoftStop1Ms();}
@@ -213,7 +210,11 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
 			Uart2App();
 			//Uart1App();
             Modbus_Slave_App();
-            Update_Modbus_Registers();
+			
+			if(step11== 3) //正常起动步骤
+			{
+				SoftStart();
+			}
 		}
 	}
 }

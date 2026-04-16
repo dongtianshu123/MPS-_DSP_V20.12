@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "C32"
+            ],
+            "compilerPath": "C:\\Program Files (x86)\\Microchip\\MPLAB C32 Suite\\bin\\pic32-gcc.exe"
+        }
+    ],
+    "version": 4
+}

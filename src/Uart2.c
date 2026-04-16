@@ -1119,9 +1119,9 @@ void InitUART2(void)
 */
 void __attribute__((__interrupt__)) _U2RXInterrupt (void)
 {
-	if(U1STAbits.OERR == 1) 
+	if(U2STAbits.OERR == 1) 
 	{
-		U1STAbits.OERR = 0; // Clear Overrun Error to receive data
+		U2STAbits.OERR = 0; // Clear Overrun Error to receive data
 	}
 	Uart2.RxByteF = 1;
 	U2TxRx.RxIntervalCnt = 0;

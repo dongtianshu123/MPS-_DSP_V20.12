@@ -82,6 +82,7 @@ unsigned int CRC16_Check(unsigned char *Pushdata,unsigned char length);
 void Modbus_Start_Transmit(unsigned char len);
 
 void Update_Modbus_Registers(void);
+void Write_Modbus_Command(void);
 /*
 *********************************************************************************************************
 *********************************************************************************************************
@@ -362,9 +363,11 @@ void Modbus_Start_Transmit(unsigned char len)
 void __attribute__((__interrupt__)) _U1TXInterrupt (void)
 {
     IFS0bits.U1TXIF = 0;
-    if (MB.TxPtr < MB.TxLen) {
+    if (MB.TxPtr < MB.TxLen) 
+      {
         U1TXREG = MB.TxBuf[MB.TxPtr++];
-    } else {
+      } 
+    else {
         // 等待硬件移位寄存器发完后再拉高 DE，防止末尾字节截断
         while(!U1STAbits.TRMT); 
         LATFbits.LATF6 = 1; // 切换回接收模式
@@ -475,7 +478,10 @@ void Update_Modbus_Registers(void)
     Modbus_Regs[23] = AdcParams.Laststarttime;
     Modbus_Regs[24] = AdcParams.Ud;
 
+  }
 
+void Write_Modbus_Command(void)
+ {
 
     unsigned int begin;
     unsigned int ugmin;
@@ -507,7 +513,7 @@ void Update_Modbus_Registers(void)
     }
 
      
-}
+ }
 /*
 *********************************************************************************************************
 *********************************************************************************************************

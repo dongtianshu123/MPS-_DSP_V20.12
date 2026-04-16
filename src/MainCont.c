@@ -204,12 +204,13 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
             Frequencydetect1();
 			SysTime.Ms10 = 0;
 			
-   
+            Update_Modbus_Registers();
 			Uart2RxErrApp();
 		//	Uart1RxErrApp();
 			Uart2App();
 			//Uart1App();
             Modbus_Slave_App();
+            Write_Modbus_Command();
 			
 			if(step11== 3) //正常起动步骤
 			{

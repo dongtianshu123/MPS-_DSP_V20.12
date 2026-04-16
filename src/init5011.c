@@ -65,7 +65,7 @@ else
 
 
 //************* //Æô¶¯Ê±¼ä	 ******************			
-	if(MainParams.SaveParams[1] > 80)
+	if(MainParams.SaveParams[1] > 120)
 	MainParams.SaveParams[1] = 40;
 
 	StartParams.StartTime = MainParams.SaveParams[1] * 100;

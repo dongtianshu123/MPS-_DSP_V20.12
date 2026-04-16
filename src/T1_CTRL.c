@@ -236,16 +236,9 @@ void SoftStart(void)//1msÖ´ĞĞÖÜÆÚ
 			if(StartParams.Data < StartParams.Ugmin)
 			{
 				StartParams.Data = StartParams.Ugmin;
-				StartParams.RunCount += 10;
-				if( StartParams.RunCount > 2000)
-				{
-					if(StartState.PulseF)
-					{StartState.TurnRunF = 1;}
-				}
-				if( StartParams.RunCount > 6000)
-				{Fault.Bits.StartTO = 1;}		
+				
 			}
-          	if(StartParams.StartTimeCount > StartParams.StartTime)
+          	if(StartParams.StartTime1s > MainParams.SaveParams[1])
 		    {
 			   StartState.TurnRunF = 1;
 		    }

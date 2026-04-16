@@ -14,6 +14,9 @@
 #define REG_STOP_CMD      0x0065  // 0x65: 远程停止控制
 
 #define MB_REG_MAX        128     // 寄存器池大小
+#define MB_BUF_SIZE       128
+#define MB_MAX_READ_REGS  ((MB_BUF_SIZE - 5) / 2)
+#define MB_MAX_WRITE_REGS ((MB_BUF_SIZE - 9) / 2)
 unsigned int Modbus_Regs[MB_REG_MAX]; 
 extern unsigned int StartOFTOK;
 extern unsigned int inputBits;
@@ -112,6 +115,7 @@ void Modbus_Slave_App(void)
     unsigned int startAddr, regNum, i;
     unsigned int crcCalc, crcRecv;
     unsigned int writeVal;
+    unsigned int byteCnt;
     
     if (MB.FrameReady == 0) return; // 无完整帧则退出
 
@@ -127,10 +131,12 @@ void Modbus_Slave_App(void)
     switch (MB.RxBuf[1]) 
     {
         case 0x03: // --- 读保持寄存器 ---
+            if (MB.RxCnt != 8) break;
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
             
-            if ((startAddr + regNum) > MB_REG_MAX) break; 
+            if (regNum == 0 || regNum > MB_MAX_READ_REGS) break;
+            if (startAddr >= MB_REG_MAX || regNum > (MB_REG_MAX - startAddr)) break;
 
             MB.TxBuf[0] = StartParams.modbusaddr;
             MB.TxBuf[1] = 0x03;
@@ -143,6 +149,7 @@ void Modbus_Slave_App(void)
             break;
 
         case 0x06: // --- 写单个寄存器 (遥控/遥调) ---
+            if (MB.RxCnt != 8) break;
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             writeVal  = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
             
@@ -195,15 +202,19 @@ void Modbus_Slave_App(void)
             break;
 
         case 0x10: // --- 写多个寄存器 ---
+            if (MB.RxCnt < 9) break;
             startAddr = (unsigned int)MB.RxBuf[2] << 8 | MB.RxBuf[3];
             regNum    = (unsigned int)MB.RxBuf[4] << 8 | MB.RxBuf[5];
-            if ((startAddr + regNum) <= MB_REG_MAX) {
-                for (i = 0; i < regNum; i++) {
-                    Modbus_Regs[startAddr + i] = (unsigned int)MB.RxBuf[7 + i * 2] << 8 | MB.RxBuf[8 + i * 2];
-                }
-                for(i = 0; i < 6; i++) MB.TxBuf[i] = MB.RxBuf[i];
-                Modbus_Start_Transmit(6);
+            byteCnt   = MB.RxBuf[6];
+            if (regNum == 0 || regNum > MB_MAX_WRITE_REGS) break;
+            if (byteCnt != regNum * 2) break;
+            if (MB.RxCnt != byteCnt + 9) break;
+            if (startAddr >= MB_REG_MAX || regNum > (MB_REG_MAX - startAddr)) break;
+            for (i = 0; i < regNum; i++) {
+                Modbus_Regs[startAddr + i] = (unsigned int)MB.RxBuf[7 + i * 2] << 8 | MB.RxBuf[8 + i * 2];
             }
+            for(i = 0; i < 6; i++) MB.TxBuf[i] = MB.RxBuf[i];
+            Modbus_Start_Transmit(6);
             break;
 
         default:
@@ -290,7 +301,7 @@ void __attribute__((__interrupt__)) _U1RXInterrupt (void)
         if (MB.FrameReady == 0) 
         {
             // 正常状态：缓冲区空闲，允许存入数据
-            if (MB.RxCnt < 128) 
+            if (MB.RxCnt < MB_BUF_SIZE)
             {
                 MB.RxBuf[MB.RxCnt] = temp_byte;
                 MB.RxCnt++;
@@ -327,7 +338,12 @@ void Modbus_Start_Transmit(unsigned char len)
     unsigned int crc;
     unsigned int i;
     
-    crc = CRC16_Check(MB.TxBuf, len);
+    if (len > (MB_BUF_SIZE - 2)) {
+        MB.ErrorCount++;
+        return;
+    }
+
+    crc = CRC16_Check((unsigned char *)MB.TxBuf, len);
     MB.TxBuf[len] = (unsigned char)(crc >> 8);
     MB.TxBuf[len + 1] = (unsigned char)(crc & 0xFF);
     

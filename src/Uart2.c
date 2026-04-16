@@ -1128,7 +1128,7 @@ void __attribute__((__interrupt__)) _U2RXInterrupt (void)
 //	U2TxRx.RxHead = U2RXREG;
 	if(!Uart2.RxFrameF)
 	{
-		if (U1STAbits.FERR ==0 )
+		if (U2STAbits.FERR ==0 )
 		{
 			if(U2TxRx.RxTimes == 0)
 			{

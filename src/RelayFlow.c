@@ -444,7 +444,7 @@ else if (step11==13)
            
  if (Input.Stop==1 && step11==4 && StartParams.StopTime!=0) //ÈíÍ£
     {           step3=0;
-                RequestRunOpenPulse();
+                
                 StartParams.StartTimeCount=0;
                 SysStatus = 60;	
 		   stopDelayCnt = 0;
@@ -455,7 +455,7 @@ else if (step11==13)
     }
 else if (Input.Stop==1 && step11>=2 && step11<=3 && StartParams.StopTime!=0)
     {
-              RequestRunOpenPulse();
+              
               step11=17;  
           	OUTPUT_READY = 0;
 			OUTPUT_EXTERN_READY = 0;

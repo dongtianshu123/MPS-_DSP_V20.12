@@ -37,6 +37,24 @@ extern unsigned int StartOFTOK;
 extern unsigned int  step4;
 extern unsigned int  step5;
 
+extern unsigned int uaCnt1;
+extern unsigned int ubCnt1;
+extern unsigned int ucCnt1;
+extern unsigned int uaCnt3;
+extern unsigned int ubCnt3;
+extern unsigned int ucCnt3;
+extern unsigned int overIaCnt1;
+extern unsigned int overIcCnt1;
+extern unsigned int overTCnt1;
+extern unsigned int LowerIaCnt1;
+extern unsigned int LowerIcCnt1;
+extern unsigned int RoverIaCnt1;
+extern unsigned int RoverIaCnt2;
+extern unsigned int RoverIcCnt1;
+extern unsigned int overInCnt1;
+extern unsigned int unbalanceICnt1;
+extern unsigned int noPowerCnt1;
+
 
 eSysStatus SysStatus;
 tRelay Relay;
@@ -91,6 +109,24 @@ else
 	AdcParams.CarUpTimesIc = 0;	
 	AdcParams.MaxIc = 0;
 	AdcParams.AgoIc = 0;
+
+    uaCnt1 =0;
+    ubCnt1 =0;
+    ucCnt1 =0;
+    uaCnt3 =0;
+    ubCnt3 =0;
+    ucCnt3 =0;
+    overIaCnt1 =0;
+    overIcCnt1 =0;
+    overTCnt1  =0;
+    LowerIaCnt1=0;
+    LowerIcCnt1=0;
+    RoverIaCnt1=0;
+    RoverIaCnt2=0;
+    RoverIcCnt1=0;
+    overInCnt1=0;
+    unbalanceICnt1=0;
+    noPowerCnt1=0;
 		
 }
 void StopFlow(void)
@@ -444,7 +480,7 @@ else if (step11==13)
            
  if (Input.Stop==1 && step11==4 && StartParams.StopTime!=0) //ÈíÍ£
     {           step3=0;
-                RequestRunOpenPulse();
+                
                 StartParams.StartTimeCount=0;
                 SysStatus = 60;	
 		   stopDelayCnt = 0;
@@ -455,7 +491,7 @@ else if (step11==13)
     }
 else if (Input.Stop==1 && step11>=2 && step11<=3 && StartParams.StopTime!=0)
     {
-              RequestRunOpenPulse();
+              
               step11=17;  
           	OUTPUT_READY = 0;
 			OUTPUT_EXTERN_READY = 0;

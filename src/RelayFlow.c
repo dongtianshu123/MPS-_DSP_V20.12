@@ -4,11 +4,13 @@
 
 #define START_DELAY_CNT 100
 #define STARTCOMPARE 50
+#define RUN_OPEN_PULSE_CNT 300
 unsigned int startDelayCnt;
 unsigned int startcompare;
 unsigned int stopDelayCnt;
 unsigned int stopFlowCnt = 0;
 unsigned int stopAppCnt = 0;
+unsigned int runOpenCmd = 0;
 unsigned int runOpenCnt = 0;
 unsigned int runCloseCnt = 0;
 unsigned int orderClose;
@@ -111,7 +113,32 @@ void StopFlow(void)
      step5=0;
 }
 
+void RequestRunOpenPulse(void)
+{
+	if((!runOpenCmd) && (!Relay.RunOPenF))
+	{
+		runOpenCmd = 1;
+		runOpenCnt = 0;
+		Relay.RunOPenF = 0;
+	}
+}
 
+void RunOpenPulse(void)
+{
+	if(runOpenCmd)
+	{
+		OUTPUT_RUN_ON = 0;
+		OUTPUT_RUN_OFF = 1;
+		runOpenCnt++;
+		if(runOpenCnt > RUN_OPEN_PULSE_CNT)
+		{
+			OUTPUT_RUN_OFF = 0;
+			runOpenCnt = 0;
+			runOpenCmd = 0;
+			Relay.RunOPenF = 1;
+		}
+	}
+}
  void RunClose(void)/*10ms*/
 {	
 	if(!Relay.RunCloseF)
@@ -157,13 +184,12 @@ void NormalStop(void)
 		OUTPUT_RUN_ON = 0;
 		StartState.TurnRunF = 0;
 		StopFlow();/*60ms*/
-		OUTPUT_RUN_OFF = 1;
+		RequestRunOpenPulse();
        if(Functionswitch.stoptrip==1)
        { OUTPUT_EXTERN_TRIP =1;	 }
                 normalstopCnt++;
 	   if (normalstopCnt>300) 
            {    normalstopCnt=0;
-		     OUTPUT_RUN_OFF = 0;
              OUTPUT_EXTERN_TRIP =0;
 		     Relay.RunOPenF= 1;
 		if((Input.RunCheck)&&(Functionswitch.Runcheckswitch==1)&&Protectswitch.runcheckswitch)
@@ -418,6 +444,7 @@ else if (step11==13)
            
  if (Input.Stop==1 && step11==4 && StartParams.StopTime!=0) //ÈíÍ£
     {           step3=0;
+                RequestRunOpenPulse();
                 StartParams.StartTimeCount=0;
                 SysStatus = 60;	
 		   stopDelayCnt = 0;
@@ -428,6 +455,7 @@ else if (step11==13)
     }
 else if (Input.Stop==1 && step11>=2 && step11<=3 && StartParams.StopTime!=0)
     {
+              RequestRunOpenPulse();
               step11=17;  
           	OUTPUT_READY = 0;
 			OUTPUT_EXTERN_READY = 0;
@@ -436,6 +464,7 @@ else if (Input.Stop==1 && step11>=2 && step11<=3 && StartParams.StopTime!=0)
    }
 else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4) //Õı³£Í£»ú
     {
+            RequestRunOpenPulse();
             step11=5;   
             OUTPUT_READY = 0;
 			OUTPUT_EXTERN_READY = 0;
@@ -453,6 +482,7 @@ else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4)
 /******************¹ÊÕÏÂß¼­***********************************/
   if (Fault.Byte !=0  ) //¹ÊÕÏ´¦Àí
      {
+                RequestRunOpenPulse();
       		    StopFlow();             //???
 				OUTPUT_READY = 0;
 				OUTPUT_EXTERN_READY = 0;
@@ -479,6 +509,7 @@ else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4)
 		if(!Input.Stop)
 	  {RunClose();}		
 	}
+    RunOpenPulse();
     if(step11==4)
     { 			
       if((!Input.RunCheck)&&(Functionswitch.Runcheckswitch==1)&&Protectswitch.runcheckswitch)

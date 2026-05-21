@@ -188,11 +188,14 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
 		{   
 //            monitor_signal_quality();
             AdcDescend();
-            CurrentCheck();
+            if (StartParams.ControlMode!=4)
+              {
+                CurrentCheck();
+              }
 			if(!StartState.Test)
-			{
+		   	 {
               Protect();
-            }
+             }
             RelayFlow();
 
                  
@@ -212,7 +215,7 @@ ProtectParams.intevalmin=StartParams.StartOverFre;  //当前允许起动间隔写为参数设
             Modbus_Slave_App();
             Write_Modbus_Command();
 			
-			if(step11== 3) //正常起动步骤
+			if(step11== 3 || StartParams.ControlMode==4) //正常起动步骤
 			{
 				SoftStart();
 			}

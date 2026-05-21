@@ -513,13 +513,13 @@ void Write_Modbus_Command(void)
         begin=StartParams.BeginVoltage>>10;
         uSpan = begin-ugmin;
 
-        // 3. 线性缩放计算: Y = A + (X * Span) / 32767
+        // 3. 线性缩放计算: Y = A + (X * Span) / 27648
         // 强制转换为 unsigned long 确保 32 位乘法执行
         ulTempCalc = (unsigned long)StartParams.AdjustData * uSpan;
         
         // 执行除法并取整归一化
-        // 加上 16383 (即 32767/2) 可实现四舍五入效果，提高控制精度
-        StartParams.Data_remote = StartParams.Ugmin + (unsigned long)(((ulTempCalc + 16383) / 32767)<<10);
+        // 加上 13824 (即 27648/2) 可实现四舍五入效果，提高控制精度
+        StartParams.Data_remote = StartParams.Ugmin + (unsigned long)(((ulTempCalc + 13824) / 27648)<<10);
     }
 
     else

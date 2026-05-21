@@ -90,12 +90,7 @@ else
 	MainParams.SaveParams[2] = MainParams.SaveParams[2]/10;
 	StartParams.LimitCurrent = ( (long)ProtectParams.RatingCurrent * MainParams.SaveParams[2]) / 10;				
 //************* //启动方式	 ******************		
-	if(MainParams.SaveParams[4]>3)
-	{MainParams.SaveParams[4]=0;}
-	else if(MainParams.SaveParams[4]<0)
-	{MainParams.SaveParams[4]=0;}
-	else
-	{Nop();}
+
 	StartParams.ControlMode = MainParams.SaveParams[4];
 //************* 读标定参数 ******************	
     	

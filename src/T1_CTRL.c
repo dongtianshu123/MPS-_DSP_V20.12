@@ -236,9 +236,16 @@ void SoftStart(void)//1ms执行周期
 			if(StartParams.Data < StartParams.Ugmin)
 			{
 				StartParams.Data = StartParams.Ugmin;
-				
+				StartParams.RunCount += 10;
+				if( StartParams.RunCount > 2000)
+				{
+					if(StartState.PulseF)
+					{StartState.TurnRunF = 1;}
+				}
+				if( StartParams.RunCount > 6000)
+				{Fault.Bits.StartTO = 1;}		
 			}
-          	if(StartParams.StartTime1s > MainParams.SaveParams[1])
+          	if(StartParams.StartTimeCount > StartParams.StartTime)
 		    {
 			   StartState.TurnRunF = 1;
 		    }
@@ -290,7 +297,6 @@ void SoftStart(void)//1ms执行周期
 	else if(StartParams.ControlMode == 4)
 		{
 			
-			StartParams.Data=StartParams.Data_remote;
 			
 			if(StartParams.Data < StartParams.Ugmin)
 			{

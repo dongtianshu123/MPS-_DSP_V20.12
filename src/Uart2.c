@@ -145,47 +145,47 @@ void Uart2App()
 	}
 
 
-	if(Uart2.TxReadSetF)//¶Á²ÎÊı1
+	if(Uart2.TxReadSetF)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 	{
 		Uart2TxReadSet();
 		Uart2.TxReadSetF = 0;
         U2TxRx.Txcnt=0;
 	}
-	if(Uart2.TxReadSetF2)//¶ÁĞ´²ÎÊı2
+	if(Uart2.TxReadSetF2)//ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½2
 	{
 		Uart2TxReadSet2();
 		Uart2.TxReadSetF2 = 0;
         U2TxRx.Txcnt=0;
 	}
 
-	if(Uart232.TxReadSetF3)//¶ÁĞ´²ÎÊı3
+	if(Uart232.TxReadSetF3)//ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½3
 	{
 		Uart2TxReadSet3();
 		Uart232.TxReadSetF3 = 0;
        U2TxRx.Txcnt=0;
 	}
 
-	if(Uart232.TxReadSetF4)//¶ÁĞ´²ÎÊı4   200421
+	if(Uart232.TxReadSetF4)//ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½4   200421
 	{
 		Uart2TxReadSet4();
 		Uart232.TxReadSetF4 = 0;
         U2TxRx.Txcnt=0;
 	}
 
-	if(Uart2.TxReadDataF )//¶ÁÊı¾İ1
+	if(Uart2.TxReadDataF )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 	{
 		Uart2TxReadData();
 		Uart2.TxReadDataF  = 0;
         U2TxRx.Txcnt=0;
 	}
-	if(Uart2.TxReadDataF2 )//¶ÁÊı¾İ2
+	if(Uart2.TxReadDataF2 )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 	{
 		Uart2TxReadData2();
 		Uart2.TxReadDataF2  = 0;
         U2TxRx.Txcnt=0;
 	}
 
-	if(Uart2.TxReadDataF3 )//¶ÁÊı¾İ2
+	if(Uart2.TxReadDataF3 )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 	{
 		Uart2TxReadData3();
 		Uart2.TxReadDataF3  = 0;
@@ -236,7 +236,7 @@ void Uart2TxSetSuccess3()
 	U2TXREG = 0xfe;	
 }
 
-void Uart2TxSetSuccess4()   //¶Á²ÎÊı4³É¹¦±¨ÎÄ  200421
+void Uart2TxSetSuccess4()   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½  200421
 {
 	U2TxRx.TxHead = 0XAA;
 	U2TxRx.TxOrderType = 0X20;		
@@ -254,7 +254,8 @@ void Uart2TxSetSuccess4()   //¶Á²ÎÊı4³É¹¦±¨ÎÄ  200421
 void EEWriteApp()
 {	
 	unsigned int i = 0;
-	SET_CPU_IPL(7);	
+	unsigned int savedIPL;
+	SET_AND_SAVE_CPU_IPL(savedIPL, 7);	// P0-2:ä¿å­˜åŸå§‹IPL
     IEC0bits.ADIE = 0;
 	for(i = 0; i < 14; i ++)
     {
@@ -263,14 +264,15 @@ void EEWriteApp()
 		WriteEE(&U2TxRx.RxData16Bits[i],__builtin_tblpage(&EPConfigS[0]),EEPROMADDR, WORD);
 	}
 	
-	SET_CPU_IPL(3);	
-   IEC0bits.ADIE = 1;
+	RESTORE_CPU_IPL(savedIPL);		// P0-2:æ¢å¤åŸå§‹IPL
+IEC0bits.ADIE = 1;
 }	
 
 void EEWriteApp2()
 {	
 	unsigned int i = 0;
-	SET_CPU_IPL(7);	
+	unsigned int savedIPL;
+	SET_AND_SAVE_CPU_IPL(savedIPL, 7);	// P0-2:ä¿å­˜åŸå§‹IPL
 IEC0bits.ADIE = 0;
 	for(i = 0; i < 30; i ++)
     {
@@ -279,14 +281,15 @@ IEC0bits.ADIE = 0;
 		WriteEE(&U2TxRx.RxData16Bits[i],__builtin_tblpage(&EPConfigS[0]),EEPROMADDR, WORD);
 	}
 	
-	SET_CPU_IPL(3);	
+	RESTORE_CPU_IPL(savedIPL);		// P0-2:æ¢å¤åŸå§‹IPL
 IEC0bits.ADIE = 1;
 }	
 
 void EEWriteApp3()
 {	
 	unsigned int i = 0,j=0;
-	SET_CPU_IPL(7);
+	unsigned int savedIPL;
+	SET_AND_SAVE_CPU_IPL(savedIPL, 7);	// P0-2:ä¿å­˜åŸå§‹IPL
 IEC0bits.ADIE = 0;	
 	for(i = 32; i < 62; i ++)
     {
@@ -296,14 +299,15 @@ IEC0bits.ADIE = 0;
         j++;
 	}
 	
-	SET_CPU_IPL(3);	
+	RESTORE_CPU_IPL(savedIPL);		// P0-2:æ¢å¤åŸå§‹IPL
 IEC0bits.ADIE = 1;
 }
 
 void EEWriteApp4()
 {	
 	unsigned int i = 0,j=0;
-	SET_CPU_IPL(7);
+	unsigned int savedIPL;
+	SET_AND_SAVE_CPU_IPL(savedIPL, 7);	// P0-2:ä¿å­˜åŸå§‹IPL
 IEC0bits.ADIE = 0;	
 	for(i = 62; i < 92; i ++)
     {
@@ -313,7 +317,7 @@ IEC0bits.ADIE = 0;
         j++;
 	}
 	
-	SET_CPU_IPL(3);	
+	RESTORE_CPU_IPL(savedIPL);		// P0-2:æ¢å¤åŸå§‹IPL
 IEC0bits.ADIE = 1;
 }
 /*
@@ -321,7 +325,7 @@ IEC0bits.ADIE = 1;
 *********************************************************************************************************
 */
 
-void Uart2TxReadSet()//¶Á²ÎÊı1
+void Uart2TxReadSet()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 {
 	unsigned int i,j;
 	i = 0;
@@ -348,7 +352,7 @@ void Uart2TxReadSet()//¶Á²ÎÊı1
 	U2TXREG = 0xfe;	
 }
 
-void Uart2TxReadSet2()//¶Á²ÎÊı2
+void Uart2TxReadSet2()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 {
 	unsigned int i,j;
 	i = 0;
@@ -375,7 +379,7 @@ void Uart2TxReadSet2()//¶Á²ÎÊı2
 	U2TXREG = 0xfe;	
 }
 
-void Uart2TxReadSet3()//¶Á²ÎÊı2
+void Uart2TxReadSet3()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 {
 	unsigned int i,j;
 	i = 0;
@@ -402,7 +406,7 @@ void Uart2TxReadSet3()//¶Á²ÎÊı2
 	U2TXREG = 0xfe;	
 }
 
-void Uart2TxReadSet4()//¶Á²ÎÊı2
+void Uart2TxReadSet4()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 {
 	unsigned int i,j;
 	i = 0;
@@ -550,113 +554,113 @@ void Uart2TxReadData2()
 	U2TxRx.TxData[6] = MainParams.Ua >> 8;
 	U2TxRx.TxData[7] = MainParams.Ua;
 
-/*************************IOÏÔÊ¾ÊäÈëµã´¦Àí************************************/
-    if(INPUT_START==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+/*************************IOï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ã´¦ï¿½ï¿½************************************/
+    if(INPUT_START==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0001;}
     else
     {inputBits=inputBits&0xFFFE;}
 
-    if(INPUT_STOP==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_STOP==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0002;}
     else
     {inputBits=inputBits&0xFFFD;}
 
-    if(INPUT_READY==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_READY==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0004;}
     else
     {inputBits=inputBits&0xFFFB;}
 
-    if(INPUT_RUN_CHECK==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_RUN_CHECK==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0008;}
     else
     {inputBits=inputBits&0xFFF7;}
 
-    if(INPUT_NO_USE==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_NO_USE==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0010;}
     else
     {inputBits=inputBits&0xFFEF;}
 
-    if(INPUT_in6==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_in6==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0020;}
     else
     {inputBits=inputBits&0xFFDF;}
 
-   if(INPUT_in7==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in7==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0040;}
     else
     {inputBits=inputBits&0xFFBF;}
 
-   if(INPUT_in8==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in8==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0080;}
     else
     {inputBits=inputBits&0xFF7F;}
 
-   if(INPUT_in9==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in9==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0100;}
     else
     {inputBits=inputBits&0xFEFF;}
 
-   if(INPUT_in10==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in10==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0200;}
     else
     {inputBits=inputBits&0xFDFF;}
 /*******************************************************************/
-/***********************Õı·´×ª¼ì²â****************************/
+/***********************ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½****************************/
 
-if (Functionswitch.FWD_REV==1)// 0ÎªÕı×ª 1Îª·´×ª
+if (Functionswitch.FWD_REV==1)// 0Îªï¿½ï¿½×ª 1Îªï¿½ï¿½×ª
     {inputBits=inputBits|0x8000;}
     else
     {inputBits=inputBits&0x7FFF;}
 
 
 /*******************************************************************/
-/***********************IOÏÔÊ¾Êä³öµã´¦Àí****************************/
-    if(OUTPUT_READY==1)//±¸Í×Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+/***********************IOï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ã´¦ï¿½ï¿½****************************/
+    if(OUTPUT_READY==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0001;}
     else
     {outputBits=outputBits&0xFFFE;}
 
-    if(OUTPUT_START==1)//Æğ¶¯Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_START==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0002;}
     else
     {outputBits=outputBits&0xFFFD;}
 
-    if(OUTPUT_TRIGGER==1)//´¥·¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_TRIGGER==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0004;}
     else
     {outputBits=outputBits&0xFFFB;}
 
-    if(OUTPUT_RUN_ON==1)//ÔËĞĞºÏÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_RUN_ON==1)//ï¿½ï¿½ï¿½Ğºï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0008;}
     else
     {outputBits=outputBits&0xFFF7;}
 
-    if(OUTPUT_RUN_OFF==1)//ÔËĞĞ·ÖÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_RUN_OFF==1)//ï¿½ï¿½ï¿½Ğ·ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0010;}
     else
     {outputBits=outputBits&0xFFEF;}
 
-    if(OUTPUT_ALARM==1)//±¨¾¯Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_ALARM==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0020;}
     else
     {outputBits=outputBits&0xFFDF;}
 
-    if(OUTPUT_K5==1)//¿É±à³Ì-Ä¬ÈÏ±¸Í×Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K5==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0040;}
     else
     {outputBits=outputBits&0xFFBF;}
 
-    if(OUTPUT_K6==1)//¿É±à³Ì-Ä¬ÈÏ¹ÊÕÏÌøÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K6==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0080;}
     else
     {outputBits=outputBits&0xFF7F;}
 
-    if(OUTPUT_K7==1)//¿É±à³Ì-Ä¬ÈÏÆğ¶¯½Ó´¥Æ÷ºÏÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K7==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½ï¿½ï¿½ğ¶¯½Ó´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0100;}
     else
     {outputBits=outputBits&0xFEFF;}
 
-    if(OUTPUT_K8==1)//¿É±à³Ì-Ä¬ÈÏÆğ¶¯½Ó´¥Æ÷ºÏÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K8==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½ï¿½ï¿½ğ¶¯½Ó´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0200;}
     else
     {outputBits=outputBits&0xFDFF;}
@@ -715,22 +719,22 @@ if (Functionswitch.FWD_REV==1)// 0ÎªÕı×ª 1Îª·´×ª
     U2TxRx.TxData[26] = compareACnt >> 8;
 	U2TxRx.TxData[27] = compareACnt;
 
-    if(phasecompareError==1)//ÏàÎ»±È¶Ô´íÎó  0Îª´íÎó 1ÎªÕı³£
+    if(phasecompareError==1)//ï¿½ï¿½Î»ï¿½È¶Ô´ï¿½ï¿½ï¿½  0Îªï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0001;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFFE;}
 
-    if(Input.Ready==1)    //¹ñÍâÔÊĞí  0Îª½ûÖ¹ 1ÎªÔÊĞí
+    if(Input.Ready==1)    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  0Îªï¿½ï¿½Ö¹ 1Îªï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0002;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFFD;}
 
-     if(StartOFTOK==1)    //Æğ¶¯¹ıÆµ  0Îª½ûÖ¹ 1ÎªÔÊĞí
+     if(StartOFTOK==1)    //ï¿½ğ¶¯¹ï¿½Æµ  0Îªï¿½ï¿½Ö¹ 1Îªï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0004;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFFB;}
 
-     if(MainParams.Temperature < ProtectParams.Temperature || Functionswitch.TDetection==0 )    //ÎÂ¶È±£»¤  ÎÂ¶ÈĞ¡ÓÚÉè¶¨»òÑ¹°åÇĞ³ı¶¼Âú×ãÌõ¼ş
+     if(MainParams.Temperature < ProtectParams.Temperature || Functionswitch.TDetection==0 )    //ï¿½Â¶È±ï¿½ï¿½ï¿½  ï¿½Â¶ï¿½Ğ¡ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½Ğ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0008;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFF7;}
@@ -815,113 +819,113 @@ void Uart2TxReadData3()
 	U2TxRx.TxData[6] = MainParams.Ua >> 8;
 	U2TxRx.TxData[7] = MainParams.Ua;
 
-/*************************IOÏÔÊ¾ÊäÈëµã´¦Àí************************************/
-    if(INPUT_START==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+/*************************IOï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ã´¦ï¿½ï¿½************************************/
+    if(INPUT_START==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0001;}
     else
     {inputBits=inputBits&0xFFFE;}
 
-    if(INPUT_STOP==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_STOP==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0002;}
     else
     {inputBits=inputBits&0xFFFD;}
 
-    if(INPUT_READY==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_READY==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0004;}
     else
     {inputBits=inputBits&0xFFFB;}
 
-    if(INPUT_RUN_CHECK==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_RUN_CHECK==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0008;}
     else
     {inputBits=inputBits&0xFFF7;}
 
-    if(INPUT_NO_USE==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_NO_USE==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0010;}
     else
     {inputBits=inputBits&0xFFEF;}
 
-    if(INPUT_in6==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+    if(INPUT_in6==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0020;}
     else
     {inputBits=inputBits&0xFFDF;}
 
-   if(INPUT_in7==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in7==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0040;}
     else
     {inputBits=inputBits&0xFFBF;}
 
-   if(INPUT_in8==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in8==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0080;}
     else
     {inputBits=inputBits&0xFF7F;}
 
-   if(INPUT_in9==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in9==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0100;}
     else
     {inputBits=inputBits&0xFEFF;}
 
-   if(INPUT_in10==0)//ÊäÈëµã¶¼È¡·´  0ÎªÓĞĞ§ÓĞÊäÈë 1ÎªÎŞĞ§
+   if(INPUT_in10==0)//ï¿½ï¿½ï¿½ï¿½ã¶¼È¡ï¿½ï¿½  0Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½Ğ§
     {inputBits=inputBits|0x0200;}
     else
     {inputBits=inputBits&0xFDFF;}
 /*******************************************************************/
-/***********************Õı·´×ª¼ì²â****************************/
+/***********************ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½****************************/
 
-if (Functionswitch.FWD_REV==1)// 0ÎªÕı×ª 1Îª·´×ª
+if (Functionswitch.FWD_REV==1)// 0Îªï¿½ï¿½×ª 1Îªï¿½ï¿½×ª
     {inputBits=inputBits|0x8000;}
     else
     {inputBits=inputBits&0x7FFF;}
 
 
 /*******************************************************************/
-/***********************IOÏÔÊ¾Êä³öµã´¦Àí****************************/
-    if(OUTPUT_READY==1)//±¸Í×Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+/***********************IOï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ã´¦ï¿½ï¿½****************************/
+    if(OUTPUT_READY==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0001;}
     else
     {outputBits=outputBits&0xFFFE;}
 
-    if(OUTPUT_START==1)//Æğ¶¯Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_START==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0002;}
     else
     {outputBits=outputBits&0xFFFD;}
 
-    if(OUTPUT_TRIGGER==1)//´¥·¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_TRIGGER==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0004;}
     else
     {outputBits=outputBits&0xFFFB;}
 
-    if(OUTPUT_RUN_ON==1)//ÔËĞĞºÏÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_RUN_ON==1)//ï¿½ï¿½ï¿½Ğºï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0008;}
     else
     {outputBits=outputBits&0xFFF7;}
 
-    if(OUTPUT_RUN_OFF==1)//ÔËĞĞ·ÖÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_RUN_OFF==1)//ï¿½ï¿½ï¿½Ğ·ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0010;}
     else
     {outputBits=outputBits&0xFFEF;}
 
-    if(OUTPUT_ALARM==1)//±¨¾¯Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_ALARM==1)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0020;}
     else
     {outputBits=outputBits&0xFFDF;}
 
-    if(OUTPUT_K5==1)//¿É±à³Ì-Ä¬ÈÏ±¸Í×Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K5==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0040;}
     else
     {outputBits=outputBits&0xFFBF;}
 
-    if(OUTPUT_K6==1)//¿É±à³Ì-Ä¬ÈÏ¹ÊÕÏÌøÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K6==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0080;}
     else
     {outputBits=outputBits&0xFF7F;}
 
-    if(OUTPUT_K7==1)//¿É±à³Ì-Ä¬ÈÏÆğ¶¯½Ó´¥Æ÷ºÏÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K7==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½ï¿½ï¿½ğ¶¯½Ó´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0100;}
     else
     {outputBits=outputBits&0xFEFF;}
 
-    if(OUTPUT_K8==1)//¿É±à³Ì-Ä¬ÈÏÆğ¶¯½Ó´¥Æ÷ºÏÕ¢Êä³öµã  1ÎªÓĞĞ§ÓĞÊäÈë 0ÎªÎŞĞ§
+    if(OUTPUT_K8==1)//ï¿½É±ï¿½ï¿½-Ä¬ï¿½ï¿½ï¿½ğ¶¯½Ó´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¢ï¿½ï¿½ï¿½ï¿½ï¿½  1Îªï¿½ï¿½Ğ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0Îªï¿½ï¿½Ğ§
     {outputBits=outputBits|0x0200;}
     else
     {outputBits=outputBits&0xFDFF;}
@@ -980,22 +984,22 @@ if (Functionswitch.FWD_REV==1)// 0ÎªÕı×ª 1Îª·´×ª
     U2TxRx.TxData[26] = compareACnt >> 8;
 	U2TxRx.TxData[27] = compareACnt;
 
-    if(phasecompareError==1)//ÏàÎ»±È¶Ô´íÎó  0Îª´íÎó 1ÎªÕı³£
+    if(phasecompareError==1)//ï¿½ï¿½Î»ï¿½È¶Ô´ï¿½ï¿½ï¿½  0Îªï¿½ï¿½ï¿½ï¿½ 1Îªï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0001;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFFE;}
 
-    if(Input.Ready==1)    //¹ñÍâÔÊĞí  0Îª½ûÖ¹ 1ÎªÔÊĞí
+    if(Input.Ready==1)    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  0Îªï¿½ï¿½Ö¹ 1Îªï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0002;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFFD;}
 
-     if(StartOFTOK==1)    //Æğ¶¯¹ıÆµ  0Îª½ûÖ¹ 1ÎªÔÊĞí
+     if(StartOFTOK==1)    //ï¿½ğ¶¯¹ï¿½Æµ  0Îªï¿½ï¿½Ö¹ 1Îªï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0004;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFFB;}
 
-     if(MainParams.Temperature < ProtectParams.Temperature || Functionswitch.TDetection==0 )    //ÎÂ¶È±£»¤  ÎÂ¶ÈĞ¡ÓÚÉè¶¨»òÑ¹°åÇĞ³ı¶¼Âú×ãÌõ¼ş
+     if(MainParams.Temperature < ProtectParams.Temperature || Functionswitch.TDetection==0 )    //ï¿½Â¶È±ï¿½ï¿½ï¿½  ï¿½Â¶ï¿½Ğ¡ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½Ğ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {SystemStatusBits=SystemStatusBits|0x0008;}
     else
     {SystemStatusBits=SystemStatusBits&0xFFF7;}
@@ -1108,8 +1112,8 @@ void InitUART2(void)
 	IFS1bits.U2RXIF = 0;
 	IPC6bits.U2TXIP = 4;
 	IPC6bits.U2RXIP = 4;
-	IEC1bits.U2TXIE = 1;				// 1 ÔÊĞíU2TXÖĞ¶Ï  
-	IEC1bits.U2RXIE = 1;				// 1 ÔÊĞíU2RXÖĞ¶Ï 
+	IEC1bits.U2TXIE = 1;				// 1 ï¿½ï¿½ï¿½ï¿½U2TXï¿½Ğ¶ï¿½  
+	IEC1bits.U2RXIE = 1;				// 1 ï¿½ï¿½ï¿½ï¿½U2RXï¿½Ğ¶ï¿½ 
 	
 }
 
@@ -1119,16 +1123,16 @@ void InitUART2(void)
 */
 void __attribute__((__interrupt__)) _U2RXInterrupt (void)
 {
-	if(U2STAbits.OERR == 1) 
+	if(U1STAbits.OERR == 1) 
 	{
-		U2STAbits.OERR = 0; // Clear Overrun Error to receive data
+		U1STAbits.OERR = 0; // Clear Overrun Error to receive data
 	}
 	Uart2.RxByteF = 1;
 	U2TxRx.RxIntervalCnt = 0;
 //	U2TxRx.RxHead = U2RXREG;
 	if(!Uart2.RxFrameF)
 	{
-		if (U2STAbits.FERR ==0 )
+		if (U1STAbits.FERR ==0 )
 		{
 			if(U2TxRx.RxTimes == 0)
 			{
@@ -1155,19 +1159,19 @@ void __attribute__((__interrupt__)) _U2RXInterrupt (void)
 				U2TxRx.RxTimes = 4;
 				U2TxRx.RxDataLength = U2RXREG;
 				U2TxRx.RxDataLengthRec = U2TxRx.RxDataLength;
-				if(U2TxRx.RxDataLength == 28)//²ÎÊı1
+				if(U2TxRx.RxDataLength == 28)//ï¿½ï¿½ï¿½ï¿½1
 				{
 					U2TxRx.RxTimes = 55;
 				}
- 	            else if(U2TxRx.RxDataLength == 60)//²ÎÊı2
+ 	            else if(U2TxRx.RxDataLength == 60)//ï¿½ï¿½ï¿½ï¿½2
 				{
 					U2TxRx.RxTimes = 56;
 				}
-                else if(U2TxRx.RxDataLength== 1)//ÃüÁî
+                else if(U2TxRx.RxDataLength== 1)//ï¿½ï¿½ï¿½ï¿½
 				{
 					U2TxRx.RxTimes = 4;
 				}
-                else if (U2TxRx.RxDataLength== 0)//¶Á±¨ÎÄ
+                else if (U2TxRx.RxDataLength== 0)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 {  U2TxRx.RxTimes = 4;
                 }
 
@@ -1263,7 +1267,7 @@ void __attribute__((__interrupt__)) _U2TXInterrupt (void)
 		else
 		{
 			U2TxRx.TxTimes = 4;
-			U2TXREG = U2TxRx.TxData[U2TxRx.TxDataCnt];//¶Á²ÎÊı
+			U2TXREG = U2TxRx.TxData[U2TxRx.TxDataCnt];//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			U2TxRx.TxDataCnt++;		
 			U2TxRx.TxDataLength--;
 		}
@@ -1303,16 +1307,16 @@ void Uart2RxApp()
 
 	if(U2TxRx.RxOrderType == 0x10)
 	{
-		if(U2TxRx.RxOrderID == 0x81)      //ÊÕµ½¶ÁÊı¾İ1
+		if(U2TxRx.RxOrderID == 0x81)      //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 		{
 			Uart2.TxReadDataF = 1;
 		}
-        else if(U2TxRx.RxOrderID == 0x71) //ÊÕµ½¶ÁÊı¾İ2
+        else if(U2TxRx.RxOrderID == 0x71) //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 		{
 			Uart2.TxReadDataF2 = 1;
 		}
 
-        else if(U2TxRx.RxOrderID == 0x75) //ÊÕµ½¶ÁÊı¾İ2
+        else if(U2TxRx.RxOrderID == 0x75) //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 		{
 			Uart2.TxReadDataF3 = 1;
 		}
@@ -1320,20 +1324,20 @@ void Uart2RxApp()
 
 		else if(U2TxRx.RxOrderID == 0x82)
 		{
-			Uart2.TxReadSetF = 1;         //ÊÕµ½¶Á²ÎÊı1
+			Uart2.TxReadSetF = 1;         //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
 		}
 		else if(U2TxRx.RxOrderID == 0x72)
 		{
-			Uart2.TxReadSetF2 = 1;        //ÊÕµ½¶Á²ÎÊı2
+			Uart2.TxReadSetF2 = 1;        //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2
 		}
 		else if(U2TxRx.RxOrderID == 0x62)
 		{
-			Uart232.TxReadSetF3 = 1;        //ÊÕµ½¶Á²ÎÊı3
+			Uart232.TxReadSetF3 = 1;        //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3
 		}
 
 		else if(U2TxRx.RxOrderID == 0x52)
 		{
-			Uart232.TxReadSetF4 = 1;        //ÊÕµ½¶Á²ÎÊı4  200421
+			Uart232.TxReadSetF4 = 1;        //ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4  200421
 		}
 		else if(U2TxRx.RxOrderID == 0x84)
 		{
@@ -1343,26 +1347,26 @@ void Uart2RxApp()
          {  if(U2TxRx.RxDataLength== 1)
              {
                Uart2.commandreset=1;
-               Uart2.commandtest=0; //¹ÊÕÏ¸´Î»
+               Uart2.commandtest=0; //ï¿½ï¿½ï¿½Ï¸ï¿½Î»
                
              }
          }
         else if (U2TxRx.RxOrderID==0x86)
          {  if(U2TxRx.RxDataLength== 1)
              {
-               Uart2.commandtest=1;//µÍÑ¹µ÷ÊÔ
+               Uart2.commandtest=1;//ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½
              }
          }
         else if (U2TxRx.RxOrderID==0x87)
          {  if(U2TxRx.RxDataLength== 1)
              {
-               Input.Start=1;//Æğ¶¯
+               Input.Start=1;//ï¿½ï¿½
              }
          }
         else if (U2TxRx.RxOrderID==0x88)
          {  if(U2TxRx.RxDataLength== 1)
              {
-               Input.Stop=1;//Í£»ú
+               Input.Stop=1;//Í£ï¿½ï¿½
              }
          }
 
@@ -1386,7 +1390,7 @@ void Uart2RxApp()
 		  	Uart232.TxSetSuccessF3 = 1;
 		}	
 
-		if(U2TxRx.RxOrderID == 0x53)    //¶Á²ÎÊı³É¹¦200421
+		if(U2TxRx.RxOrderID == 0x53)    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½200421
 		{
 		  	Uart232.TxSetSuccessF4 = 1;
 		}			

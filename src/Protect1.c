@@ -53,6 +53,7 @@ unsigned int overInCnt1;
 //unsigned int overInCnt2;
 
 unsigned int unbalanceICnt1;
+unsigned int unbalanceICnt2;
 
 unsigned int noPowerCnt1;
 //unsigned int noPowerCnt2;
@@ -571,11 +572,11 @@ void UnbalanceIProtect()
 		unbalanceICnt1++;
     	if(unbalanceICnt1 > StartParams.UnbalanceIdelay)
 	    {Fault.Bits.UnbalanceI = 1;}
-		
+		unbalanceICnt2 = 0;
 	}
 	else
 	{
-		
+		unbalanceICnt2++;
 		unbalanceICnt1 = 0;
 	}
 

@@ -253,8 +253,7 @@ typedef struct{
 	unsigned long StopEnd;
 	unsigned int StopStep;
 	unsigned long StopDif;
-    
-    unsigned long Data_remote;
+
     unsigned long Data;
     unsigned int OutData;
     unsigned int LoopData;

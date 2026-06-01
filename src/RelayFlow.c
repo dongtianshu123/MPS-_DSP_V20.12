@@ -1,16 +1,14 @@
                                                       #include <p30F5011.h>
-#include "variable.h"	//ÏµÍ³È«¾Ö±äÁ¿ÉùÃ÷£¬¾Ö²¿±äÁ¿ÔÚ¶ÔÓ¦ÎÄ¼þÄÚÉùÃ÷
+#include "variable.h"	//ÏµÍ³È«ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¶ï¿½Ó¦ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #include "UserParams.h"
 
 #define START_DELAY_CNT 100
 #define STARTCOMPARE 50
-#define RUN_OPEN_PULSE_CNT 300
 unsigned int startDelayCnt;
 unsigned int startcompare;
 unsigned int stopDelayCnt;
 unsigned int stopFlowCnt = 0;
 unsigned int stopAppCnt = 0;
-unsigned int runOpenCmd = 0;
 unsigned int runOpenCnt = 0;
 unsigned int runCloseCnt = 0;
 unsigned int orderClose;
@@ -25,8 +23,8 @@ extern unsigned int PULSEWidth;
 extern unsigned int PULSEWidth1;
 extern unsigned int pwturnflag;
 
-unsigned int step11=0; //Æð¶¯²½Öè
-unsigned int step12=0; //ÔËÐÐ·´À¡¼ì²â²½Öè
+unsigned int step11=0; //ï¿½ð¶¯²ï¿½ï¿½ï¿½
+unsigned int step12=0; //ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½ï¿½ï¿½â²½ï¿½ï¿½
 
 unsigned int normalstopCnt;
 
@@ -36,24 +34,6 @@ extern unsigned int step3;
 extern unsigned int StartOFTOK;
 extern unsigned int  step4;
 extern unsigned int  step5;
-
-extern unsigned int uaCnt1;
-extern unsigned int ubCnt1;
-extern unsigned int ucCnt1;
-extern unsigned int uaCnt3;
-extern unsigned int ubCnt3;
-extern unsigned int ucCnt3;
-extern unsigned int overIaCnt1;
-extern unsigned int overIcCnt1;
-extern unsigned int overTCnt1;
-extern unsigned int LowerIaCnt1;
-extern unsigned int LowerIcCnt1;
-extern unsigned int RoverIaCnt1;
-extern unsigned int RoverIaCnt2;
-extern unsigned int RoverIcCnt1;
-extern unsigned int overInCnt1;
-extern unsigned int unbalanceICnt1;
-extern unsigned int noPowerCnt1;
 
 
 eSysStatus SysStatus;
@@ -109,24 +89,6 @@ else
 	AdcParams.CarUpTimesIc = 0;	
 	AdcParams.MaxIc = 0;
 	AdcParams.AgoIc = 0;
-
-    uaCnt1 =0;
-    ubCnt1 =0;
-    ucCnt1 =0;
-    uaCnt3 =0;
-    ubCnt3 =0;
-    ucCnt3 =0;
-    overIaCnt1 =0;
-    overIcCnt1 =0;
-    overTCnt1  =0;
-    LowerIaCnt1=0;
-    LowerIcCnt1=0;
-    RoverIaCnt1=0;
-    RoverIaCnt2=0;
-    RoverIcCnt1=0;
-    overInCnt1=0;
-    unbalanceICnt1=0;
-    noPowerCnt1=0;
 		
 }
 void StopFlow(void)
@@ -149,32 +111,7 @@ void StopFlow(void)
      step5=0;
 }
 
-void RequestRunOpenPulse(void)
-{
-	if((!runOpenCmd) && (!Relay.RunOPenF))
-	{
-		runOpenCmd = 1;
-		runOpenCnt = 0;
-		Relay.RunOPenF = 0;
-	}
-}
 
-void RunOpenPulse(void)
-{
-	if(runOpenCmd)
-	{
-		OUTPUT_RUN_ON = 0;
-		OUTPUT_RUN_OFF = 1;
-		runOpenCnt++;
-		if(runOpenCnt > RUN_OPEN_PULSE_CNT)
-		{
-			OUTPUT_RUN_OFF = 0;
-			runOpenCnt = 0;
-			runOpenCmd = 0;
-			Relay.RunOPenF = 1;
-		}
-	}
-}
  void RunClose(void)/*10ms*/
 {	
 	if(!Relay.RunCloseF)
@@ -220,12 +157,13 @@ void NormalStop(void)
 		OUTPUT_RUN_ON = 0;
 		StartState.TurnRunF = 0;
 		StopFlow();/*60ms*/
-		RequestRunOpenPulse();
+		OUTPUT_RUN_OFF = 1;
        if(Functionswitch.stoptrip==1)
        { OUTPUT_EXTERN_TRIP =1;	 }
                 normalstopCnt++;
 	   if (normalstopCnt>300) 
            {    normalstopCnt=0;
+		     OUTPUT_RUN_OFF = 0;
              OUTPUT_EXTERN_TRIP =0;
 		     Relay.RunOPenF= 1;
 		if((Input.RunCheck)&&(Functionswitch.Runcheckswitch==1)&&Protectswitch.runcheckswitch)
@@ -243,9 +181,9 @@ void NormalStop(void)
 
 
 
-/***********************************Æð¶¯Âß¼­*****************************************/
+/***********************************ï¿½ï¿½ï¿½ß¼ï¿½*****************************************/
 void RelayFlow(void)
-{                  //µÈ´ý
+{                  //ï¿½È´ï¿½
    	if(step11==0 && Input.Ready && (ProtectParams.faultflag==0) && (StartOFTOK==1)&&(Functionswitch.FBstart==0))
 				{
 					if((MainParams.Temperature < ProtectParams.Temperature)|| (Functionswitch.TDetection==0))
@@ -257,12 +195,12 @@ void RelayFlow(void)
                         OUTPUT_ALARM=0;
                         OUTPUT_EXTERN_TRIP=0;
                         OUTPUT_EXTERN_ALARM	 = 0;
-                        ProtectParams.phase=0; //ÏàÐò¼ì²âÇå0
+                        ProtectParams.phase=0; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
 
 					}	
 				 }
 
-   else if(step11==1)   //±¸Í×
+   else if(step11==1)   //ï¿½ï¿½ï¿½ï¿½
             {
                 if(!Input.Ready)
 				{
@@ -289,7 +227,7 @@ void RelayFlow(void)
 				if(Input.Start)
 				{   
                     if(Functionswitch.Contactor==1)
-                    {Relay.Scc=1;} //Æð¶¯½Ó´¥Æ÷±ÕºÏÃüÁî
+                    {Relay.Scc=1;} //ï¿½ð¶¯½Ó´ï¿½ï¿½ï¿½ï¿½Õºï¿½ï¿½ï¿½ï¿½ï¿½
 					SysStatus = START_DELAY;
                     feedBackACnt = 0;
 		            feedBackBCnt = 0;
@@ -314,7 +252,7 @@ void RelayFlow(void)
                 AdcParams.Laststarttime=0;
 				}
             }
-  else  if (step11==2)   //Æð¶¯ÑÓÊ±
+  else  if (step11==2)   //ï¿½ï¿½ï¿½ï¿½Ê±
       {	         
         startDelayCnt++;
 		if(startDelayCnt > START_DELAY_CNT )
@@ -348,12 +286,12 @@ void RelayFlow(void)
       
 
                    } 
-   else if (step11==3) //Æð¶¯
+   else if (step11==3) //ï¿½ï¿½
       {
 		        StartState.PulseF = 1;
                 
                 StartState.stopflag=0;               
-                 ProtectParams.intevalmin=MainParams.SaveParams[18];//½«Æð¶¯¹ýÆµÊ±¼äÐ´ÈëÆð¶¯¼ä¸ô±£»¤µ¹¼ÆÊ±
+                 ProtectParams.intevalmin=MainParams.SaveParams[18];//ï¿½ï¿½ï¿½ð¶¯¹ï¿½ÆµÊ±ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ð¶¯¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
 
                  ProtectParams.intevalsec=0;
                  StartOFTOK=0;
@@ -363,12 +301,12 @@ void RelayFlow(void)
 
 
       }
-   else if (step11==5) //Õý³£Í£»ú
+   else if (step11==5) //ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½
        {NormalStop();
    
        }
 
-  else if (step11==7)  //¹ÊÕÏ
+  else if (step11==7)  //ï¿½ï¿½ï¿½ï¿½
      {
    	   if (Uart2.commandreset==1)
          {ProtectParams.faultflag=0;
@@ -384,25 +322,25 @@ void RelayFlow(void)
 
 
      }
- else if (step11==8)  //Í»Ìø
+ else if (step11==8)  //Í»ï¿½ï¿½
    {
 		   StartState.PulseF = 1;
                 StartState.stopflag=0;               
-                 ProtectParams.intevalmin=MainParams.SaveParams[18];//½«Æð¶¯¹ýÆµÊ±¼äÐ´ÈëÆð¶¯¼ä¸ô±£»¤µ¹¼ÆÊ±
+                 ProtectParams.intevalmin=MainParams.SaveParams[18];//ï¿½ï¿½ï¿½ð¶¯¹ï¿½ÆµÊ±ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ð¶¯¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±
                  ProtectParams.intevalsec=0;
                  StartOFTOK=0;
 
-        StartParams.Data =((8000 - MainParams.SaveParams[0])*(100-StartParams.StepVoltage)/100+StartParams.Ugmin);//×°ÈëÍ»ÌøµçÑ¹
+        StartParams.Data =((8000 - MainParams.SaveParams[0])*(100-StartParams.StepVoltage)/100+StartParams.Ugmin);//×°ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½Ñ¹
 	 StartParams.OutData = StartParams.Data >> 10;
 
-           if(StartParams.StartTimeCount>(StartParams.StepDelay*10))//2sºóµ¼Í¨½Ç»Øµ½³õÊ¼µçÑ¹
+           if(StartParams.StartTimeCount>(StartParams.StepDelay*10))//2sï¿½ï¿½Í¨ï¿½Ç»Øµï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ñ¹
              {step11=3;
               StartParams.Data = StartParams.BeginVoltage;
              }
 
    }
  
-  else if (step11==10)  // È·ÈÏÈíÍ£
+  else if (step11==10)  // È·ï¿½ï¿½ï¿½ï¿½Í£
     {
         OUTPUT_START = 1;
 		//OUTPUT_TRIGGER = 1;
@@ -417,7 +355,7 @@ void RelayFlow(void)
                    step11=11;
              }
    }
- else if (step11==11) //½øÈëµ¼Í¨½Ç¼õÐ¡Âß¼­£¬ÔÚÖ÷Âß¼­1msÉ¨ÃèÖÜÆÚ   SoftStop1Ms()
+ else if (step11==11) //ï¿½ï¿½ï¿½ëµ¼Í¨ï¿½Ç¼ï¿½Ð¡ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½1msÉ¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   SoftStop1Ms()
    {  step11=12;
    } 
 else if (step11==17)
@@ -446,7 +384,7 @@ else if (step11==13)
 
   else {}
 
-/******************ÔËÐÐÂß¼­***********************************/
+/******************ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½***********************************/
   	       if(Input.RunCheck==0 && step12 ==0)
 			{step12=1;}
              if (Input.RunCheck==1 && step12 ==1)
@@ -476,11 +414,10 @@ else if (step11==13)
             else
              {}
 
-/*******************Í£»úÂß¼­************************************/
+/*******************Í£ï¿½ï¿½ï¿½ß¼ï¿½************************************/
            
- if (Input.Stop==1 && step11==4 && StartParams.StopTime!=0) //ÈíÍ£
+ if (Input.Stop==1 && step11==4 && StartParams.StopTime!=0) //ï¿½ï¿½Í£
     {           step3=0;
-                
                 StartParams.StartTimeCount=0;
                 SysStatus = 60;	
 		   stopDelayCnt = 0;
@@ -491,16 +428,14 @@ else if (step11==13)
     }
 else if (Input.Stop==1 && step11>=2 && step11<=3 && StartParams.StopTime!=0)
     {
-              
               step11=17;  
           	OUTPUT_READY = 0;
 			OUTPUT_EXTERN_READY = 0;
           StartParams.Datastore=StartParams.Data;
           
    }
-else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4) //Õý³£Í£»ú
+else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4) //ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½
     {
-            RequestRunOpenPulse();
             step11=5;   
             OUTPUT_READY = 0;
 			OUTPUT_EXTERN_READY = 0;
@@ -515,10 +450,9 @@ else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4)
 
 
 
-/******************¹ÊÕÏÂß¼­***********************************/
-  if (Fault.Byte !=0  ) //¹ÊÕÏ´¦Àí
+/******************ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½***********************************/
+  if (Fault.Byte !=0  ) //ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½
      {
-                RequestRunOpenPulse();
       		    StopFlow();             //???
 				OUTPUT_READY = 0;
 				OUTPUT_EXTERN_READY = 0;
@@ -545,7 +479,6 @@ else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4)
 		if(!Input.Stop)
 	  {RunClose();}		
 	}
-    RunOpenPulse();
     if(step11==4)
     { 			
       if((!Input.RunCheck)&&(Functionswitch.Runcheckswitch==1)&&Protectswitch.runcheckswitch)
@@ -561,7 +494,7 @@ else if  (Input.Stop==1 &&  StartParams.StopTime==0 && step11 >=2 && step11 <=4)
 
     }
 
-    if((SysStatus == WAIT)||(SysStatus == READY))    //µ÷ÊÔÄ£Ê½
+    if((SysStatus == WAIT)||(SysStatus == READY))    //ï¿½ï¿½ï¿½ï¿½Ä£Ê½
     {
     if ((Input.NoUse==1)||(Uart2.commandtest==1))
      {lowVoltageTest = 0xaaaa;
@@ -588,12 +521,13 @@ void EEWrFaultLastTime()
 {
 	if(MainParams.FaultLastTime != Fault.Byte)
 	{
-		SET_CPU_IPL(7);	
+		unsigned int savedIPL;
+		SET_AND_SAVE_CPU_IPL(savedIPL, 7);	// P0-2:ä¿å­˜åŽŸå§‹IPLå†æå‡
 		EEPROMADDR = 0xFC00 + 2*30;
 		EraseEE(__builtin_tblpage(&EPConfigS[0]),EEPROMADDR, WORD);
 		WriteEE(&Fault.Byte,__builtin_tblpage(&EPConfigS[0]),EEPROMADDR, WORD);
 		MainParams.FaultLastTime = Fault.Byte;
-		SET_CPU_IPL(3);	
+		RESTORE_CPU_IPL(savedIPL);			// P0-2:æ¢å¤åˆ°åŽŸå§‹IPL
 	}
 }
 /*
@@ -604,12 +538,13 @@ void EEWrLastStartTime()
 {
 	if(MainParams.LastStartTime != StartParams.StartTime1s)
 	{
-		SET_CPU_IPL(7);	
+		unsigned int savedIPL;
+		SET_AND_SAVE_CPU_IPL(savedIPL, 7);	// P0-2:ä¿å­˜åŽŸå§‹IPLå†æå‡
 		EEPROMADDR = 0xFC00 + 2*31;
 		EraseEE(__builtin_tblpage(&EPConfigS[0]),EEPROMADDR, WORD);
 		WriteEE(&StartParams.StartTime1s,__builtin_tblpage(&EPConfigS[0]),EEPROMADDR, WORD);
 		MainParams.LastStartTime = StartParams.StartTime1s;
-		SET_CPU_IPL(3);	
+		RESTORE_CPU_IPL(savedIPL);			// P0-2:æ¢å¤åˆ°åŽŸå§‹IPL
 	}
 }
 

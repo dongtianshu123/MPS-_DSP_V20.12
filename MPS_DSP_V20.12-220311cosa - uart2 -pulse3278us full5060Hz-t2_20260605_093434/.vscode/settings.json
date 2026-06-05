@@ -1,0 +1,28 @@
+{
+    "editor.fontSize": 14,      // 假设你原本有这行
+    "files.autoSave": "onFocusChange", // 假设你原本有这行
+    
+    // --- 在这里粘贴下面的内容 ---
+    "files.exclude": {
+        "**/*.o": true,
+        "**/*.d": true,
+        "**/*.pr": true,
+        "**/*.iab": true,
+        "**/*.cof": true,
+        "**/*.map": true,
+        "**/*.lst": true,
+        "**/build/**": true,
+        "**/dist/**": true,
+        "**/.git/**": true,
+        "**/.IAB": true,
+        "**/.IAD": true,        
+        "**/*.PFI": true,
+        "**/*.PO": true,
+        "**/*.PR": true,
+        "**/*.PRI": true,
+        "**/*.PS": true,
+        "**/*.WK3": true,
+        "**/*.IMB": true,
+        "**/*.IMD": true,
+    }
+}
